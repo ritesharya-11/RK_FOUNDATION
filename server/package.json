@@ -1,0 +1,42 @@
+{
+  "name": "rk-foundation-server",
+  "version": "1.0.0",
+  "description": "Production REST API for RK FOUNDATION NGO management platform",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/scripts/seed.js"
+  },
+  "keywords": [
+    "rk-foundation",
+    "ngo",
+    "express",
+    "mongodb",
+    "mongoose",
+    "jwt",
+    "rest-api"
+  ],
+  "author": "RK FOUNDATION",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "imagekit": "^6.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.1.4",
+    "mongoose": "^8.13.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
