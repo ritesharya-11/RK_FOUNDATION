@@ -69,8 +69,13 @@ const donationSchema = new mongoose.Schema(
     },
     paymentGateway: {
       type: String,
-      enum: ['razorpay', 'upi', 'bank_transfer', 'test_mode'],
+      enum: ['razorpay', 'upi', 'bank_transfer', 'test_mode', 'manual', 'cash', 'cheque', 'website'],
       default: 'razorpay',
+    },
+    source: {
+      type: String,
+      enum: ['portal', 'manual'],
+      default: 'portal',
     },
     orderId: {
       type: String,

@@ -84,7 +84,7 @@ export const AdminAuditTrail = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-2 rounded-xl bg-red-600/10 text-red-500">
+            <span className="p-2 rounded-xl bg-[#FFC43D]/15 text-[#FFC43D] border border-[#FFC43D]/30">
               <History className="w-5 h-5" />
             </span>
             <h2 className="text-xl sm:text-2xl font-extrabold text-white">System Audit Trail & Security Logs</h2>
@@ -157,7 +157,7 @@ export const AdminAuditTrail = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search audit trail by action, admin name, or event details..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-[#FFC43D]"
           />
         </div>
 

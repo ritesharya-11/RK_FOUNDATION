@@ -76,6 +76,30 @@ const projectSchema = new mongoose.Schema(
       type: String,
       default: 'Underprivileged Children & Families',
     },
+    beneficiaryAge: {
+      type: String,
+      default: '',
+    },
+    beneficiaryGender: {
+      type: String,
+      default: '',
+    },
+    condition: {
+      type: String,
+      default: '',
+    },
+    hospital: {
+      type: String,
+      default: '',
+    },
+    consentStatus: {
+      type: String,
+      default: 'CERTIFIED',
+    },
+    inImpact: {
+      type: Boolean,
+      default: false,
+    },
     location: {
       type: String,
       default: 'Delhi-NCR & Western UP',

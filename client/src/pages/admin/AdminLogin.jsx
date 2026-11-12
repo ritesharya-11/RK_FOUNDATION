@@ -34,8 +34,8 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10B981_1px,transparent_1px)] [background-size:24px_24px]" />
+    <div className="min-h-screen bg-[#0B0D17] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#FFC43D_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center space-y-3">
         <Link to="/" className="inline-flex items-center justify-center group mb-2">
@@ -54,7 +54,7 @@ export const AdminLogin = () => {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4 sm:px-0">
-        <div className="bg-slate-800/90 border border-slate-700/80 backdrop-blur-xl py-8 px-6 sm:px-10 shadow-2xl rounded-3xl space-y-6">
+        <div className="bg-[#171923]/95 border border-white/10 backdrop-blur-xl py-8 px-6 sm:px-10 shadow-2xl rounded-3xl space-y-6">
           {errorMsg && (
             <div className="p-3.5 bg-rose-500/10 border border-rose-500/20 text-rose-300 rounded-xl text-xs flex items-start gap-2.5">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
@@ -76,7 +76,7 @@ export const AdminLogin = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-slate-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FFC43D] focus:border-transparent placeholder-slate-500"
                   placeholder="admin@rkfoundation.org"
                 />
               </div>
@@ -95,7 +95,7 @@ export const AdminLogin = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-slate-500"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FFC43D] focus:border-transparent placeholder-slate-500"
                   placeholder="••••••••••••"
                 />
                 <button
@@ -111,9 +111,9 @@ export const AdminLogin = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg shadow-emerald-950/50 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full mt-2 py-3 rounded-xl font-bold text-xs sm:text-sm text-[#0B0D17] bg-[#FFC43D] hover:bg-[#EBAF20] shadow-lg shadow-[#FFC43D]/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              <ShieldCheck className="w-4 h-4" />
+              <ShieldCheck className="w-4 h-4 text-[#0B0D17]" />
               <span>{loading ? 'Authenticating...' : 'Sign In to Admin Panel'}</span>
             </button>
           </form>
@@ -121,12 +121,12 @@ export const AdminLogin = () => {
           {/* Quick Demo Credentials Reminder */}
           <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60 text-[11px] text-slate-400 space-y-1">
             <span className="font-semibold text-slate-300 block">Default Super Admin Credentials:</span>
-            <p>Email: <span className="text-emerald-400 font-mono">admin@rkfoundation.org</span></p>
-            <p>Password: <span className="text-emerald-400 font-mono">Admin@RK2026!</span></p>
+            <p>Email: <span className="text-[#FFC43D] font-mono">admin@rkfoundation.org</span></p>
+            <p>Password: <span className="text-[#FFC43D] font-mono">Admin@RK2026!</span></p>
           </div>
 
           <div className="text-center pt-2 border-t border-slate-700/60">
-            <Link to="/" className="text-xs text-slate-400 hover:text-emerald-400 transition">
+            <Link to="/" className="text-xs text-slate-400 hover:text-[#FFC43D] transition">
               ← Return to Public Website
             </Link>
           </div>

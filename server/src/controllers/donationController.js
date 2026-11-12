@@ -379,3 +379,61 @@ export const exportDonationsCSV = async (req, res, next) => {
     next(err);
   }
 };
+
+// @desc    Create manual offline donation receipt
+// @route   POST /api/donations/manual
+// @access  Private (Admin)
+export const createManualDonation = async (req, res, next) => {
+  try {
+    const {
+      amount,
+      donorName,
+      donorEmail,
+      donorPhone,
+      donorPan,
+      campaignTitle,
+      paymentMode,
+      notes,
+    } = req.body;
+
+    const receiptNumber = generateReceiptNumber();
+    const donation = await Donation.create({
+      receiptNumber,
+      donorName: donorName || 'Anonymous Donor',
+      donorEmail: donorEmail || 'offline@rkfoundation.org',
+      donorPhone: donorPhone || 'N/A',
+      donorPan: donorPan || '',
+      amount: Number(amount) || 500,
+      campaignTitle: campaignTitle || 'General Charitable Relief Fund',
+      paymentGateway: paymentMode ? paymentMode.toLowerCase() : 'manual',
+      source: 'manual',
+      paymentStatus: 'captured',
+      taxExemption80G: true,
+      notes: notes || 'Generated manually from Admin Portal',
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Manual receipt recorded successfully.',
+      donation,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Delete donation record
+// @route   DELETE /api/donations/:id
+// @access  Private (Admin)
+export const deleteDonation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const donation = await Donation.findByIdAndDelete(id);
+    if (!donation) {
+      return res.status(404).json({ success: false, message: 'Donation record not found' });
+    }
+    res.status(200).json({ success: true, message: 'Donation record deleted' });
+  } catch (err) {
+    next(err);
+  }
+};

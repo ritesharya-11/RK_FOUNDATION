@@ -5,6 +5,8 @@ import {
   getDonationReceipt,
   getDonations,
   exportDonationsCSV,
+  createManualDonation,
+  deleteDonation,
 } from '../controllers/donationController.js';
 import { protect } from '../middleware/auth.js';
 
@@ -17,6 +19,8 @@ router.get('/receipt/:idOrReceiptNumber', getDonationReceipt);
 
 // Admin routes for managing donations
 router.get('/', protect, getDonations);
+router.post('/manual', protect, createManualDonation);
+router.delete('/:id', protect, deleteDonation);
 router.get('/export/csv', protect, exportDonationsCSV);
 
 export default router;
