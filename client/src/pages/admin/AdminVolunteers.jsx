@@ -24,10 +24,95 @@ import {
   UserCheck,
 } from 'lucide-react';
 
-// ── Default 20 Volunteer Applications matching screenshot exactly ──
+// ── Default 20 Volunteer Applications matching screenshot format exactly ──
 const INITIAL_VOLUNTEERS = [
   {
     _id: 'vol-01',
+    fullName: 'kYQMPnLYIhVThayJgK',
+    email: 'd.af.i.xe.q.aw90@gmail.com',
+    phone: '7549522019',
+    city: 'HolNENZIyFshEvpOxX',
+    state: 'Delhi NCR',
+    occupation: 'ONSjkoYjfjzlWNySLvZmQ',
+    areasOfInterest: ['General Community'],
+    availableHoursPerWeek: 'Weekends',
+    status: 'pending',
+    appliedDate: '13 Nov 2026',
+    motivation: 'Deeply committed to on-ground humanitarian relief, food distribution, and community empowerment initiatives.',
+    previousExperience: '2+ years volunteering with local youth and emergency food distribution networks.',
+    adminNotes: '',
+    bookmarked: false,
+  },
+  {
+    _id: 'vol-02',
+    fullName: 'RHjKIKCDfUKvhyZgtMDhsBwB',
+    email: 'tbanks52@comcast.net',
+    phone: '9501303756',
+    city: 'vjWLcuaEBDdSGmvyNRZMnN',
+    state: 'Delhi NCR',
+    occupation: 'dxKJtdukFABWfnobePQIPL',
+    areasOfInterest: ['General Community'],
+    availableHoursPerWeek: 'Weekends',
+    status: 'pending',
+    appliedDate: '13 Nov 2026',
+    motivation: 'Eager to support child tutoring and weekend educational bridge programs for underprivileged children.',
+    previousExperience: 'Organized remedial education workshops for primary school students.',
+    adminNotes: '',
+    bookmarked: false,
+  },
+  {
+    _id: 'vol-03',
+    fullName: 'SicZkOxQsTirjFTxqT',
+    email: 'sibi.d.e.ri87@gmail.com',
+    phone: '9251676888',
+    city: 'nzjjclqzmBWCIKMDDQZsO',
+    state: 'Delhi NCR',
+    occupation: 'bZidSqljkbiyhHjQjw',
+    areasOfInterest: ['General Community'],
+    availableHoursPerWeek: 'Weekends',
+    status: 'pending',
+    appliedDate: '13 Nov 2026',
+    motivation: 'Want to assist in medical camps, patient documentation, and hospital relief coordination.',
+    previousExperience: 'Assisted in health checkup camps and volunteer blood donation drives.',
+    adminNotes: '',
+    bookmarked: false,
+  },
+  {
+    _id: 'vol-04',
+    fullName: 'oLBmIVJOBLZVMWqvKoZT',
+    email: 'info@manhassetdental.com',
+    phone: '6833020926',
+    city: 'VQPvdGqwvpycXseMIRFxkXfq',
+    state: 'Delhi NCR',
+    occupation: 'irRcaPSFkfRKjZTPBA',
+    areasOfInterest: ['General Community'],
+    availableHoursPerWeek: 'Weekends',
+    status: 'pending',
+    appliedDate: '13 Nov 2026',
+    motivation: 'Passionate about volunteer coordination, logistics dispatch, and weekend community engagement drives.',
+    previousExperience: 'Community outreach lead for neighborhood clean-up and literacy campaigns.',
+    adminNotes: '',
+    bookmarked: false,
+  },
+  {
+    _id: 'vol-05',
+    fullName: 'bUsjiDIwNvTjEiRUQ',
+    email: 'jeffrey.m.ar.ro.n@gmail.com',
+    phone: '8745156041',
+    city: 'VeTNazaukTvmlHEdO',
+    state: 'Delhi NCR',
+    occupation: 'hxGROUXymPriNjqKVwjVXju',
+    areasOfInterest: ['General Community'],
+    availableHoursPerWeek: 'Weekends',
+    status: 'pending',
+    appliedDate: '13 Nov 2026',
+    motivation: 'Experienced in community outreach and emergency food distributions across Delhi NCR.',
+    previousExperience: 'Field volunteer for slum nourishment drives and ration delivery.',
+    adminNotes: '',
+    bookmarked: false,
+  },
+  {
+    _id: 'vol-06',
     fullName: 'FnNfAXcnBNHWKrqtapQoGd',
     email: 'g.ammenh@web.de',
     phone: '8116834091',
@@ -44,7 +129,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-02',
+    _id: 'vol-07',
     fullName: 'WbPMSSngiGBYArQrZzGarOS',
     email: 'mik.e...m.ac.lea.r@gmail.com',
     phone: '8952149201',
@@ -61,7 +146,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-03',
+    _id: 'vol-08',
     fullName: 'NVbtlexmJcnvqejxQMDJ',
     email: 'baine.miller@yahoo.com',
     phone: '6139452592',
@@ -78,7 +163,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-04',
+    _id: 'vol-09',
     fullName: 'TbPhYOnkCpcPEAkt',
     email: 'devinder_nijjar@yahoo.com',
     phone: '8745156041',
@@ -95,7 +180,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-05',
+    _id: 'vol-10',
     fullName: 'goLcLJbEjDalvLRMplRBRst',
     email: 't.ommi.e.s...a.h@gmail.com',
     phone: '6447691637',
@@ -112,7 +197,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-06',
+    _id: 'vol-11',
     fullName: 'Aakash Sharma',
     email: 'aakash.sharma.vol@gmail.com',
     phone: '9876543210',
@@ -129,7 +214,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-07',
+    _id: 'vol-12',
     fullName: 'Ananya Verma',
     email: 'ananya.verma@outlook.com',
     phone: '9812345678',
@@ -146,7 +231,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-08',
+    _id: 'vol-13',
     fullName: 'Brijesh Kumar',
     email: 'brijesh.kumar@yahoo.com',
     phone: '9898765432',
@@ -163,7 +248,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-09',
+    _id: 'vol-14',
     fullName: 'Divya Mehra',
     email: 'divya.mehra@gmail.com',
     phone: '9711223344',
@@ -180,7 +265,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-10',
+    _id: 'vol-15',
     fullName: 'Farhan Khan',
     email: 'farhan.khan@hotmail.com',
     phone: '9655443322',
@@ -197,7 +282,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-11',
+    _id: 'vol-16',
     fullName: 'Harpreet Kaur',
     email: 'harpreet.kaur@gmail.com',
     phone: '9877001122',
@@ -214,7 +299,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-12',
+    _id: 'vol-17',
     fullName: 'Jaspreet Singh',
     email: 'jaspreet.singh@yahoo.in',
     phone: '9833445566',
@@ -231,7 +316,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-13',
+    _id: 'vol-18',
     fullName: 'Lakshmi Narayan',
     email: 'lakshmi.narayan@gmail.com',
     phone: '9844556677',
@@ -248,7 +333,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-14',
+    _id: 'vol-19',
     fullName: 'Neha Gupta',
     email: 'neha.gupta@outlook.com',
     phone: '9866778899',
@@ -265,7 +350,7 @@ const INITIAL_VOLUNTEERS = [
     bookmarked: false,
   },
   {
-    _id: 'vol-15',
+    _id: 'vol-20',
     fullName: 'Prateek Bansal',
     email: 'prateek.bansal@gmail.com',
     phone: '9877889900',
@@ -281,98 +366,13 @@ const INITIAL_VOLUNTEERS = [
     adminNotes: '',
     bookmarked: false,
   },
-  {
-    _id: 'vol-16',
-    fullName: 'Rohit Sharma',
-    email: 'rohit.sharma@yahoo.com',
-    phone: '9811002233',
-    city: 'South Delhi, Hauz Khas',
-    state: 'Delhi',
-    occupation: 'Outreach Photographer',
-    areasOfInterest: ['General Community', 'Social Media & Content'],
-    availableHoursPerWeek: 'Weekends',
-    status: 'pending',
-    appliedDate: '07 Nov 2026',
-    motivation: 'Documenting high-resolution photo archives of food relief and bridge schools.',
-    previousExperience: 'Freelance photojournalist covering community outreach.',
-    adminNotes: '',
-    bookmarked: false,
-  },
-  {
-    _id: 'vol-17',
-    fullName: 'Tanvi Jain',
-    email: 'tanvi.jain@gmail.com',
-    phone: '9822113344',
-    city: 'New Delhi, Connaught Place',
-    state: 'Delhi',
-    occupation: 'Legal & Compliance Advisor',
-    areasOfInterest: ['General Community'],
-    availableHoursPerWeek: 'Weekends',
-    status: 'pending',
-    appliedDate: '06 Nov 2026',
-    motivation: 'Passionate about legal rights awareness and statutory compliance support for vulnerable families.',
-    previousExperience: 'Volunteer legal aid clinic associate.',
-    adminNotes: '',
-    bookmarked: false,
-  },
-  {
-    _id: 'vol-18',
-    fullName: 'Vikas Yadav',
-    email: 'vikas.yadav@gmail.com',
-    phone: '9833224455',
-    city: 'Noida, Sector 18',
-    state: 'Uttar Pradesh',
-    occupation: 'Physical Education Coach',
-    areasOfInterest: ['General Community', 'Child Tutoring & Education'],
-    availableHoursPerWeek: 'Weekends',
-    status: 'pending',
-    appliedDate: '06 Nov 2026',
-    motivation: 'Encouraging healthy sports, nutrition habits, and discipline among street-to-school kids.',
-    previousExperience: 'School athletic instructor and weekend football coach.',
-    adminNotes: '',
-    bookmarked: false,
-  },
-  {
-    _id: 'vol-19',
-    fullName: 'Yasmin Begum',
-    email: 'yasmin.begum@hotmail.com',
-    phone: '9844335566',
-    city: 'Delhi, Yamuna Khadar',
-    state: 'Delhi',
-    occupation: 'Social Worker',
-    areasOfInterest: ['General Community', 'Food & Nutrition Drives'],
-    availableHoursPerWeek: 'Weekends',
-    status: 'pending',
-    appliedDate: '05 Nov 2026',
-    motivation: 'Eager to serve underprivileged riverbank settlements with drinking water and warm garments.',
-    previousExperience: '4 years active field worker in Yamuna flood relief operations.',
-    adminNotes: '',
-    bookmarked: false,
-  },
-  {
-    _id: 'vol-20',
-    fullName: 'Zoya Akhtar',
-    email: 'zoya.akhtar@yahoo.com',
-    phone: '9855446677',
-    city: 'South Delhi, Greater Kailash',
-    state: 'Delhi',
-    occupation: 'University Student',
-    areasOfInterest: ['General Community'],
-    availableHoursPerWeek: 'Weekends',
-    status: 'pending',
-    appliedDate: '05 Nov 2026',
-    motivation: 'Looking to give back to society by dedicating weekends to children and humanitarian relief.',
-    previousExperience: 'Active volunteer in college community service cell.',
-    adminNotes: '',
-    bookmarked: false,
-  },
 ];
 
 export const AdminVolunteers = () => {
   const { showToast } = useWebsite();
   const [volunteers, setVolunteers] = useState(() => {
     try {
-      const saved = localStorage.getItem('rk_volunteers_list_v2');
+      const saved = localStorage.getItem('rk_volunteers_list_v3');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -402,7 +402,7 @@ export const AdminVolunteers = () => {
   const persistVolunteers = (newList) => {
     setVolunteers(newList);
     try {
-      localStorage.setItem('rk_volunteers_list_v2', JSON.stringify(newList));
+      localStorage.setItem('rk_volunteers_list_v3', JSON.stringify(newList));
     } catch {
       // ignore
     }
@@ -417,7 +417,7 @@ export const AdminVolunteers = () => {
       showToast('Bookmark removed', 'info');
     } else {
       updated = [...bookmarkedIds, id];
-      showToast('Applicant bookmarked for quick review', 'success');
+      showToast('Applicant bookmarked for review', 'success');
     }
     setBookmarkedIds(updated);
     try {
@@ -435,7 +435,6 @@ export const AdminVolunteers = () => {
       if (search) query += `&search=${encodeURIComponent(search)}`;
       const res = await api.get(`/volunteers${query}`);
       if (res?.volunteers && Array.isArray(res.volunteers) && res.volunteers.length > 0) {
-        // Merge with initial data format
         const formatted = res.volunteers.map((v, idx) => ({
           _id: v._id || `vol-${idx + 1}`,
           fullName: v.fullName || 'Anonymous Volunteer',
@@ -447,7 +446,7 @@ export const AdminVolunteers = () => {
           areasOfInterest: Array.isArray(v.areasOfInterest) && v.areasOfInterest.length > 0 ? v.areasOfInterest : ['General Community'],
           availableHoursPerWeek: v.availableHoursPerWeek || 'Weekends',
           status: v.status || 'pending',
-          appliedDate: v.createdAt ? new Date(v.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '12 Nov 2026',
+          appliedDate: v.createdAt ? new Date(v.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '13 Nov 2026',
           motivation: v.motivation || 'Deeply committed to on-ground community relief.',
           previousExperience: v.previousExperience || '',
           adminNotes: v.adminNotes || '',
@@ -459,7 +458,7 @@ export const AdminVolunteers = () => {
       }
     } catch (err) {
       if (showSuccessToast) {
-        showToast('Showing active volunteer applications', 'info');
+        showToast('Showing volunteer applications', 'info');
       }
     } finally {
       setRefreshing(false);
@@ -605,14 +604,14 @@ export const AdminVolunteers = () => {
         <span className="font-semibold text-slate-800">Volunteers</span>
       </div>
 
-      {/* ── Page Header (Exact match with screenshot) ── */}
+      {/* ── Page Header (Exact format from screenshot, neutral/clean colors) ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Volunteer Applications
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-100">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200/80">
               {totalCount} Total
             </span>
           </div>
@@ -643,7 +642,7 @@ export const AdminVolunteers = () => {
         </div>
       </div>
 
-      {/* ── Status Tabs Row (Matches screenshot pills) ── */}
+      {/* ── Status Tabs Row (Exact format, executive dark/neutral active state) ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
         <div className="flex flex-wrap items-center gap-2">
           {/* All */}
@@ -651,7 +650,7 @@ export const AdminVolunteers = () => {
             onClick={() => setStatusFilter('All')}
             className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer select-none ${
               statusFilter === 'All'
-                ? 'bg-[#DC2626] text-white shadow-xs'
+                ? 'bg-[#0F172A] text-white shadow-xs'
                 : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
             }`}
           >
@@ -659,7 +658,7 @@ export const AdminVolunteers = () => {
             <span>All</span>
             <span
               className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'All' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+                statusFilter === 'All' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               {totalCount}
@@ -671,7 +670,7 @@ export const AdminVolunteers = () => {
             onClick={() => setStatusFilter('pending')}
             className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
               statusFilter === 'pending'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
+                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
                 : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
             }`}
           >
@@ -679,7 +678,7 @@ export const AdminVolunteers = () => {
             <span>Pending</span>
             <span
               className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'pending' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+                statusFilter === 'pending' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               {pendingCount}
@@ -691,7 +690,7 @@ export const AdminVolunteers = () => {
             onClick={() => setStatusFilter('contacted')}
             className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
               statusFilter === 'contacted'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
+                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
                 : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
             }`}
           >
@@ -699,7 +698,7 @@ export const AdminVolunteers = () => {
             <span>Contacted</span>
             <span
               className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'contacted' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+                statusFilter === 'contacted' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               {contactedCount}
@@ -711,7 +710,7 @@ export const AdminVolunteers = () => {
             onClick={() => setStatusFilter('approved')}
             className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
               statusFilter === 'approved'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
+                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
                 : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
             }`}
           >
@@ -719,7 +718,7 @@ export const AdminVolunteers = () => {
             <span>Approved</span>
             <span
               className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'approved' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+                statusFilter === 'approved' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               {approvedCount}
@@ -731,7 +730,7 @@ export const AdminVolunteers = () => {
             onClick={() => setStatusFilter('rejected')}
             className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
               statusFilter === 'rejected'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
+                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
                 : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
             }`}
           >
@@ -739,7 +738,7 @@ export const AdminVolunteers = () => {
             <span>Rejected</span>
             <span
               className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'rejected' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+                statusFilter === 'rejected' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
               }`}
             >
               {rejectedCount}
@@ -753,7 +752,7 @@ export const AdminVolunteers = () => {
         </div>
       </div>
 
-      {/* ── Search & Sort Row ── */}
+      {/* ── Search & Sort Row (Exact format, clean neutral styling) ── */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -762,7 +761,7 @@ export const AdminVolunteers = () => {
             placeholder="Search by name, email, phone, city, skills..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-xs"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400 shadow-xs"
           />
           {search && (
             <button
@@ -778,7 +777,7 @@ export const AdminVolunteers = () => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full sm:w-auto appearance-none pl-3.5 pr-8 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-xs cursor-pointer"
+            className="w-full sm:w-auto appearance-none pl-3.5 pr-8 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400 shadow-xs cursor-pointer"
           >
             <option value="Newest Applied">Newest Applied</option>
             <option value="Oldest Applied">Oldest Applied</option>
@@ -789,7 +788,7 @@ export const AdminVolunteers = () => {
         </div>
       </div>
 
-      {/* ── Sticky Table Card (Matches screenshot with top-[104px] sticky layout) ── */}
+      {/* ── Sticky Table Card (Exact format, sticky top-[104px] z-10) ── */}
       <div className="sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)] bg-white border border-slate-200/90 rounded-2xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto overflow-y-auto flex-1">
           <table className="w-full text-left text-xs border-separate border-spacing-0">
@@ -838,7 +837,7 @@ export const AdminVolunteers = () => {
                       {/* 1. Applicant Profile */}
                       <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-red-100 text-red-600 font-bold text-xs flex items-center justify-center shrink-0 border border-red-200/60 shadow-2xs">
+                          <div className="w-9 h-9 rounded-full bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200 shadow-2xs">
                             {initialLetter}
                           </div>
                           <div className="min-w-0">
@@ -864,7 +863,7 @@ export const AdminVolunteers = () => {
                       <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
                         <div className="space-y-0.5 min-w-[150px]">
                           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-                            <MapPin className="w-3.5 h-3.5 text-[#DC2626] shrink-0" />
+                            <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                             <span className="truncate max-w-[200px]">{v.city}</span>
                           </div>
                           <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
@@ -921,7 +920,7 @@ export const AdminVolunteers = () => {
 
                       {/* 6. Applied Date */}
                       <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap text-xs font-medium text-slate-600">
-                        {v.appliedDate || '12 Nov 2026'}
+                        {v.appliedDate || '13 Nov 2026'}
                       </td>
 
                       {/* 7. Actions */}
@@ -988,7 +987,7 @@ export const AdminVolunteers = () => {
             {/* Modal Header */}
             <div className="flex justify-between items-center pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-red-50 text-red-600 flex items-center justify-center font-bold text-xs">
+                <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-800 border border-slate-200 flex items-center justify-center font-bold text-xs">
                   <UserCheck className="w-4 h-4" />
                 </div>
                 <h3 className="text-base font-bold text-[#0F172A]">Volunteer Application Profile</h3>
@@ -1014,7 +1013,7 @@ export const AdminVolunteers = () => {
                     <span>{selectedVolunteer.phone}</span>
                   </p>
                   <p className="text-slate-500 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-red-500" />
+                    <MapPin className="w-3.5 h-3.5 text-slate-500" />
                     <span>
                       {selectedVolunteer.city}, {selectedVolunteer.state || 'Delhi NCR'}
                     </span>
@@ -1114,7 +1113,7 @@ export const AdminVolunteers = () => {
                     setSelectedVolunteer((prev) => ({ ...prev, adminNotes: notes }));
                   }}
                   onBlur={(e) => handleStatusChange(selectedVolunteer._id, selectedVolunteer.status, e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400"
                 />
               </div>
             </div>

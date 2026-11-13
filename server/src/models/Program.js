@@ -29,7 +29,12 @@ const programSchema = new mongoose.Schema(
         'Disaster Management & Emergency Relief',
         // Legacy support
         'Child Education',
+        'Child Welfare',
         'Women Empowerment',
+        'Elderly Support',
+        'Special Needs',
+        'Education',
+        'Healthcare',
         'Healthcare & Relief',
         'Nutrition & Food Security',
         'Elderly Care',

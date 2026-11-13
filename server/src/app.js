@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
 
 // Import Routes
 import authRoutes from './routes/authRoutes.js';
@@ -85,12 +86,26 @@ app.use('/uploads', express.static(uploadsPath));
 
 // API Health Check
 app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'online',
+  const dbConnected = mongoose.connection.readyState === 1;
+  res.status(dbConnected ? 200 : 503).json({
+    status: dbConnected ? 'online' : 'degraded',
+    database: dbConnected ? 'connected' : 'disconnected',
     timestamp: new Date().toISOString(),
     organization: 'RK FOUNDATION',
     environment: process.env.NODE_ENV || 'development',
   });
+});
+
+// Guard API routes if database is completely disconnected
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health') return next();
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is currently offline. Please ensure your IP address is whitelisted in MongoDB Atlas or start local MongoDB.',
+    });
+  }
+  next();
 });
 
 // Mount Routes
