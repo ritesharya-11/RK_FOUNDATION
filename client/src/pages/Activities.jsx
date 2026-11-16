@@ -26,7 +26,7 @@ export const Activities = () => {
   }, []);
 
   return (
-    <div className="bg-[#F7F7F5] min-h-screen">
+    <div className="bg-[#FAF7F2] min-h-screen">
       {/* Standardized Hero */}
       <PageHero
         badge="Field Reports & Operations"
@@ -42,13 +42,13 @@ export const Activities = () => {
         {loading ? (
           <div className="py-24 text-center text-[#A0A4AE] font-medium">Loading field activities...</div>
         ) : activities.length === 0 ? (
-          <div className="py-24 text-center text-[#697386]">No field activities recorded yet.</div>
+          <div className="py-24 text-center text-[#697777]">No field activities recorded yet.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {activities.map((act) => (
               <div
                 key={act._id}
-                className="bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 border border-[#E8E8E5] flex flex-col group hover:-translate-y-1"
+                className="bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 border border-[#E3D9CF] flex flex-col group hover:-translate-y-1"
               >
                 <div className="h-56 overflow-hidden relative">
                   <img
@@ -56,16 +56,16 @@ export const Activities = () => {
                     alt={act.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
-                  <span className="absolute top-3 left-3 bg-[#0B0D17]/85 backdrop-blur-md text-[#FFC43D] border border-white/10 text-xs font-bold px-3 py-1 rounded-full">
+                  <span className="absolute top-3 left-3 bg-[#036C6C]/85 backdrop-blur-md text-[#F67708] border border-white/10 text-xs font-bold px-3 py-1 rounded-full">
                     {act.category}
                   </span>
                 </div>
 
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-xs text-[#697386]">
+                    <div className="flex items-center gap-3 text-xs text-[#697777]">
                       <span className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-[#0B0D17]" />
+                        <Calendar className="w-3.5 h-3.5 text-[#036C6C]" />
                         {new Date(act.date).toLocaleDateString('en-IN', {
                           month: 'short',
                           day: 'numeric',
@@ -74,23 +74,23 @@ export const Activities = () => {
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#0B0D17]" />
+                        <MapPin className="w-3.5 h-3.5 text-[#036C6C]" />
                         {act.location}
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-[#151A2D] group-hover:text-[#0B0D17] transition-colors leading-snug">
+                    <h3 className="text-lg font-bold text-[#323D3D] group-hover:text-[#036C6C] transition-colors leading-snug">
                       {act.title}
                     </h3>
 
-                    <p className="text-xs text-[#697386] leading-relaxed whitespace-pre-line line-clamp-3">
+                    <p className="text-xs text-[#697777] leading-relaxed whitespace-pre-line line-clamp-3">
                       {act.description}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E8E8E5] flex items-center justify-between text-xs">
-                    <span className="text-[#697386]">People Reached:</span>
-                    <strong className="text-[#0B0D17] font-bold">
+                  <div className="pt-4 border-t border-[#E3D9CF] flex items-center justify-between text-xs">
+                    <span className="text-[#697777]">People Reached:</span>
+                    <strong className="text-[#036C6C] font-bold">
                       {act.beneficiariesCount} Beneficiaries
                     </strong>
                   </div>

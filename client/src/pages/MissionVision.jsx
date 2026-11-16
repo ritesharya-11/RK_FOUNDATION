@@ -10,7 +10,7 @@ export const MissionVision = () => {
   const { settings } = useWebsite();
 
   return (
-    <div className="bg-[#F7F7F5] min-h-screen">
+    <div className="bg-[#FAF7F2] min-h-screen">
       {/* Page Hero */}
       <PageHero
         badge="Our Purpose & Compass"
@@ -28,12 +28,12 @@ export const MissionVision = () => {
         <section className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Vision */}
-            <div className="bg-[#0B0D17] text-white p-8 sm:p-10 rounded-3xl border border-[#171923] shadow-card space-y-5 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[#FFC43D]/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#FFC43D] border border-white/10">
+            <div className="bg-[#036C6C] text-white p-8 sm:p-10 rounded-3xl border border-[#024747] shadow-card space-y-5 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#F67708]/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#F67708] border border-white/10">
                 <Eye className="w-7 h-7" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#FFC43D]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#F67708]">
                 Where We Are Heading
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Our Vision</h2>
@@ -43,12 +43,12 @@ export const MissionVision = () => {
             </div>
 
             {/* Mission */}
-            <div className="bg-[#171923] text-white p-8 sm:p-10 rounded-3xl border border-white/10 shadow-card space-y-5 relative overflow-hidden">
-              <div className="absolute bottom-0 right-0 w-48 h-48 bg-[#FFC43D]/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#FFC43D] border border-white/10">
+            <div className="bg-[#024747] text-white p-8 sm:p-10 rounded-3xl border border-white/10 shadow-card space-y-5 relative overflow-hidden">
+              <div className="absolute bottom-0 right-0 w-48 h-48 bg-[#F67708]/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#F67708] border border-white/10">
                 <Target className="w-7 h-7" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#FFC43D]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#F67708]">
                 What We Do Everyday
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Our Mission</h2>
@@ -69,42 +69,42 @@ export const MissionVision = () => {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            <div className="bg-white p-6 rounded-3xl border border-[#E8E8E5] shadow-card space-y-3 hover:border-[#FFC43D] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#0B0D17] text-[#FFC43D] flex items-center justify-center mb-3">
+            <div className="bg-white p-6 rounded-3xl border border-[#E3D9CF] shadow-card space-y-3 hover:border-[#F67708] transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center mb-3">
                 <Heart className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-[#151A2D]">Deep Empathy</h3>
-              <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              <h3 className="text-base font-bold text-[#323D3D]">Deep Empathy</h3>
+              <p className="text-xs sm:text-sm text-[#697777] leading-relaxed">
                 Putting human dignity and genuine care at the heart of every single field project we design and implement.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-[#E8E8E5] shadow-card space-y-3 hover:border-[#FFC43D] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#0B0D17] text-[#FFC43D] flex items-center justify-center mb-3">
+            <div className="bg-white p-6 rounded-3xl border border-[#E3D9CF] shadow-card space-y-3 hover:border-[#F67708] transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center mb-3">
                 <Shield className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-[#151A2D]">Integrity & Trust</h3>
-              <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              <h3 className="text-base font-bold text-[#323D3D]">Integrity & Trust</h3>
+              <p className="text-xs sm:text-sm text-[#697777] leading-relaxed">
                 Zero tolerance for financial opacity. 100% verifiable audits, open books, and direct accountability to our donors.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-[#E8E8E5] shadow-card space-y-3 hover:border-[#FFC43D] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#0B0D17] text-[#FFC43D] flex items-center justify-center mb-3">
+            <div className="bg-white p-6 rounded-3xl border border-[#E3D9CF] shadow-card space-y-3 hover:border-[#F67708] transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center mb-3">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-[#151A2D]">Lasting Self-Reliance</h3>
-              <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              <h3 className="text-base font-bold text-[#323D3D]">Lasting Self-Reliance</h3>
+              <p className="text-xs sm:text-sm text-[#697777] leading-relaxed">
                 Equipping communities with skills, tools, and knowledge so they can independently sustain their families.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-[#E8E8E5] shadow-card space-y-3 hover:border-[#FFC43D] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#0B0D17] text-[#FFC43D] flex items-center justify-center mb-3">
+            <div className="bg-white p-6 rounded-3xl border border-[#E3D9CF] shadow-card space-y-3 hover:border-[#F67708] transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center mb-3">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-[#151A2D]">Complete Inclusivity</h3>
-              <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              <h3 className="text-base font-bold text-[#323D3D]">Complete Inclusivity</h3>
+              <p className="text-xs sm:text-sm text-[#697777] leading-relaxed">
                 Serving the most marginalized unconditionally without prejudice of gender, faith, caste, or background.
               </p>
             </div>

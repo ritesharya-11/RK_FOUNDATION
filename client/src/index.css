@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #0B0D17;
-  --color-secondary: #171923;
-  --color-background: #F7F7F5;
+  --color-primary: #036C6C;
+  --color-secondary: #024747;
+  --color-background: #FAF7F2;
   --color-surface: #FFFFFF;
-  --color-text: #151A2D;
-  --color-text-muted: #697386;
-  --color-accent: #FFC43D;
-  --color-accent-hover: #EBAF20;
-  --color-border: #E8E8E5;
+  --color-text: #323D3D;
+  --color-text-muted: #697777;
+  --color-accent: #F67708;
+  --color-accent-hover: #E06800;
+  --color-border: #E3D9CF;
 }
 
 @layer base {
@@ -25,49 +25,113 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
     color: var(--color-text);
   }
 }
 
-/* Custom Standard Components */
-.glass-nav {
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--color-border);
+/* Reference Button Styles */
+.btn-vermillion {
+  background-color: #F67708;
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-vermillion:hover {
+  background-color: #E06800;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -5px rgba(246, 119, 8, 0.4);
 }
 
-.hero-overlay {
-  background: linear-gradient(180deg, rgba(11, 13, 23, 0.88) 0%, rgba(23, 25, 35, 0.70) 50%, rgba(11, 13, 23, 0.95) 100%);
-}
-
-.ngo-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 1.5rem;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.ngo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 30px -5px rgba(11, 13, 23, 0.08), 0 10px 15px -5px rgba(11, 13, 23, 0.03);
-}
-
-.gold-btn {
-  background-color: var(--color-accent);
-  color: var(--color-primary);
+.btn-pill-vermillion {
+  background-color: #F67708;
+  color: #FFFFFF;
   font-weight: 700;
   border-radius: 9999px;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-pill-vermillion:hover {
+  background-color: #E06800;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -5px rgba(246, 119, 8, 0.4);
+}
+
+.btn-outline-vermillion {
+  background-color: transparent;
+  color: #F67708;
+  border: 1.5px solid #F67708;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+.btn-outline-vermillion:hover {
+  background-color: #F67708;
+  color: #FFFFFF;
+}
+
+.btn-teal {
+  background-color: #036C6C;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+.btn-teal:hover {
+  background-color: #024747;
+  transform: translateY(-1px);
+}
+
+/* NGO Dome / Arch Card Shapes */
+.dome-arch-img {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  overflow: hidden;
+}
+
+/* Reference Card */
+.reference-card {
+  background: #FAF6F0;
+  border: 1px solid #E3D9CF;
+  border-radius: 1.25rem;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reference-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 25px -5px rgba(3, 108, 108, 0.08), 0 8px 10px -6px rgba(3, 108, 108, 0.04);
+}
+
+/* Custom Standard Components (preserved for backward compatibility) */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid #E3D9CF;
+}
+
+.gold-btn {
+  background-color: #F67708;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
 }
 .gold-btn:hover {
-  background-color: var(--color-accent-hover);
+  background-color: #E06800;
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px -5px rgba(255, 196, 61, 0.4);
+  box-shadow: 0 10px 20px -5px rgba(246, 119, 8, 0.4);
 }
 
 .dark-pill-btn {
-  background-color: var(--color-primary);
+  background-color: #036C6C;
   color: #FFFFFF;
   font-weight: 600;
   border-radius: 9999px;
@@ -75,7 +139,7 @@
   transition: all 0.2s ease;
 }
 .dark-pill-btn:hover {
-  background-color: #000000;
+  background-color: #024747;
   transform: translateY(-1px);
 }
 
@@ -84,26 +148,12 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F1EE;
+  background: #FAF7F2;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD0D8;
+  background: #D8CCBF;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9AA1AE;
-}
-
-.custom-admin-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
-.custom-admin-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-admin-scrollbar::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
-}
-.custom-admin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #B5A899;
 }

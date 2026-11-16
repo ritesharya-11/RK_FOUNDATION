@@ -14,6 +14,7 @@ import { Activities } from './pages/Activities';
 import { Gallery } from './pages/Gallery';
 import { News } from './pages/News';
 import { NewsDetail } from './pages/NewsDetail';
+import { ParentsVideo } from './pages/ParentsVideo';
 import { Donate } from './pages/Donate';
 import { Volunteer } from './pages/Volunteer';
 import { Contact } from './pages/Contact';
@@ -64,6 +65,8 @@ export default function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<NewsDetail />} />
+        <Route path="/success-stories" element={<News />} />
+        <Route path="/parents-video" element={<ParentsVideo />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/volunteer" element={<Volunteer />} />
         <Route path="/contact" element={<Contact />} />

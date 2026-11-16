@@ -17,15 +17,15 @@ export const SectionHeading = ({
       } ${className}`}
     >
       {badge && (
-        <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#FFC43D] mb-2">
+        <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#F67708] mb-2">
           {badge}
         </span>
       )}
 
       {title && (
         <h2
-          className={`text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight ${
-            dark ? 'text-white' : 'text-[#151A2D]'
+          className={`text-2xl sm:text-4xl font-black uppercase tracking-tight leading-tight ${
+            dark ? 'text-white' : 'text-[#323D3D]'
           }`}
         >
           {title}
@@ -35,7 +35,7 @@ export const SectionHeading = ({
       {description && (
         <p
           className={`mt-3 text-sm sm:text-base leading-relaxed ${
-            dark ? 'text-[#A0A4AE]' : 'text-[#697386]'
+            dark ? 'text-teal-100/80' : 'text-[#697777]'
           }`}
         >
           {description}
@@ -44,4 +44,3 @@ export const SectionHeading = ({
     </div>
   );
 };
-
