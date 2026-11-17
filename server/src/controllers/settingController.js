@@ -1,4 +1,17 @@
+import mongoose from 'mongoose';
 import Setting from '../models/Setting.js';
+
+const sanitizeSubdocumentIds = (items) => {
+  if (!Array.isArray(items)) return items;
+  return items.map((item) => {
+    if (!item || typeof item !== 'object') return item;
+    const clean = { ...item };
+    if (clean._id && !mongoose.Types.ObjectId.isValid(clean._id)) {
+      clean._id = new mongoose.Types.ObjectId().toString();
+    }
+    return clean;
+  });
+};
 
 // @desc    Get website public settings
 // @route   GET /api/settings
@@ -20,12 +33,28 @@ export const getPublicSettings = async (req, res, next) => {
 // @access  Private (Admin)
 export const updateSettings = async (req, res, next) => {
   try {
+    const payload = { ...req.body };
+
+    // Sanitize any subdocument array IDs that could fail BSON ObjectId casting
+    if (Array.isArray(payload.heroBanners)) {
+      payload.heroBanners = sanitizeSubdocumentIds(payload.heroBanners);
+    }
+    if (Array.isArray(payload.parentsVideos)) {
+      payload.parentsVideos = sanitizeSubdocumentIds(payload.parentsVideos);
+    }
+    if (Array.isArray(payload.appreciationLetters)) {
+      payload.appreciationLetters = sanitizeSubdocumentIds(payload.appreciationLetters);
+    }
+    if (Array.isArray(payload.impactStories)) {
+      payload.impactStories = sanitizeSubdocumentIds(payload.impactStories);
+    }
+
     let settings = await Setting.findOne();
     if (!settings) {
-      settings = new Setting(req.body);
+      settings = new Setting(payload);
     } else {
       // Merge updates
-      Object.assign(settings, req.body);
+      Object.assign(settings, payload);
     }
 
     const updated = await settings.save();

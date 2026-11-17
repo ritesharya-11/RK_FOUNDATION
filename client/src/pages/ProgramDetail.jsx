@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useWebsite } from '../context/WebsiteContext';
-import { PageHero } from '../components/PageHero';
-import { PrimaryButton } from '../components/UIComponents';
 import api from '../services/api';
-import { CheckCircle2, Heart, ArrowLeft, ShieldCheck, Users } from 'lucide-react';
+import {
+  Home,
+  Share2,
+  Heart,
+  Building2,
+  Target,
+  Activity,
+  FileText,
+  BookOpen,
+  CheckCircle2,
+  MapPin,
+  Check,
+  ArrowLeft,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
 import { operationalProgramsData } from '../data/programsData';
 
 export const ProgramDetail = () => {
   const { slug } = useParams();
-  const { formatINR } = useWebsite();
+  const { formatINR, showToast } = useWebsite();
   const [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchProgram = async () => {
@@ -35,6 +49,15 @@ export const ProgramDetail = () => {
     fetchProgram();
   }, [slug]);
 
+  const handleShare = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      if (showToast) showToast('Program link copied to clipboard!');
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
   if (loading) {
     return (
       <div className="bg-[#FAF7F2] min-h-screen py-36 text-center text-[#A0A4AE] font-medium">
@@ -54,97 +77,283 @@ export const ProgramDetail = () => {
     );
   }
 
+  // Is this the Children Development program?
+  const isChildrenDevelopment = slug === 'children-development';
+
   return (
-    <div className="bg-[#FAF7F2] min-h-screen">
-      {/* Standardized Hero */}
-      <PageHero
-        badge={program.category}
-        title={program.title}
-        subtitle={program.shortDescription}
-        breadcrumbs={[
-          { label: 'Home', path: '/' },
-          { label: 'Programs', path: '/programs' },
-          { label: program.title },
-        ]}
-      />
+    <div className="bg-[#FAF7F2] min-h-screen text-[#323D3D] py-6 sm:py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+        {/* ========================================================
+            1. BREADCRUMBS & SHARE BUTTON (Exact Reference)
+        ======================================================== */}
+        <div className="flex items-center justify-between text-xs text-slate-500">
+          <nav className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <Link to="/" className="hover:text-[#F67708] flex items-center gap-1 transition">
+              <Home className="w-3.5 h-3.5" />
+              <span>Home</span>
+            </Link>
+            <span className="text-slate-300">›</span>
+            <Link to="/programs" className="hover:text-[#F67708] transition">
+              Our Programs
+            </Link>
+            <span className="text-slate-300">›</span>
+            <span className="text-[#323D3D] font-semibold">{program.title}</span>
+          </nav>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 space-y-10">
-        <Link
-          to="/programs"
-          className="inline-flex items-center gap-2 text-xs font-bold text-[#697777] hover:text-[#036C6C] transition"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to All Programs</span>
-        </Link>
-
-        {/* Cover Image */}
-        <div className="rounded-3xl overflow-hidden shadow-card border border-[#E3D9CF] relative h-72 sm:h-96">
-          <img
-            src={program.coverImage}
-            alt={program.title}
-            className="w-full h-full object-cover"
-          />
+          <button
+            onClick={handleShare}
+            className="border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-2xs cursor-pointer"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-emerald-700">Link Copied!</span>
+              </>
+            ) : (
+              <>
+                <Share2 className="w-3.5 h-3.5 text-slate-500" />
+                <span>Share Program</span>
+              </>
+            )}
+          </button>
         </div>
 
-        {/* Program Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-8 space-y-8">
-            <div className="bg-white p-8 rounded-3xl border border-[#E3D9CF] shadow-card space-y-6">
-              <div>
-                <h3 className="text-xl font-bold text-[#323D3D] mb-3">Program Overview</h3>
-                <p className="text-sm sm:text-base text-[#697777] leading-relaxed whitespace-pre-line">
-                  {program.fullDescription}
-                </p>
+        {/* ========================================================
+            2. MAIN HERO CARD (Exact Reference: media_1794892603884_c38da316.jpg)
+        ======================================================== */}
+        <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-soft">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-5">
+              {/* Top Category Badges */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#FFF4EB] text-[#F67708] border border-[#F67708]/30">
+                  {program.category || 'Child Welfare'}
+                </span>
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Active Grassroots Initiative</span>
+                </span>
               </div>
 
-              {program.objectives?.length > 0 && (
-                <div className="space-y-4 pt-6 border-t border-[#E3D9CF]">
-                  <h4 className="text-base font-bold text-[#323D3D]">Key Objectives & Strategy</h4>
-                  <div className="space-y-3">
-                    {program.objectives.map((obj, i) => (
-                      <div key={i} className="flex items-start gap-3 text-sm text-[#323D3D]">
-                        <CheckCircle2 className="w-4 h-4 text-[#F67708] shrink-0 mt-0.5" />
-                        <span>{obj}</span>
-                      </div>
-                    ))}
-                  </div>
+              {/* Program Title */}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E293B] tracking-tight">
+                {program.title.split(' ')[0]}{' '}
+                <span className="text-[#F67708]">
+                  {program.title.split(' ').slice(1).join(' ') || 'Development'}
+                </span>
+              </h1>
+
+              {/* Short Description */}
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                {isChildrenDevelopment
+                  ? 'Protecting child rights, fighting infant mortality, eliminating child labor, and providing free meals, clothes, and medicines.'
+                  : program.shortDescription}
+              </p>
+
+              {/* 3 Verification Check Pills */}
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="px-3.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-semibold flex items-center gap-1.5">
+                  <span className="text-emerald-600 font-bold">✓</span> Direct Field Execution
+                </span>
+                <span className="px-3.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-semibold flex items-center gap-1.5">
+                  <span className="text-emerald-600 font-bold">✓</span> 80G Tax Deductible
+                </span>
+                <span className="px-3.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-semibold flex items-center gap-1.5">
+                  <span className="text-emerald-600 font-bold">✓</span> Field Verified Roster
+                </span>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link
+                  to={`/donate?program=${encodeURIComponent(program.title)}`}
+                  className="px-6 py-3 rounded-xl bg-[#F67708] hover:bg-[#E06800] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm hover:shadow transition"
+                >
+                  <Heart className="w-4 h-4 fill-white" />
+                  <span>Sponsor This Program</span>
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition"
+                >
+                  <Building2 className="w-4 h-4 text-slate-500" />
+                  <span>CSR & Institutional Inquiry</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Media Preview */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-2xl overflow-hidden shadow-card border border-slate-200/80 aspect-[4/3] bg-slate-900 group">
+                <img
+                  src={
+                    isChildrenDevelopment
+                      ? '/programs/children-development-relief.jpg'
+                      : program.coverImage || '/programs/children-development.jpg'
+                  }
+                  alt={program.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    e.currentTarget.src = '/programs/children-development.jpg';
+                  }}
+                />
+
+                {/* Location Overlay Tag Bottom Left */}
+                <div className="absolute bottom-3 left-3 bg-[#111827]/85 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 border border-white/10 shadow-sm">
+                  <MapPin className="w-3.5 h-3.5 text-[#F67708]" />
+                  <span>Delhi-NCR • Urban Settlements</span>
                 </div>
-              )}
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Sidebar CTA */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#E3D9CF] shadow-card space-y-6 sticky top-28">
-              <h3 className="text-lg font-bold text-[#323D3D]">Sponsor This Initiative</h3>
-
-              <div className="p-5 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF] space-y-1">
-                <span className="text-xs text-[#697777] font-semibold">Estimated Monthly Support:</span>
-                <p className="text-3xl font-black text-[#036C6C]">
-                  {formatINR(program.budgetOrCostPerChild || 1500)}
-                </p>
-                <p className="text-xs text-[#697777]">per child / beneficiary</p>
-              </div>
-
-              <div className="text-xs text-[#697777] space-y-2.5">
-                <div className="flex items-center gap-2.5">
-                  <Users className="w-4 h-4 text-[#036C6C] shrink-0" />
-                  <span>Beneficiaries: <strong className="text-[#323D3D]">{program.beneficiariesCount?.toLocaleString('en-IN')}+</strong></span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-[#036C6C] shrink-0" />
-                  <span>50% 80G Tax Exemption Applicable</span>
-                </div>
-              </div>
-
-              <Link
-                to={`/donate?program=${encodeURIComponent(program.title)}&amount=${program.budgetOrCostPerChild || 1500}`}
-                className="w-full py-3.5 rounded-full font-bold text-sm text-[#036C6C] bg-[#F67708] hover:bg-[#E06800] shadow-md text-center flex items-center justify-center gap-2 transition"
-              >
-                <Heart className="w-4 h-4 fill-current" />
-                <span>Donate to this Program</span>
-              </Link>
+        {/* ========================================================
+            3. THREE CORE FOCUS PILLARS (Exact Reference: media_1794892642503_ea8a8906.png)
+        ======================================================== */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Pillar 1: Target Beneficiary Group */}
+          <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 shadow-soft space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-[#FFF4EB] border border-[#F67708]/30 flex items-center justify-center text-[#F67708]">
+              <Target className="w-5 h-5" />
             </div>
+            <h3 className="font-black text-sm sm:text-base text-[#1E293B]">
+              Target Beneficiary Group
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Reaching out-of-school children, destitute women, underprivileged families, and patients across underserved colonies.
+            </p>
+          </div>
+
+          {/* Pillar 2: On-Ground Execution */}
+          <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 shadow-soft space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
+              <Activity className="w-5 h-5" />
+            </div>
+            <h3 className="font-black text-sm sm:text-base text-[#1E293B]">
+              On-Ground Execution
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Conducted by dedicated field volunteers via continuous weekly camps, food hubs, learning bridge centers, and clinic aid.
+            </p>
+          </div>
+
+          {/* Pillar 3: Statutory Oversight */}
+          <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 shadow-soft space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
+              <FileText className="w-5 h-5" />
+            </div>
+            <h3 className="font-black text-sm sm:text-base text-[#1E293B]">
+              Statutory Oversight
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              100% of donor contributions are verified against procurement receipts and hospital admissions under 80G tax audit laws.
+            </p>
+          </div>
+        </div>
+
+        {/* ========================================================
+            4. OPERATIONAL SCOPE & IMPLEMENTATION BLUEPRINT (Exact Reference)
+        ======================================================== */}
+        <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-soft space-y-6">
+          {/* Section Header */}
+          <div className="flex items-center gap-2.5 text-base sm:text-lg font-black text-[#1E293B] border-b border-slate-100 pb-4">
+            <BookOpen className="w-5 h-5 text-[#F67708]" />
+            <span>Operational Scope & Implementation Blueprint</span>
+          </div>
+
+          {/* Mission for Every Child */}
+          <div className="space-y-2">
+            <h4 className="font-black text-sm sm:text-base text-[#1E293B]">
+              Mission for Every Child
+            </h4>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              To take up child health care issues as a major priority along with holistic child development and education. We aspire to take every possible step to fight infant mortality, child abuse, child labor, and trafficking across Delhi NCR and marginalized rural areas.
+            </p>
+          </div>
+
+          {/* Our Active Interventions */}
+          <div className="space-y-3 pt-2">
+            <h5 className="font-black text-xs sm:text-sm text-[#1E293B]">
+              Our Active Interventions:
+            </h5>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-600">
+              <li className="flex items-start gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span>
+                  Provide free nutritious meals, clean clothing, essential medicines, and hygiene kits to homeless and daily-wage migrant children.
+                </span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span>
+                  Operate non-formal learning centers bridging out-of-school children back into formal academic schools.
+                </span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span>
+                  Conduct routine pediatric health screening and immunization drives in underserved settlements.
+                </span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span>
+                  Sponsor school fees, books, and uniforms for bright children from economically vulnerable families.
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Blueprint Footer Links */}
+          <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <Link
+              to="/programs"
+              className="text-xs font-bold text-[#F67708] hover:text-[#E06800] flex items-center gap-1.5 transition"
+            >
+              <span>← Explore Other Institutional Programs</span>
+            </Link>
+
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Registered Under Indian Trusts Act • 80G Tax Deductible</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================
+            5. SUPPORT CALL-TO-ACTION BANNER (Exact Reference: media_1794892668501_9119a2e5.jpg)
+        ======================================================== */}
+        <div className="bg-[#FFF6EF] border border-[#F67708]/30 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          {/* Left Text */}
+          <div className="space-y-1.5 text-left w-full md:w-auto">
+            <h3 className="text-xl sm:text-2xl font-black text-[#1E293B]">
+              Support Children Development
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+              Whether you are an individual donor sponsoring nutrition and learning supplies or a corporate CSR entity funding sustained intervention drives, 100% of your aid directly benefits verified families.
+            </p>
+          </div>
+
+          {/* Right Action Buttons */}
+          <div className="flex flex-wrap items-center gap-3 shrink-0 w-full md:w-auto">
+            <Link
+              to={`/donate?program=children-development`}
+              className="px-6 py-3 rounded-xl bg-[#F67708] hover:bg-[#E06800] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition"
+            >
+              <Heart className="w-4 h-4 fill-white" />
+              <span>Make a Contribution</span>
+            </Link>
+
+            <Link
+              to="/contact"
+              className="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition"
+            >
+              <FileText className="w-4 h-4 text-slate-500" />
+              <span>Contact Program Cell</span>
+            </Link>
           </div>
         </div>
       </div>

@@ -413,6 +413,28 @@ const seedDatabase = async () => {
     console.log('[Seeder] Creating On-Ground Field Activities...');
     await Activity.insertMany([
       {
+        title: 'Dalit Rights Legal Aid Clinic & Constitutional Awareness Drive',
+        date: new Date('2026-03-08'),
+        location: 'Ambedkar Basti, Trilokpuri & Kalyanpuri Clusters, Delhi-NCR',
+        category: 'Dalit Upliftment & Rights',
+        description:
+          'Conducted a dedicated legal counseling and statutory rights camp providing free legal assistance, SC/ST welfare scheme enrollment, scholarship applications, and civic discrimination grievance redressal for 380 Dalit households.',
+        beneficiariesCount: 380,
+        coverImage: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop',
+        status: 'completed',
+      },
+      {
+        title: 'Community Empowerment & Educational Rights Seminar for Dalit Youth',
+        date: new Date('2026-02-22'),
+        location: 'Dr. B.R. Ambedkar Community Bhavan, Ghaziabad',
+        category: 'Dalit Upliftment & Rights',
+        description:
+          'Empowered 240 first-generation Dalit college and school aspirants with guidance on higher education entrance exams, Dr. Ambedkar national fellowships, and digital career skills mentorship.',
+        beneficiariesCount: 240,
+        coverImage: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=1200&auto=format&fit=crop',
+        status: 'completed',
+      },
+      {
         title: 'Mega Health & Pediatric Checkup Camp at Nand Nagri',
         date: new Date('2026-02-15'),
         location: 'Community Center, Nand Nagri, East Delhi',

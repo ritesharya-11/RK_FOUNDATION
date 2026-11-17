@@ -23,638 +23,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-const INITIAL_CERTIFICATES = [
-  {
-    _id: 'cert-1',
-    title: 'Baby of Mansha – Emergency Treatment Aid',
-    beneficiaryName: 'Baby of Mansha',
-    hospital: 'Swastik Medicare, Greater Noida (West)',
-    doctorName: 'Dr. Pawan Kumar Sharma (Director)',
-    chequeNo: '231806',
-    amount: 25000,
-    issueDate: '2024-02-10',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-2',
-    title: 'Baby of Tayaba – Critical Treatment Financial Relief',
-    beneficiaryName: 'Baby of Tayaba',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal (Pediatrician & Neonatologist)',
-    chequeNo: '528766',
-    amount: 15000,
-    issueDate: '2024-01-13',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-3',
-    title: 'Baby of USHA – Emergency Situation Treatment',
-    beneficiaryName: 'Baby of USHA',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '538775',
-    amount: 15000,
-    issueDate: '2020-11-29',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-4',
-    title: 'Baby of Asma – Vital Medication Support',
-    beneficiaryName: 'Baby of Asma',
-    hospital: 'Swastik Medicare, Greater Noida (West)',
-    doctorName: 'Dr. Pawan Kumar Sharma (Director)',
-    chequeNo: '210455',
-    amount: 25000,
-    issueDate: '2020-10-21',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-5',
-    title: 'Baby of USHA – Pediatric Intensive Care Support',
-    beneficiaryName: 'Baby of USHA',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '538776',
-    amount: 15000,
-    issueDate: '2020-12-05',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-6',
-    title: 'Baby of USHA – Hospital Recovery & Cheque Proof',
-    beneficiaryName: 'Baby of USHA',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '538777',
-    amount: 15000,
-    issueDate: '2020-12-15',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-7',
-    title: 'Baby of MONIKA TWIN - 1 – Emergency Care Assistance',
-    beneficiaryName: 'Baby of MONIKA TWIN - 1',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '513617',
-    amount: 15000,
-    issueDate: '2021-07-01',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-8',
-    title: 'Baby of MONIKA TWIN - 2 – Emergency Care Assistance',
-    beneficiaryName: 'Baby of MONIKA TWIN - 2',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '513618',
-    amount: 15000,
-    issueDate: '2021-07-01',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-9',
-    title: 'Baby of Jyoti – Physical Treatment Grant Dossier',
-    beneficiaryName: 'Baby of Jyoti',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034738',
-    amount: 15000,
-    issueDate: '2021-08-14',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-10',
-    title: 'Baby of Jyoti (Dossier 2) – Medical Relief Sponsorship',
-    beneficiaryName: 'Baby of Jyoti',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034739',
-    amount: 15000,
-    issueDate: '2021-08-20',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-11',
-    title: 'Baby of Seema – Direct Hospital Relief Grant',
-    beneficiaryName: 'Baby of Seema',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034740',
-    amount: 10000,
-    issueDate: '2021-08-25',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-12',
-    title: 'Baby of Rinku Haldar – Critical Infant Care',
-    beneficiaryName: 'Baby of Rinku Haldar',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034752',
-    amount: 15000,
-    issueDate: '2021-10-01',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-13',
-    title: 'Baby of Rinku Haldar (Stage 2) – Recovery Sponsorship',
-    beneficiaryName: 'Baby of Rinku Haldar',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034753',
-    amount: 10000,
-    issueDate: '2021-10-15',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-14',
-    title: 'Baby of Kavita – Emergency Pediatric Aid',
-    beneficiaryName: 'Baby of Kavita',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034757',
-    amount: 15000,
-    issueDate: '2021-11-10',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-15',
-    title: 'Baby of Kajal – Preterm Extreme Care Support',
-    beneficiaryName: 'Baby of Kajal',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh (MBBS, MD Pediatrics)',
-    chequeNo: '034767',
-    amount: 15000,
-    issueDate: '2024-05-18',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-16',
-    title: 'Baby of Reena Kumari – Extreme Preterm Care',
-    beneficiaryName: 'Baby of Reena Kumari',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034789',
-    amount: 15000,
-    issueDate: '2024-05-03',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-17',
-    title: 'Baby of Kajal (Specialized NICU) – Direct Doctor Proof',
-    beneficiaryName: 'Baby of Kajal',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034758',
-    amount: 25000,
-    issueDate: '2024-05-20',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-18',
-    title: 'Baby of Pooja – Preterm Care Sponsorship',
-    beneficiaryName: 'Baby of Pooja',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Pradeep / Dr. Kuldeep Yadav',
-    chequeNo: '694101',
-    amount: 10000,
-    issueDate: '2024-03-22',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: false,
-    status: 'published',
-  },
-  {
-    _id: 'cert-19',
-    title: 'Baby of Shivani – Respiratory Distress Relief',
-    beneficiaryName: 'Baby of Shivani',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034760',
-    amount: 20000,
-    issueDate: '2023-11-12',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-20',
-    title: 'Baby of Deepa – Neonatal Jaundice Therapy',
-    beneficiaryName: 'Baby of Deepa',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034762',
-    amount: 15000,
-    issueDate: '2023-12-04',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-21',
-    title: 'Baby of Aarti – NICU Phototherapy Sponsorship',
-    beneficiaryName: 'Baby of Aarti',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034765',
-    amount: 15000,
-    issueDate: '2023-12-18',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-22',
-    title: 'Baby of Priya – Low Birth Weight Care',
-    beneficiaryName: 'Baby of Priya',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034768',
-    amount: 15000,
-    issueDate: '2024-01-05',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-23',
-    title: 'Baby of Sunita – Emergency Oxygen Therapy',
-    beneficiaryName: 'Baby of Sunita',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034771',
-    amount: 20000,
-    issueDate: '2024-01-22',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-24',
-    title: 'Baby of Pinky – Emergency Sepsis Management',
-    beneficiaryName: 'Baby of Pinky',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034775',
-    amount: 15000,
-    issueDate: '2024-02-02',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-25',
-    title: 'Baby of Rekha – Critical Pediatric Surgery Aid',
-    beneficiaryName: 'Baby of Rekha',
-    hospital: 'Swastik Medicare, Greater Noida (West)',
-    doctorName: 'Dr. Pawan Kumar Sharma',
-    chequeNo: '231812',
-    amount: 25000,
-    issueDate: '2024-02-14',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-26',
-    title: 'Baby of Anjali – Blood Transfusion Relief Grant',
-    beneficiaryName: 'Baby of Anjali',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034780',
-    amount: 15000,
-    issueDate: '2024-02-28',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-27',
-    title: 'Baby of Babita – Premature Infant Nutrition Aid',
-    beneficiaryName: 'Baby of Babita',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034782',
-    amount: 15000,
-    issueDate: '2024-03-08',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-28',
-    title: 'Baby of Geeta – Emergency Pediatric Stabilization',
-    beneficiaryName: 'Baby of Geeta',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034785',
-    amount: 15000,
-    issueDate: '2024-03-15',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-29',
-    title: 'Baby of Radha – Critical Neonatal Care',
-    beneficiaryName: 'Baby of Radha',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034788',
-    amount: 15000,
-    issueDate: '2024-03-25',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-30',
-    title: 'Baby of Meena – Neonatal Ventilator Support',
-    beneficiaryName: 'Baby of Meena',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034791',
-    amount: 20000,
-    issueDate: '2024-04-02',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-31',
-    title: 'Baby of Kiran – Respiratory Distress Recovery',
-    beneficiaryName: 'Baby of Kiran',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034795',
-    amount: 15000,
-    issueDate: '2024-04-10',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-32',
-    title: 'Baby of Shanti – Incubator Care Support',
-    beneficiaryName: 'Baby of Shanti',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034798',
-    amount: 15000,
-    issueDate: '2024-04-18',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-33',
-    title: 'Baby of Mamta – Critical Phototherapy Unit Grant',
-    beneficiaryName: 'Baby of Mamta',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034801',
-    amount: 10000,
-    issueDate: '2024-04-26',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-34',
-    title: 'Baby of Savitri – Preterm Emergency Treatment',
-    beneficiaryName: 'Baby of Savitri',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034805',
-    amount: 15000,
-    issueDate: '2024-05-08',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-35',
-    title: 'Baby of Pushpa – Pediatric Sepsis Recovery',
-    beneficiaryName: 'Baby of Pushpa',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034809',
-    amount: 15000,
-    issueDate: '2024-05-15',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-36',
-    title: 'Baby of Nisha – Oxygen Therapy & Medical Care',
-    beneficiaryName: 'Baby of Nisha',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034812',
-    amount: 15000,
-    issueDate: '2024-05-24',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-37',
-    title: 'Baby of Komal – NICU Extended Observation Care',
-    beneficiaryName: 'Baby of Komal',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034816',
-    amount: 15000,
-    issueDate: '2024-06-01',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-38',
-    title: 'Baby of Manju – Low Birth Weight Rehabilitation',
-    beneficiaryName: 'Baby of Manju',
-    hospital: 'Swastik Medicare, Greater Noida (West)',
-    doctorName: 'Dr. Pawan Kumar Sharma',
-    chequeNo: '231820',
-    amount: 25000,
-    issueDate: '2024-06-08',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-1.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-39',
-    title: 'Baby of Sudha – Post-Surgical Neonatal Care',
-    beneficiaryName: 'Baby of Sudha',
-    hospital: 'Silver Crest Hospital',
-    doctorName: 'Dr. Mayank Singh',
-    chequeNo: '034822',
-    amount: 20000,
-    issueDate: '2024-06-15',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-5.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-40',
-    title: 'Baby of Sarita – Extreme Premature Infant Relief',
-    beneficiaryName: 'Baby of Sarita',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034826',
-    amount: 15000,
-    issueDate: '2024-06-22',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-4.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-  {
-    _id: 'cert-41',
-    title: 'Baby of Renu – Respiratory Distress Stabilized',
-    beneficiaryName: 'Baby of Renu',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034830',
-    amount: 15000,
-    issueDate: '2024-07-02',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-3.jpg',
-    isFeatured: false,
-    status: 'published',
-  },
-  {
-    _id: 'cert-42',
-    title: 'Baby of Lalita – Critical Infant Treatment Grant',
-    beneficiaryName: 'Baby of Lalita',
-    hospital: 'Girraj Ji Children Hospital, Sector 12A Gurgaon',
-    doctorName: 'Dr. Mohit Kumar Agrawal',
-    chequeNo: '034835',
-    amount: 15000,
-    issueDate: '2024-07-10',
-    category: 'APPRECIATION LETTER',
-    fileType: 'IMAGE',
-    fileUrl: '/appreciation/proof-sheet-2.jpg',
-    isFeatured: true,
-    status: 'published',
-  },
-];
+const INITIAL_CERTIFICATES = [];
 
 export const AdminAppreciationLetters = () => {
   const { settings, refreshSettings, showToast, formatINR } = useWebsite();
@@ -662,14 +31,24 @@ export const AdminAppreciationLetters = () => {
   const [docs, setDocs] = useState(() => {
     try {
       const stored = localStorage.getItem('rk_appreciation_letters');
-      if (stored) {
+      if (stored !== null) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed)) {
+          // If stored data contains the old mock cert items, clear it
+          const hasOldMock = parsed.some(
+            (d) => d._id?.startsWith?.('cert-') || d.fileUrl?.includes?.('proof-sheet')
+          );
+          if (hasOldMock) {
+            localStorage.setItem('rk_appreciation_letters', '[]');
+            return [];
+          }
+          return parsed;
+        }
       }
     } catch {
       // fallback
     }
-    return INITIAL_CERTIFICATES;
+    return [];
   });
 
   const [search, setSearch] = useState('');
@@ -704,16 +83,23 @@ export const AdminAppreciationLetters = () => {
 
   // Sync settings when available
   useEffect(() => {
-    if (settings?.appreciationLetters && Array.isArray(settings.appreciationLetters) && settings.appreciationLetters.length > 0) {
-      // If the backend has letters with actual hospital names, use them
-      const hasHospital = settings.appreciationLetters.some(l => l.hospital || l.beneficiaryName);
-      if (hasHospital) {
-        setDocs(settings.appreciationLetters);
-        try {
-          localStorage.setItem('rk_appreciation_letters', JSON.stringify(settings.appreciationLetters));
-        } catch {
-          // ignore
-        }
+    if (settings?.appreciationLetters && Array.isArray(settings.appreciationLetters)) {
+      // Strip any old mock letters
+      const filtered = settings.appreciationLetters.filter(
+        (l) => !l._id?.startsWith?.('cert-') && !l.fileUrl?.includes?.('proof-sheet')
+      );
+      setDocs(filtered);
+      try {
+        localStorage.setItem('rk_appreciation_letters', JSON.stringify(filtered));
+      } catch {
+        // ignore
+      }
+    } else {
+      setDocs([]);
+      try {
+        localStorage.setItem('rk_appreciation_letters', '[]');
+      } catch {
+        // ignore
       }
     }
   }, [settings?.appreciationLetters]);
@@ -726,12 +112,37 @@ export const AdminAppreciationLetters = () => {
       // ignore
     }
     try {
-      await api.put('/settings', {
-        appreciationLetters: newDocs,
+      const sanitized = newDocs.map((d) => {
+        const item = { ...d };
+        if (typeof item._id === 'string' && item._id.startsWith('cert-')) {
+          delete item._id;
+        }
+        return item;
       });
+      const res = await api.put('/settings', {
+        appreciationLetters: sanitized,
+      });
+      if (res?.settings?.appreciationLetters) {
+        setDocs(res.settings.appreciationLetters);
+      }
       refreshSettings();
     } catch (err) {
       console.warn('API sync warning:', err.message);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to delete ALL appreciation letters? This will permanently remove all letters.'
+      )
+    )
+      return;
+    try {
+      await persistDocs([]);
+      showToast('All appreciation letters deleted successfully.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed to delete letters', 'error');
     }
   };
 
@@ -891,7 +302,7 @@ export const AdminAppreciationLetters = () => {
 
   // KPI Calculations
   const totalDocs = docs.length;
-  const partnerHospitalsCount = uniqueHospitals.length || 2;
+  const partnerHospitalsCount = uniqueHospitals.length;
   const featuredCount = docs.filter((d) => d.isFeatured).length;
   const totalAidDisbursed = docs.reduce((acc, d) => acc + (Number(d.amount) || 0), 0);
 
@@ -922,6 +333,16 @@ export const AdminAppreciationLetters = () => {
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>
+          {docs.length > 0 && (
+            <button
+              onClick={handleDeleteAll}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200 hover:bg-rose-100 transition cursor-pointer"
+              title="Delete all appreciation letters"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>Delete All</span>
+            </button>
+          )}
           <button
             onClick={handleOpenAdd}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
@@ -980,7 +401,7 @@ export const AdminAppreciationLetters = () => {
             AID DISBURSED
           </p>
           <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
-            ₹{totalAidDisbursed > 0 ? (totalAidDisbursed).toLocaleString('en-IN') : '6,30,000'}+
+            ₹{totalAidDisbursed > 0 ? (totalAidDisbursed).toLocaleString('en-IN') : '0'}
           </p>
           <p className="text-xs font-semibold text-emerald-600 mt-1 flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />

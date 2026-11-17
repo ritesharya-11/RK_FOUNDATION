@@ -150,8 +150,16 @@ export const AdminHeroBanners = () => {
   const handleSaveAll = async () => {
     setSaving(true);
     try {
+      const sanitizedBanners = banners.map((b) => {
+        const item = { ...b };
+        if (typeof item._id === 'string' && item._id.startsWith('slide-')) {
+          delete item._id;
+        }
+        return item;
+      });
+
       const payload = {
-        heroBanners: banners,
+        heroBanners: sanitizedBanners,
         hero: {
           badge: banners[0]?.badgeText || '',
           heading: `${banners[0]?.headlinePrefix || ''} ${banners[0]?.headlineHighlight || ''} ${banners[0]?.headlineSuffix || ''}`.trim(),
@@ -165,6 +173,9 @@ export const AdminHeroBanners = () => {
       const res = await api.put('/settings', payload);
       if (res?.success) {
         showToast('Hero Banners saved and published!', 'success');
+        if (res.settings?.heroBanners?.length) {
+          setBanners(res.settings.heroBanners.map(migrateSlide));
+        }
         refreshSettings();
       }
     } catch (err) {

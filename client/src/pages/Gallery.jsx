@@ -11,30 +11,82 @@ export const Gallery = () => {
 
   const categories = [
     'All',
+    'Dalit Upliftment & Rights',
     'Child Education',
     'Healthcare Relief',
     'Food & Ration Drives',
     'Women Empowerment',
+    'General Community Work',
     'Community Events',
   ];
 
-  useEffect(() => {
-    const fetchGallery = async () => {
-      setLoading(true);
+  const fetchGallery = async () => {
+    setLoading(true);
+    try {
+      const query = selectedCategory === 'All' ? '' : `?category=${encodeURIComponent(selectedCategory)}`;
+      let apiItems = [];
       try {
-        const query = selectedCategory === 'All' ? '' : `?category=${encodeURIComponent(selectedCategory)}`;
         const res = await api.get(`/gallery${query}`);
-        if (res?.items) {
-          setItems(res.items);
+        if (res?.items && Array.isArray(res.items)) {
+          apiItems = res.items;
         }
       } catch (err) {
-        console.warn('Error fetching gallery:', err.message);
-      } finally {
-        setLoading(false);
+        console.warn('API gallery notice:', err.message);
       }
-    };
 
+      // Merge with locally stored admin media assets
+      try {
+        const stored = localStorage.getItem('rk_media_gallery_assets');
+        if (stored) {
+          const localAssets = JSON.parse(stored);
+          if (Array.isArray(localAssets)) {
+            // Apply category filter if not 'All'
+            const filteredLocal = selectedCategory === 'All'
+              ? localAssets
+              : localAssets.filter((a) => {
+                  const c = (a.category || '').toLowerCase();
+                  const target = selectedCategory.toLowerCase();
+                  if (c === target) return true;
+                  if (target.includes('education') && c.includes('education')) return true;
+                  if (target.includes('health') && (c.includes('health') || c.includes('medic'))) return true;
+                  if (target.includes('food') && (c.includes('food') || c.includes('ration') || c.includes('nutrition'))) return true;
+                  if (target.includes('women') && (c.includes('women') || c.includes('tailor') || c.includes('livelihood'))) return true;
+                  if (target.includes('dalit') && (c.includes('dalit') || c.includes('rights'))) return true;
+                  if (target.includes('community') && (c.includes('community') || c.includes('general') || c.includes('awareness'))) return true;
+                  return false;
+                });
+
+            const existingIds = new Set(apiItems.map((i) => i._id));
+            const existingUrls = new Set(apiItems.map((i) => i.imageUrl));
+            const uniqueLocal = filteredLocal.filter(
+              (l) => l.imageUrl && !existingIds.has(l._id) && !existingUrls.has(l.imageUrl)
+            );
+            apiItems = [...uniqueLocal, ...apiItems];
+          }
+        }
+      } catch {
+        // ignore
+      }
+
+      setItems(apiItems);
+    } catch (err) {
+      console.warn('Error fetching gallery:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchGallery();
+
+    const handleStorageUpdate = () => fetchGallery();
+    window.addEventListener('storage', handleStorageUpdate);
+    window.addEventListener('rk_gallery_updated', handleStorageUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageUpdate);
+      window.removeEventListener('rk_gallery_updated', handleStorageUpdate);
+    };
   }, [selectedCategory]);
 
   return (

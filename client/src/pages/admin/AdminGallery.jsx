@@ -27,6 +27,19 @@ import {
 
 const INITIAL_MEDIA_ASSETS = [
   {
+    _id: 'media-dalit-1',
+    title: 'Constitutional Rights & Legal Literacy Drive in Ambedkar Basti',
+    category: 'Dalit Upliftment & Rights',
+    imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800',
+    campaign: '',
+    program: 'Dalit Upliftment & Rights Advocacy',
+    location: 'Trilokpuri & Kalyanpuri Clusters, Delhi',
+    caption: 'Free legal counseling, statutory rights education, and government welfare scheme enrollment for 380 Dalit households.',
+    fileSize: '1.5 MB',
+    dimensions: '1920x1080',
+    createdAt: '2026-10-28',
+  },
+  {
     _id: 'media-1',
     title: 'Free Ration & Blanket Drive in Nand Nagri',
     category: 'General Community Work',
@@ -152,14 +165,19 @@ export const AdminGallery = () => {
     try {
       const res = await api.get('/gallery');
       if (res?.items && Array.isArray(res.items) && res.items.length > 0) {
-        // Merge with initial assets if sparse
-        const combined = [...res.items, ...INITIAL_MEDIA_ASSETS.filter(i => !res.items.some(r => r._id === i._id))];
-        setItems(combined);
-        try {
-          localStorage.setItem('rk_media_gallery_assets', JSON.stringify(combined));
-        } catch {
-          // ignore
-        }
+        setItems((currentItems) => {
+          const apiIds = new Set(res.items.map((r) => r._id));
+          const apiUrls = new Set(res.items.map((r) => r.imageUrl));
+          // Preserve any locally uploaded items not yet in API
+          const localOnly = currentItems.filter((c) => !apiIds.has(c._id) && !apiUrls.has(c.imageUrl));
+          const combined = [...res.items, ...localOnly];
+          try {
+            localStorage.setItem('rk_media_gallery_assets', JSON.stringify(combined));
+          } catch {
+            // ignore
+          }
+          return combined;
+        });
       }
       showToast('Media library refreshed.', 'success');
     } catch (err) {
@@ -177,6 +195,8 @@ export const AdminGallery = () => {
     setItems(newItems);
     try {
       localStorage.setItem('rk_media_gallery_assets', JSON.stringify(newItems));
+      window.dispatchEvent(new Event('storage'));
+      window.dispatchEvent(new CustomEvent('rk_gallery_updated'));
     } catch {
       // ignore
     }
@@ -218,16 +238,22 @@ export const AdminGallery = () => {
         const file = form.files[i];
         let fileUrl = '';
 
-        // Try backend upload
+        // 1. Try backend multipart upload
         try {
           const formData = new FormData();
           formData.append('image', file);
           const uploadRes = await api.post('/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
-          if (uploadRes?.url) fileUrl = uploadRes.url;
-        } catch {
-          // Fallback to local Base64
+          if (uploadRes?.imageUrl || uploadRes?.url) {
+            fileUrl = uploadRes.imageUrl || uploadRes.url;
+          }
+        } catch (uploadErr) {
+          console.warn('Server upload failed, converting to local Base64:', uploadErr.message);
+        }
+
+        // 2. Fallback to local Base64 if fileUrl is empty
+        if (!fileUrl) {
           fileUrl = await new Promise((resolve) => {
             const reader = new FileReader();
             reader.onload = (ev) => resolve(ev.target.result);
@@ -245,27 +271,31 @@ export const AdminGallery = () => {
           campaign: form.campaign || '',
           program: form.program || '',
           location: form.location || 'Delhi-NCR',
-          caption: form.caption || '',
+          caption: form.caption || form.title || '',
           imageUrl: fileUrl,
           fileSize: `${sizeInMb} MB`,
           dimensions: '1920x1080',
           createdAt: new Date().toISOString().split('T')[0],
         };
 
-        newItems.push(record);
-
-        // Also post to DB if online
+        // 3. Post to MongoDB gallery endpoint
         try {
-          await api.post('/gallery', {
+          const galleryRes = await api.post('/gallery', {
             title: record.title,
             category: record.category,
             imageUrl: record.imageUrl,
             caption: record.caption,
             location: record.location,
+            isFeatured: true,
           });
-        } catch {
-          // ignore
+          if (galleryRes?.item?._id) {
+            record._id = galleryRes.item._id;
+          }
+        } catch (dbErr) {
+          console.warn('Backend gallery save notice:', dbErr.message);
         }
+
+        newItems.push(record);
       }
 
       // If no files attached but text was provided
@@ -283,6 +313,20 @@ export const AdminGallery = () => {
           dimensions: '1920x1080',
           createdAt: new Date().toISOString().split('T')[0],
         };
+
+        try {
+          await api.post('/gallery', {
+            title: placeholderRecord.title,
+            category: placeholderRecord.category,
+            imageUrl: placeholderRecord.imageUrl,
+            caption: placeholderRecord.caption,
+            location: placeholderRecord.location,
+            isFeatured: true,
+          });
+        } catch {
+          // ignore
+        }
+
         newItems.push(placeholderRecord);
       }
 
@@ -322,6 +366,7 @@ export const AdminGallery = () => {
   // Categories list
   const categoriesList = [
     'General Community Work',
+    'Dalit Upliftment & Rights',
     'Food & Nutrition Relief',
     'Healthcare & Medical Relief',
     'Child Education & Bridge Centers',
@@ -657,6 +702,7 @@ export const AdminGallery = () => {
                         className="w-full appearance-none px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-red-400 transition cursor-pointer pr-7"
                       >
                         <option value="">-- No Program --</option>
+                        <option value="Dalit Upliftment & Rights Advocacy">Dalit Upliftment & Rights</option>
                         <option value="Child Literacy & Remedial Bridge Schools">Remedial Education</option>
                         <option value="Emergency Healthcare & Neonatal Relief">Healthcare Relief</option>
                         <option value="Hunger Alleviation & Food Distribution">Hunger Alleviation</option>

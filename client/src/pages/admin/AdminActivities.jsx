@@ -199,6 +199,7 @@ export const AdminActivities = () => {
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
                     className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   >
+                    <option value="Dalit Upliftment & Rights">Dalit Upliftment & Rights</option>
                     <option value="Health Camp">Health Camp</option>
                     <option value="Ration & Food Distribution">Ration & Food Distribution</option>
                     <option value="Winter Blanket Drive">Winter Blanket Drive</option>
@@ -255,13 +256,46 @@ export const AdminActivities = () => {
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Cover Image URL</label>
-                <input
-                  type="text"
-                  value={form.coverImage}
-                  onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                />
+                <label className="block text-slate-300 font-semibold mb-1">Cover Image</label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={form.coverImage}
+                    onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
+                    placeholder="https://... or upload a photo"
+                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs"
+                  />
+                  <label className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold cursor-pointer border border-slate-600 shrink-0 transition">
+                    <span>Upload Photo</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        try {
+                          const formData = new FormData();
+                          formData.append('image', file);
+                          const res = await api.post('/upload', formData, {
+                            headers: { 'Content-Type': 'multipart/form-data' },
+                          });
+                          if (res?.imageUrl || res?.url) {
+                            setForm((prev) => ({ ...prev, coverImage: res.imageUrl || res.url }));
+                            showToast('Cover photo uploaded successfully', 'success');
+                          }
+                        } catch (upErr) {
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            setForm((prev) => ({ ...prev, coverImage: ev.target.result }));
+                            showToast('Cover photo loaded', 'info');
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">

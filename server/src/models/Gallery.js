@@ -9,15 +9,7 @@ const gallerySchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: [
-        'All',
-        'Child Education',
-        'Healthcare Relief',
-        'Food & Ration Drives',
-        'Women Empowerment',
-        'Community Events',
-      ],
-      default: 'Child Education',
+      default: 'General Community Work',
     },
     imageUrl: {
       type: String,

@@ -20,6 +20,7 @@ const activitySchema = new mongoose.Schema(
     category: {
       type: String,
       enum: [
+        'Dalit Upliftment & Rights',
         'Health Camp',
         'Ration & Food Distribution',
         'Winter Blanket Drive',
@@ -27,7 +28,7 @@ const activitySchema = new mongoose.Schema(
         'Women Workshop',
         'Tree Plantation & Cleanliness',
       ],
-      default: 'Ration & Food Distribution',
+      default: 'Dalit Upliftment & Rights',
     },
     description: {
       type: String,

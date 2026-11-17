@@ -33,6 +33,7 @@ export const uploadImage = async (req, res, next) => {
         return res.status(200).json({
           success: true,
           message: 'Image uploaded to ImageKit Cloud CDN successfully.',
+          url: ikResult.url,
           imageUrl: ikResult.url,
           thumbnailUrl: ikResult.thumbnailUrl,
           fileId: ikResult.fileId,
@@ -43,15 +44,18 @@ export const uploadImage = async (req, res, next) => {
       }
     }
 
-    // Local Storage Fallback URL
+    // Local Storage Fallback URL (Provide both relative and absolute for proxy compatibility)
     const host = req.get('host');
     const protocol = req.protocol;
-    const localUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+    const relativeUrl = `/uploads/${req.file.filename}`;
+    const absoluteUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
 
     res.status(200).json({
       success: true,
       message: 'Image uploaded to local storage.',
-      imageUrl: localUrl,
+      url: relativeUrl,
+      imageUrl: relativeUrl,
+      fullUrl: absoluteUrl,
       fileName: req.file.filename,
       provider: 'local',
     });

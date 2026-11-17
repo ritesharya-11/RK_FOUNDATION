@@ -158,9 +158,19 @@ export const AdminParentsVideo = () => {
       // ignore
     }
     try {
-      await api.put('/settings', {
-        parentsVideos: newVideos,
+      const sanitized = newVideos.map((v) => {
+        const item = { ...v };
+        if (typeof item._id === 'string' && item._id.startsWith('vid-')) {
+          delete item._id;
+        }
+        return item;
       });
+      const res = await api.put('/settings', {
+        parentsVideos: sanitized,
+      });
+      if (res?.settings?.parentsVideos?.length) {
+        setVideos(res.settings.parentsVideos);
+      }
       refreshSettings();
     } catch (err) {
       console.warn('API sync warning:', err.message);

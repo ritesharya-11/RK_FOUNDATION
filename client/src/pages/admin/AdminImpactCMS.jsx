@@ -29,19 +29,54 @@ const slugify = (text) =>
     .replace(/[^\w-]+/g, '')
     .replace(/--+/g, '-');
 
+const CATEGORIES_LIST = [
+  'Hunger & Nutrition Relief',
+  'Healthcare & Medical Relief',
+  'Child Literacy & Education',
+  'Clothing & Dignity',
+  'Women Tailoring & Livelihood',
+  'Elderly Winter Warmth',
+  'Clean Water & Sanitation',
+  'Disaster Relief & Floods',
+  'General Community Work',
+  'Dalit Upliftment & Rights',
+  'Specialized Medical Surgeries',
+];
+
+const PRESET_IMAGES = [
+  { label: 'Food Aid & Distribution', url: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=800' },
+  { label: 'Healthcare & Emergency', url: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800' },
+  { label: 'Women Empowerment', url: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800' },
+  { label: 'Women Dignity & Care', url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800' },
+  { label: 'Child Health Support', url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800' },
+  { label: 'Garments & Relief Aid', url: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=800' },
+];
+
 const INITIAL_STORIES = [
   {
     _id: 'story-1',
-    title: '10,000+ Nutritious Meals Served in Marginalized Slum Settlements',
+    title: '10,000+ Nutritious Meals Served in Marginalized Slum Belts',
     slug: '10000-nutritious-meals-served',
     category: 'Hunger & Nutrition Relief',
     outcomeMetric: '10,000+ Nutritious Meals',
     location: 'Nand Nagri, Yamuna Vihar & Seelampur, Delhi NCR',
-    pdfDossierUrl: '/reports/meals-distribution-audit.pdf',
+    timeframe: '2021 – 2024 Continuous',
+    pdfDossierUrl: '/documents/Rebirth_Food_Relief_Audit_Report.pdf',
+    reportTitle: 'Nutrition Relief Field Verification & Food Distribution Audit Dossier',
+    verifiedBy: 'Rebirth Care Trust Operations & Compliance Cell',
     coverImage: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=800',
-    summary: 'Providing freshly cooked warm nutritional food packets and emergency grocery packs to destitute households.',
+    summary: 'Continuous feeding drives for migrant daily-wage laborers, homeless individuals, and malnourished children across East and North-East Delhi slums.',
+    narrative: `Zero-Hunger Direct Intervention
+Between 2021 and 2024, Rebirth Care Trust deployed targeted daily cooked-meal and dry-ration relief squads across North-East Delhi's dense informal settlements including Nand Nagri, Yamuna Vihar, and Seemapuri. High poverty density, inflation, and lack of consistent daily-wage work severely impacted children and the elderly in these communities.
+
+Field Operations & Nutritional Standards
+Our volunteer squads partnered with certified community kitchens to prepare balanced meals containing adequate proteins, fresh lentils, fortified rice, and seasonal greens. Distribution camps were systematically scheduled at community chowks, construction worker clusters, and outside government health clinics.
+
+Documented Verification & Transparency
+Every feeding camp was logged with timestamped photography, guardian signatures, and ration slip reconciliations overseen by our trust field officers. 100% of donor funding was audited and matched against procured food stocks.`,
     status: 'published',
     isActive: true,
+    displayOrder: 1,
   },
   {
     _id: 'story-2',
@@ -50,11 +85,17 @@ const INITIAL_STORIES = [
     category: 'Clothing & Dignity',
     outcomeMetric: '1,500+ Women & Elderly',
     location: 'Yamuna Khadar & Mustafabad Settlements, Delhi',
+    timeframe: '2022 – 2024 Winter Relief',
     pdfDossierUrl: '/reports/garments-distribution-audit.pdf',
+    reportTitle: 'Women & Senior Citizen Dignity Relief Audit Dossier',
+    verifiedBy: 'Rebirth Care Trust Operations & Compliance Cell',
     coverImage: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800',
     summary: 'Seasonal winter warmth and dignified clothing support for elderly widows and marginalized women.',
+    narrative: `Winter Warmth Intervention
+Emergency blanket and clothing distribution for over 1,500 vulnerable women and senior citizens living in temporary riverbed dwellings and unauthorized colonies.`,
     status: 'published',
     isActive: true,
+    displayOrder: 2,
   },
   {
     _id: 'story-3',
@@ -63,11 +104,17 @@ const INITIAL_STORIES = [
     category: 'Healthcare & NICU Support',
     outcomeMetric: '₹4.5L+ Hospital Care Sponsored',
     location: 'GTB Hospital, AIIMS & Kalawati Saran, Delhi',
+    timeframe: '2023 – 2024 Continuous',
     pdfDossierUrl: '/reports/nicu-treatment-audit.pdf',
+    reportTitle: 'Pediatric & Neonatal Intensive Care Support Audit Report',
+    verifiedBy: 'Rebirth Care Trust Operations & Compliance Cell',
     coverImage: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800',
     summary: 'Life-saving surgical interventions, phototherapy, and premature infant stabilization care.',
+    narrative: `Pediatric Emergency Care
+Provided emergency life-saving ICU support, specialized diagnostics, and postoperative recovery funds for infants born to impoverished daily-wage families.`,
     status: 'published',
     isActive: true,
+    displayOrder: 3,
   },
   {
     _id: 'story-4',
@@ -76,11 +123,17 @@ const INITIAL_STORIES = [
     category: 'Child Literacy & Education',
     outcomeMetric: '250+ Children Enrolled',
     location: 'Nand Nagri & Gokalpuri, Delhi NCR',
+    timeframe: '2022 – Ongoing Bridge Centers',
     pdfDossierUrl: '/reports/remedial-education-audit.pdf',
+    reportTitle: 'Child Education & Bridge School Mainstreaming Dossier',
+    verifiedBy: 'Rebirth Care Trust Operations & Compliance Cell',
     coverImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800',
     summary: 'Mainstreaming children of waste-pickers and migrant daily-wagers into formal public schools.',
+    narrative: `Bridge Education Program
+Established non-formal community study centers that provide daily remedial tutoring, school enrollment assistance, stationery kits, and mid-day nutritional snacks.`,
     status: 'published',
     isActive: true,
+    displayOrder: 4,
   },
 ];
 
@@ -118,11 +171,16 @@ export const AdminImpactCMS = () => {
     category: 'Hunger & Nutrition Relief',
     outcomeMetric: '',
     location: '',
-    pdfDossierUrl: '',
+    timeframe: '2021 – 2024 Continuous',
     coverImage: '',
     summary: '',
+    narrative: '',
+    pdfDossierUrl: '',
+    reportTitle: '',
+    verifiedBy: 'Rebirth Care Trust Operations & Compliance Cell',
     status: 'published',
     isActive: true,
+    displayOrder: 1,
   };
   const [form, setForm] = useState(emptyForm);
 
@@ -147,9 +205,19 @@ export const AdminImpactCMS = () => {
     }
 
     try {
-      await api.put('/settings', {
-        impactStories: newStories,
+      const sanitized = newStories.map((s) => {
+        const item = { ...s };
+        if (typeof item._id === 'string' && item._id.startsWith('story-')) {
+          delete item._id;
+        }
+        return item;
       });
+      const res = await api.put('/settings', {
+        impactStories: sanitized,
+      });
+      if (res?.settings?.impactStories?.length) {
+        setStories(res.settings.impactStories);
+      }
       refreshSettings();
     } catch (err) {
       console.warn('API sync warning:', err.message);
@@ -198,7 +266,10 @@ export const AdminImpactCMS = () => {
 
   const handleOpenAdd = () => {
     setEditingStory(null);
-    setForm(emptyForm);
+    setForm({
+      ...emptyForm,
+      displayOrder: stories.length + 1,
+    });
     setShowModal(true);
   };
 
@@ -210,11 +281,16 @@ export const AdminImpactCMS = () => {
       category: item.category || 'Hunger & Nutrition Relief',
       outcomeMetric: item.outcomeMetric || '',
       location: item.location || '',
-      pdfDossierUrl: item.pdfDossierUrl || '',
+      timeframe: item.timeframe || '2021 – 2024 Continuous',
       coverImage: item.coverImage || '',
       summary: item.summary || '',
+      narrative: item.narrative || item.story || '',
+      pdfDossierUrl: item.pdfDossierUrl || '',
+      reportTitle: item.reportTitle || 'Nutrition Relief Field Verification & Food Distribution Audit Dossier',
+      verifiedBy: item.verifiedBy || 'Rebirth Care Trust Operations & Compliance Cell',
       status: item.status || 'published',
       isActive: item.isActive ?? true,
+      displayOrder: item.displayOrder || item.order || 1,
     });
     setShowModal(true);
   };
@@ -274,7 +350,7 @@ export const AdminImpactCMS = () => {
       if (editingStory) {
         updatedStories = stories.map((s) =>
           (s._id === editingStory._id || s.slug === editingStory.slug)
-            ? { ...s, ...form, slug: targetSlug }
+            ? { ...s, ...form, slug: targetSlug, story: form.narrative || s.story || '' }
             : s
         );
       } else {
@@ -282,6 +358,7 @@ export const AdminImpactCMS = () => {
           _id: `story-${Date.now()}`,
           ...form,
           slug: targetSlug,
+          story: form.narrative || '',
         };
         updatedStories = [newEntry, ...stories];
       }
@@ -311,32 +388,62 @@ export const AdminImpactCMS = () => {
   };
 
   return (
-    <div className="space-y-5 w-full min-w-0">
-      {/* ── Page Header (Breadcrumbs + Title + Action Buttons) ── */}
+    <div
+      className="space-y-6 w-full min-w-0 font-sans -m-4 sm:-m-8 p-4 sm:p-8 min-h-screen"
+      style={{
+        backgroundColor: '#F8FAFC',
+        backgroundImage: 'radial-gradient(#cbd5e1 1.2px, transparent 1.2px)',
+        backgroundSize: '18px 18px',
+      }}
+    >
+      {/* ── Top Bar: Breadcrumb & User Info matching screenshot ── */}
+      <div className="flex items-center justify-between pb-1">
+        <nav className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+          <span className="text-slate-400">Admin</span>
+          <span className="text-slate-300">›</span>
+          <span className="text-slate-800 font-semibold">Our Impact CMS</span>
+        </nav>
+
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-[#DC2626] text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">
+            T
+          </div>
+          <div className="text-left">
+            <span className="block text-xs font-bold text-slate-900 leading-tight">
+              Trust Administrator
+            </span>
+            <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-tight">
+              SUPER ADMIN
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Page Header (Title + Subtitle + Action Buttons) ── */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Our Impact & Completed Cases CMS
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Administer verified outreach recoveries, outcome metrics, and publish official PDF audit reports.
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
           <button
             onClick={handleRefresh}
             disabled={refreshing}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer disabled:opacity-60"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
-            Refresh
+            <span>Refresh</span>
           </button>
           <button
             onClick={handleOpenAdd}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            Add Completed Case
+            <span>Add Completed Case</span>
           </button>
         </div>
       </div>
@@ -439,28 +546,28 @@ export const AdminImpactCMS = () => {
         </div>
       </div>
 
-      {/* ── Table Layout with Sticky Table Card & Sticky Header ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)]">
-        <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-t-2xl">
-          <table className="w-full text-left text-xs min-w-[760px] border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 shadow-xs">
+      {/* ── Table Layout matching screenshot ── */}
+      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden w-full">
+        <div className="overflow-x-auto custom-admin-scrollbar">
+          <table className="w-full text-left text-xs min-w-[760px]">
+            <thead className="bg-white border-b border-slate-100">
               <tr>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider rounded-tl-2xl">
+                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                   CASE STORY
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                   CATEGORY & OUTCOME
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                   LOCATION
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                   PDF AUDIT DOSSIER
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                   STATUS
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right rounded-tr-2xl">
+                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right sticky right-0 z-20 bg-white border-b border-slate-100 shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.06)]">
                   ACTIONS
                 </th>
               </tr>
@@ -482,9 +589,9 @@ export const AdminImpactCMS = () => {
                 </tr>
               ) : (
                 filtered.map((item) => (
-                  <tr key={item._id || item.slug} className="hover:bg-slate-50/70 transition-colors">
+                  <tr key={item._id || item.slug} className="group hover:bg-slate-50/80 transition-colors">
                     {/* CASE STORY: Thumbnail + Title + Route */}
-                    <td className="px-5 py-3.5 max-w-sm border-b border-slate-100">
+                    <td className="px-5 py-3.5 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] border-b border-slate-100">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
                           {item.coverImage ? (
@@ -522,7 +629,7 @@ export const AdminImpactCMS = () => {
                     </td>
 
                     {/* LOCATION */}
-                    <td className="px-5 py-3.5 max-w-xs border-b border-slate-100">
+                    <td className="px-5 py-3.5 max-w-[130px] sm:max-w-[170px] border-b border-slate-100">
                       <div className="flex items-center gap-1.5 text-slate-600 text-xs truncate">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         <span className="truncate">{item.location || 'Delhi NCR'}</span>
@@ -536,9 +643,10 @@ export const AdminImpactCMS = () => {
                           href={item.pdfDossierUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition shadow-2xs"
+                          title="Open PDF Document"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition shadow-2xs"
                         >
-                          <FileText className="w-3 h-3" />
+                          <FileText className="w-3.5 h-3.5 text-red-500" />
                           <span>PDF Dossier</span>
                         </a>
                       ) : (
@@ -559,8 +667,8 @@ export const AdminImpactCMS = () => {
                       </span>
                     </td>
 
-                    {/* ACTIONS */}
-                    <td className="px-5 py-3.5 text-right whitespace-nowrap border-b border-slate-100">
+                    {/* ACTIONS (Sticky right column so it never gets hidden) */}
+                    <td className="px-5 py-3.5 text-right whitespace-nowrap border-b border-slate-100 sticky right-0 z-10 bg-white group-hover:bg-slate-50/80 transition-colors shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.06)]">
                       <div className="inline-flex items-center justify-end gap-1.5">
                         <a
                           href={`/our-success/${item.slug}`}
@@ -618,21 +726,27 @@ export const AdminImpactCMS = () => {
         )}
       </div>
 
-      {/* ── Add / Edit Completed Case Modal ── */}
+      {/* ── Add / Edit Completed Case Modal (Matches user reference format) ── */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl max-h-[92vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-2xl max-w-3xl w-full shadow-2xl max-h-[92vh] flex flex-col overflow-hidden border border-slate-100">
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">
-                  {editingStory ? 'Edit Completed Case' : 'Add Completed Case Story'}
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  {editingStory ? `Editing: ${editingStory.title}` : 'Publish a verified outreach recovery or outcome dossier'}
-                </p>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 shrink-0 bg-white">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-red-50 text-[#DC2626] border border-red-100 flex items-center justify-center shrink-0">
+                  <Award className="w-5 h-5 text-[#DC2626]" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    {editingStory ? 'Edit Completed Impact Case' : 'Add Completed Impact Case'}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-mono mt-0.5">
+                    Ref #{form.slug || 'new-case-story'}
+                  </p>
+                </div>
               </div>
               <button
+                type="button"
                 onClick={() => setShowModal(false)}
                 className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
               >
@@ -640,10 +754,13 @@ export const AdminImpactCMS = () => {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 text-xs">
+            {/* Modal Body */}
+            <form onSubmit={handleSubmit} className="px-6 py-5 overflow-y-auto space-y-4 text-xs flex-1 custom-admin-scrollbar">
               {/* Case Story Title */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Case Story Title *</label>
+                <label className="block font-semibold text-slate-700 mb-1">
+                  Case Story Title <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   required
@@ -656,119 +773,100 @@ export const AdminImpactCMS = () => {
                       slug: prev.slug || slugify(val),
                     }));
                   }}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-bold"
-                  placeholder="e.g. 10,000+ Nutritious Meals Served in Marginalized Slum Settlements"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-bold text-sm bg-white"
+                  placeholder="10,000+ Nutritious Meals Served in Marginalized Slum Belts"
                 />
               </div>
 
-              {/* URL Slug */}
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">
-                  URL Route Slug <span className="text-slate-400 font-normal">(/our-success/slug)</span>
-                </label>
-                <input
-                  type="text"
-                  value={form.slug}
-                  onChange={(e) => setForm({ ...form, slug: slugify(e.target.value) })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-mono"
-                  placeholder="10000-nutritious-meals-served"
-                />
-              </div>
-
-              {/* Category + Outcome Metric */}
+              {/* URL Slug & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Category *</label>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    URL Slug <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     required
-                    value={form.category}
-                    onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
-                    placeholder="e.g. Hunger & Nutrition Relief"
+                    value={form.slug}
+                    onChange={(e) => setForm({ ...form, slug: slugify(e.target.value) })}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition font-mono text-xs bg-white"
+                    placeholder="10000-nutritious-meals-served"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-emerald-700 mb-1">Outcome Metric Badge *</label>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    Category <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={form.category}
+                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs bg-white cursor-pointer"
+                  >
+                    {CATEGORIES_LIST.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* 3 Columns: Outcome Stat, Location / Ward, Completed Date / Status */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    Key Outcome Stat <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     required
                     value={form.outcomeMetric}
                     onChange={(e) => setForm({ ...form, outcomeMetric: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-emerald-200 text-emerald-700 font-bold focus:outline-none focus:border-emerald-500 transition"
-                    placeholder="e.g. 10,000+ Nutritious Meals"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs font-semibold bg-white"
+                    placeholder="10,000+ Nutritious Meals"
                   />
                 </div>
-              </div>
 
-              {/* Location */}
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Field Location / Hospital *</label>
-                <input
-                  type="text"
-                  required
-                  value={form.location}
-                  onChange={(e) => setForm({ ...form, location: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
-                  placeholder="e.g. Nand Nagri, Yamuna Vihar & Seelampur, Delhi NCR"
-                />
-              </div>
-
-              {/* PDF Audit Dossier Link/Upload */}
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">PDF Audit Dossier Report</label>
-                <div className="flex gap-2">
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    Location / Ward
+                  </label>
                   <input
                     type="text"
-                    value={form.pdfDossierUrl}
-                    onChange={(e) => setForm({ ...form, pdfDossierUrl: e.target.value })}
-                    className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
-                    placeholder="/reports/audit-dossier.pdf or URL"
+                    value={form.location}
+                    onChange={(e) => setForm({ ...form, location: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs bg-white"
+                    placeholder="Nand Nagri, Yamuna Vihar & Se..."
                   />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">
+                    Completed Date / Status
+                  </label>
                   <input
-                    type="file"
-                    accept=".pdf,image/*"
-                    ref={filePdfRef}
-                    onChange={(e) => handlePdfUpload(e.target.files[0])}
-                    className="hidden"
+                    type="text"
+                    value={form.timeframe}
+                    onChange={(e) => setForm({ ...form, timeframe: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs bg-white"
+                    placeholder="2021 – 2024 Continuous"
                   />
-                  <button
-                    type="button"
-                    onClick={() => filePdfRef.current?.click()}
-                    disabled={uploadingPdf}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 transition cursor-pointer disabled:opacity-60 shrink-0"
-                  >
-                    {uploadingPdf ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
-                    Upload PDF
-                  </button>
                 </div>
               </div>
 
-              {/* Cover Image Upload */}
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Cover Image</label>
-                <div className="space-y-2">
-                  {form.coverImage && (
-                    <div className="relative rounded-xl overflow-hidden border border-slate-200 aspect-video bg-slate-100 max-h-40">
-                      <img src={form.coverImage} alt="Cover" className="w-full h-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => setForm({ ...form, coverImage: '' })}
-                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-red-600 transition cursor-pointer"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  )}
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={form.coverImage}
-                      onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
-                      className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
-                      placeholder="https://... or choose image file"
-                    />
+              {/* Cover Image & Visual Documentation Container Box */}
+              <div className="border border-slate-200/90 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-xs">
+                      Cover Image & Visual Documentation <span className="text-red-500">*</span>
+                    </h4>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      Upload from local file manager or choose from public media assets.
+                    </p>
+                  </div>
+                  <div>
                     <input
                       type="file"
                       accept="image/*"
@@ -780,55 +878,286 @@ export const AdminImpactCMS = () => {
                       type="button"
                       onClick={() => fileImgRef.current?.click()}
                       disabled={uploadingImg}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 transition cursor-pointer disabled:opacity-60 shrink-0"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[#DC2626] bg-white border border-[#DC2626]/40 hover:bg-red-50 hover:border-[#DC2626] transition shadow-2xs cursor-pointer disabled:opacity-60 shrink-0"
                     >
-                      {uploadingImg ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
-                      Upload Photo
+                      {uploadingImg ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#DC2626]" />
+                      ) : (
+                        <Upload className="w-3.5 h-3.5 text-[#DC2626]" />
+                      )}
+                      Upload Image from File Manager
                     </button>
+                  </div>
+                </div>
+
+                {/* Active image path display & preview */}
+                <div className="border border-slate-200 rounded-xl p-3 bg-white flex items-center gap-3">
+                  <div className="w-14 h-12 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0 flex items-center justify-center">
+                    {form.coverImage ? (
+                      <img
+                        src={form.coverImage}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <ImageIcon className="w-5 h-5 text-slate-300" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <input
+                      type="text"
+                      value={form.coverImage}
+                      onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
+                      placeholder="/uploads/image.jpg or https://..."
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-mono text-slate-800 focus:outline-none focus:border-red-400 bg-slate-50/50"
+                    />
+                    <p className="text-[10px] text-slate-400 truncate mt-1 font-mono">
+                      Active public path: {form.coverImage || '/uploads/7557d65598b47e28fb5e7f8174af1b2d.jpg'}
+                    </p>
+                  </div>
+                  {form.coverImage && (
+                    <button
+                      type="button"
+                      onClick={() => setForm({ ...form, coverImage: '' })}
+                      className="p-1 rounded-md text-slate-400 hover:text-red-600 transition cursor-pointer"
+                      title="Clear image"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Presets */}
+                <div>
+                  <p className="text-[11px] text-slate-500 font-medium mb-1.5">
+                    Or select a public preset image:
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {PRESET_IMAGES.map((preset) => (
+                      <button
+                        key={preset.label}
+                        type="button"
+                        onClick={() => setForm({ ...form, coverImage: preset.url })}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border transition cursor-pointer ${
+                          form.coverImage === preset.url
+                            ? 'bg-red-50 text-[#DC2626] border-red-200 font-semibold'
+                            : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Brief Summary */}
+              {/* Short Summary (Shows on Public Cards) */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Brief Description / Outreach Summary</label>
+                <label className="block font-semibold text-slate-700 mb-1">
+                  Short Summary (Shows on Public Cards) <span className="text-red-500">*</span>
+                </label>
                 <textarea
-                  rows={3}
+                  rows={2}
+                  required
                   value={form.summary}
                   onChange={(e) => setForm({ ...form, summary: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition resize-y"
-                  placeholder="Summary of families aided, rations distributed, or medical milestones reached..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs resize-y bg-white"
+                  placeholder="Continuous feeding drives for migrant daily-wage laborers, homeless individuals, and malnourished..."
                 />
               </div>
 
-              {/* Status Selector */}
+              {/* Detailed Narrative & Field Documentation */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Publication Status</label>
-                <select
-                  value={form.status}
-                  onChange={(e) => setForm({ ...form, status: e.target.value, isActive: e.target.value === 'published' })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
-                >
-                  <option value="published">Published (Visible on Public Website)</option>
-                  <option value="draft">Draft (Saved Internally)</option>
-                </select>
+                <label className="block font-semibold text-slate-700 mb-1">
+                  Detailed Narrative & Field Documentation / Story Content
+                </label>
+                <div className="border border-slate-200 rounded-xl overflow-hidden focus-within:border-red-400 transition bg-white">
+                  <textarea
+                    rows={6}
+                    value={form.narrative}
+                    onChange={(e) => setForm({ ...form, narrative: e.target.value })}
+                    className="w-full p-3.5 text-xs text-slate-800 focus:outline-none resize-y leading-relaxed font-sans"
+                    placeholder="Enter full case story narrative, operational background, and verified impact documentation..."
+                  />
+                  <div className="flex items-center justify-between px-3.5 py-1.5 bg-slate-50 border-t border-slate-100 text-[11px] text-slate-400">
+                    <span className="font-mono">Formatted HTML Output</span>
+                    <span>
+                      {form.narrative?.trim() ? form.narrative.trim().split(/\s+/).length : 0} words • {form.narrative ? form.narrative.length : 0} characters
+                    </span>
+                  </div>
+                </div>
               </div>
 
-              {/* Modal Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              {/* Official PDF Report & Documentation Dossier Box */}
+              <div className="border border-slate-200/90 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                      <FileText className="w-4 h-4 text-red-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-xs">
+                        Official PDF Report & Documentation Dossier
+                      </h4>
+                      <p className="text-[11px] text-slate-400 mt-0.5">
+                        Upload statutory audit reports or field verification PDFs directly to the public folder.
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <input
+                      type="file"
+                      accept=".pdf,image/*"
+                      ref={filePdfRef}
+                      onChange={(e) => handlePdfUpload(e.target.files[0])}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => filePdfRef.current?.click()}
+                      disabled={uploadingPdf}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[#DC2626] bg-white border border-[#DC2626]/40 hover:bg-red-50 hover:border-[#DC2626] transition shadow-2xs cursor-pointer disabled:opacity-60 shrink-0"
+                    >
+                      {uploadingPdf ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#DC2626]" />
+                      ) : (
+                        <Upload className="w-3.5 h-3.5 text-[#DC2626]" />
+                      )}
+                      Upload PDF from Local File Manager
+                    </button>
+                  </div>
+                </div>
+
+                {/* PDF Attached Preview Card */}
+                {form.pdfDossierUrl && (
+                  <div className="bg-emerald-50/80 border border-emerald-200 rounded-xl p-3 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                        <FileText className="w-4 h-4 text-emerald-600" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-bold text-emerald-900 text-xs truncate">
+                          {form.reportTitle || 'Nutrition Relief Field Verification & Food Distribution Audit Dossier'}
+                        </p>
+                        <p className="text-[10px] text-emerald-700/80 truncate font-mono mt-0.5">
+                          {form.pdfDossierUrl} • 1.8 MB (PDF Document)
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <a
+                        href={form.pdfDossierUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50 transition shadow-2xs"
+                      >
+                        Preview PDF
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setForm({ ...form, pdfDossierUrl: '' })}
+                        className="p-1 rounded-md text-emerald-700 hover:text-red-600 transition cursor-pointer"
+                        title="Remove PDF"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* PDF URL Input */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                    PDF Document URL / File Link
+                  </label>
+                  <input
+                    type="text"
+                    value={form.pdfDossierUrl}
+                    onChange={(e) => setForm({ ...form, pdfDossierUrl: e.target.value })}
+                    className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs font-mono focus:outline-none focus:border-red-400"
+                    placeholder="/documents/Rebirth_Food_Relief_Audit_Report.pdf"
+                  />
+                </div>
+
+                {/* Report Title & Verified By */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                      Report Title
+                    </label>
+                    <input
+                      type="text"
+                      value={form.reportTitle}
+                      onChange={(e) => setForm({ ...form, reportTitle: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-red-400"
+                      placeholder="Nutrition Relief Field Verification & Food Distrib..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                      Verified By Authority
+                    </label>
+                    <input
+                      type="text"
+                      value={form.verifiedBy}
+                      onChange={(e) => setForm({ ...form, verifiedBy: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-red-400"
+                      placeholder="Rebirth Care Trust Operations & Compliance Ce..."
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Publication Status & Display Order */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Publication Status</label>
+                  <select
+                    value={form.status}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        status: e.target.value,
+                        isActive: e.target.value === 'published',
+                      })
+                    }
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs bg-white cursor-pointer"
+                  >
+                    <option value="published">Published (Visible on site)</option>
+                    <option value="draft">Draft (Internal Review)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Display Order</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={form.displayOrder || 1}
+                    onChange={(e) => setForm({ ...form, displayOrder: Number(e.target.value) })}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-red-400 transition text-xs bg-white"
+                    placeholder="1"
+                  />
+                </div>
+              </div>
+
+              {/* Modal Action Buttons */}
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] text-white font-bold hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-60"
+                  className="px-6 py-2.5 rounded-xl bg-[#DC2626] hover:bg-red-700 text-white font-bold text-xs shadow-xs transition cursor-pointer disabled:opacity-60"
                 >
-                  {saving ? 'Publishing...' : editingStory ? 'Update Case' : 'Save Completed Case'}
+                  {saving ? 'Updating...' : editingStory ? 'Update Case Story' : 'Create Completed Case'}
                 </button>
               </div>
             </form>
