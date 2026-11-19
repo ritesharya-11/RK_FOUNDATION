@@ -49,7 +49,7 @@ export const getDashboardStats = async (req, res, next) => {
     const recentMessages = await ContactMessage.find()
       .sort({ createdAt: -1 })
       .limit(6)
-      .select('name email subject status createdAt');
+      .select('name email phone subject message status createdAt');
 
     // Recent 6 Months Donation Trend
     const sixMonthsAgo = new Date();

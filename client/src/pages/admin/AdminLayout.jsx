@@ -72,10 +72,9 @@ export const AdminLayout = () => {
   }
 
   const navLinkStyle = ({ isActive }) =>
-    `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 select-none cursor-pointer group ${
-      isActive
-        ? 'bg-[#DC2626] text-white shadow-sm shadow-red-200'
-        : 'text-slate-600 hover:text-[#DC2626] hover:bg-red-50 font-medium'
+    `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 select-none cursor-pointer group ${isActive
+      ? 'bg-[#DC2626] text-white shadow-sm shadow-red-200'
+      : 'text-slate-600 hover:text-[#DC2626] hover:bg-red-50 font-medium'
     }`;
 
   return (
@@ -135,9 +134,8 @@ export const AdminLayout = () => {
                   <>
                     <div className="flex items-center gap-3 min-w-0">
                       <item.icon
-                        className={`w-4 h-4 shrink-0 transition-colors ${
-                          isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-800'
-                        }`}
+                        className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-800'
+                          }`}
                       />
                       <span className="truncate">{item.name}</span>
                     </div>
@@ -254,9 +252,8 @@ export const AdminLayout = () => {
                         <>
                           <div className="flex items-center gap-3 min-w-0">
                             <item.icon
-                              className={`w-4 h-4 shrink-0 transition-colors ${
-                                isActive ? 'text-white' : 'text-slate-500'
-                              }`}
+                              className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-white' : 'text-slate-500'
+                                }`}
                             />
                             <span className="truncate">{item.name}</span>
                           </div>

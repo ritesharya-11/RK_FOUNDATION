@@ -3,6 +3,7 @@ dotenv.config();
 
 import app from './app.js';
 import { connectDB } from './config/db.js';
+import { ensureSuperAdmin } from './config/ensureAdmin.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,6 +18,7 @@ const startServer = async () => {
 
   try {
     await connectDB();
+    await ensureSuperAdmin();
   } catch (err) {
     console.error(`[Database Error] Connection failed: ${err.message}`);
   }

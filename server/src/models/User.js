@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide full name'],
+      default: 'Admin User',
       trim: true,
       maxlength: [100, 'Name cannot exceed 100 characters'],
     },
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'superadmin'],
+      enum: ['admin', 'superadmin', 'super_admin'],
       default: 'admin',
     },
     avatar: {
