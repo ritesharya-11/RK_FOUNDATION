@@ -475,26 +475,19 @@ export const AdminContactMessages = () => {
   }, [messages, statusFilter, search, sortBy]);
 
   return (
-    <div className="space-y-4 w-full min-w-0">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Inquiries Inbox</span>
-      </div>
-
-      {/* ── Page Header (Exact match with screenshot) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* ── Page Header (Executive Proportions) ── */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
               Inquiries Inbox
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-100">
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-50 text-red-600 border border-red-100">
               {totalCount} Total
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Review community questions, partnership requests, and public inquiries submitted via contact forms.
           </p>
         </div>
@@ -502,7 +495,7 @@ export const AdminContactMessages = () => {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
             title="Export CSV"
           >
             <Download className="w-3.5 h-3.5 text-slate-500" />
@@ -512,10 +505,10 @@ export const AdminContactMessages = () => {
           <button
             onClick={() => fetchMessages(true)}
             disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
             title="Refresh Inquiries"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
             <span>Refresh</span>
           </button>
         </div>
@@ -650,28 +643,28 @@ export const AdminContactMessages = () => {
         </div>
       </div>
 
-      {/* ── Sticky Table Card (Exact match with top-[104px] sticky layout) ── */}
-      <div className="sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)] bg-white border border-slate-200/90 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto overflow-y-auto flex-1">
-          <table className="w-full text-left text-xs border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 shadow-xs select-none">
+      {/* ── Table Card (Dashboard Compact Hierarchy) ── */}
+      <div className="flex flex-col bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs min-w-[850px]">
+            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs select-none">
               <tr>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
                   SENDER
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
                   SUBJECT
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
                   MESSAGE CONTENT
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
                   STATUS
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
                   RECEIVED DATE
                 </th>
-                <th className="px-4 py-3 text-right font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-right font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
                   ACTIONS
                 </th>
               </tr>

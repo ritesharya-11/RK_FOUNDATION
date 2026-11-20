@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useWebsite } from '../../context/WebsiteContext';
 import {
@@ -71,54 +71,46 @@ export const AdminLayout = () => {
     navItems.push({ name: 'Admin Users', path: '/admin/users', icon: ShieldCheck });
   }
 
+  const location = useLocation();
+  const currentNav = navItems.find((item) =>
+    item.end ? location.pathname === item.path : location.pathname.startsWith(item.path)
+  );
+  const currentTitle = currentNav ? currentNav.name : 'Donations & Receipts';
+
   const navLinkStyle = ({ isActive }) =>
-    `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 select-none cursor-pointer group ${isActive
-      ? 'bg-[#DC2626] text-white shadow-sm shadow-red-200'
-      : 'text-slate-600 hover:text-[#DC2626] hover:bg-red-50 font-medium'
+    `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13px] leading-tight transition-all duration-150 select-none cursor-pointer group ${isActive
+      ? 'bg-[#DC2626] text-white font-semibold shadow-xs'
+      : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100/80 font-medium'
     }`;
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col font-sans">
-      {/* Top Banner Bar matching screenshot */}
-      <div className="sticky top-0 z-30 h-10 bg-[#DC2626] text-white px-4 sm:px-6 flex items-center justify-between text-xs font-medium select-none shadow-xs">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-slate-200">
-            {settings.siteName || 'RK Foundation'} – Admin Dashboard (clean)
-          </span>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleExport}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition cursor-pointer"
-            title="Export CSV"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Export</span>
-          </button>
-          <span className="hidden sm:inline text-slate-400 text-[11px]">Show chat</span>
-        </div>
-      </div>
-
       <div className="flex-1 flex">
         {/* Left Sidebar (Desktop) */}
-        <aside className="hidden lg:flex lg:flex-col w-64 bg-white border-r border-slate-200/80 fixed top-10 bottom-0 z-20 shadow-2xs">
+        <aside className="hidden lg:flex lg:flex-col w-64 bg-white border-r border-slate-200/80 fixed top-0 bottom-0 z-20 shadow-2xs">
           {/* Logo Brand Header */}
-          <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-            <Link to="/admin/dashboard" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl bg-[#DC2626] text-white flex items-center justify-center font-black text-sm tracking-tight shadow-sm group-hover:scale-105 transition-transform">
-                RK
-              </div>
-              <div className="leading-tight">
-                <span className="block text-sm font-bold text-[#0F172A]">
-                  {settings.siteName || 'RK Foundation'}
-                </span>
-                <span className="block text-[11px] text-slate-400 font-medium">
-                  Admin
-                </span>
+          <div className="p-4 border-b border-slate-100 flex flex-col items-start gap-1.5">
+            <Link to="/admin/dashboard" className="flex items-center gap-2 group">
+              <img
+                src="/logo.png"
+                alt="Rebirth Care Trust"
+                className="h-9 w-auto object-contain max-w-[190px]"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const fallback = document.getElementById('sidebar-logo-fallback');
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+              <div id="sidebar-logo-fallback" className="hidden items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-[#DC2626] text-white flex items-center justify-center font-black text-xs shadow-sm">
+                  RCT
+                </div>
+                <span className="font-bold text-sm text-[#0F172A]">Rebirth Care Trust</span>
               </div>
             </Link>
+            <span className="text-[9px] font-bold text-slate-500 bg-slate-100 border border-slate-200/80 px-1.5 py-0.5 rounded tracking-tight">
+              Reg No. 769 PAN No. AAETR1098J
+            </span>
           </div>
 
           {/* Clean Flat Navigation matching uploaded format */}
@@ -137,10 +129,10 @@ export const AdminLayout = () => {
                         className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-800'
                           }`}
                       />
-                      <span className="truncate">{item.name}</span>
+                      <span className="truncate tracking-[-0.01em]">{item.name}</span>
                     </div>
                     {isActive && (
-                      <ChevronRight className="w-4 h-4 shrink-0 text-white" />
+                      <ChevronRight className="w-3.5 h-3.5 shrink-0 text-white/90" />
                     )}
                   </>
                 )}
@@ -149,27 +141,35 @@ export const AdminLayout = () => {
           </div>
 
           {/* User Profile in Sidebar Footer */}
-          <div className="p-3 border-t border-slate-100 bg-slate-50/60">
-            <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200/70">
-              <div className="flex items-center gap-2 overflow-hidden">
-                <div className="w-7 h-7 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs shrink-0">
-                  {user?.name ? user.name[0].toUpperCase() : 'A'}
-                </div>
-                <div className="overflow-hidden">
-                  <span className="block text-xs font-bold text-slate-900 truncate">
-                    {user?.name || 'Administrator'}
-                  </span>
-                  <span className="block text-[10px] text-slate-500 capitalize">
-                    {user?.role || 'Super Admin'}
-                  </span>
-                </div>
+          <div className="p-3 border-t border-slate-100 bg-slate-50/60 space-y-2">
+            <div className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200/80">
+              <div className="overflow-hidden min-w-0 pr-1">
+                <span className="block text-xs font-bold text-slate-900 truncate">
+                  {user?.name || 'Trust Administrator'}
+                </span>
+                <span className="block text-[11px] text-slate-400 truncate">
+                  {user?.email || 'info@rebirthcaretrust.o...'}
+                </span>
               </div>
+              <span className="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-1.5 py-0.5 rounded shrink-0">
+                SUPER ADMIN
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <Link
+                to="/"
+                target="_blank"
+                className="inline-flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                <span>Public Site</span>
+              </Link>
               <button
                 onClick={handleLogout}
-                title="Logout"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-100 transition cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl text-xs font-semibold text-rose-600 bg-white hover:bg-rose-50 border border-slate-200 transition cursor-pointer"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -177,9 +177,9 @@ export const AdminLayout = () => {
 
         {/* Main Content Area */}
         <div className="flex-1 lg:pl-64 flex flex-col min-h-screen min-w-0 w-full">
-          {/* Sub-Header Navigation Bar matching screenshot */}
-          <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-10 z-20 px-4 sm:px-8 flex items-center justify-between gap-4 shadow-2xs">
-            <div className="flex items-center gap-3 flex-1">
+          {/* Top Header Bar matching screenshot: Breadcrumbs on Left, Admin Avatar on Right */}
+          <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-4 sm:px-8 flex items-center justify-between gap-4 shadow-2xs">
+            <div className="flex items-center gap-2.5">
               {/* Mobile Menu Trigger */}
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -188,30 +188,29 @@ export const AdminLayout = () => {
                 {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
 
-              {/* Central Search Input matching screenshot */}
-              <div className="relative w-full max-w-sm sm:max-w-md">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                <input
-                  type="text"
-                  placeholder="Search donors, receipts, volunteers..."
-                  value={globalSearch}
-                  onChange={(e) => setGlobalSearch(e.target.value)}
-                  className="w-full bg-[#F1F5F9]/80 border border-slate-200/70 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-hidden focus:border-[#F59E0B] focus:bg-white transition"
-                />
+              {/* Breadcrumb Path matching screenshot: Admin > Donations & Receipts */}
+              <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
+                <Link to="/admin/dashboard" className="hover:text-slate-600 transition">
+                  Admin
+                </Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+                <span className="text-slate-700 font-semibold">{currentTitle}</span>
               </div>
             </div>
 
-            {/* Right: View Website Link */}
-            <div className="flex items-center gap-3 shrink-0">
-              <Link
-                to="/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition"
-              >
-                <span>View website</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </Link>
+            {/* Right: Administrator Avatar & Profile badge */}
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-[#DC2626] text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+                {user?.name ? user.name[0].toUpperCase() : 'R'}
+              </div>
+              <div className="leading-tight text-left hidden sm:block">
+                <span className="block text-xs font-bold text-slate-900">
+                  {user?.name || 'RK Foundation Super Admin'}
+                </span>
+                <span className="block text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                  SUPER ADMIN
+                </span>
+              </div>
             </div>
           </header>
 
@@ -255,10 +254,10 @@ export const AdminLayout = () => {
                               className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-white' : 'text-slate-500'
                                 }`}
                             />
-                            <span className="truncate">{item.name}</span>
+                            <span className="truncate tracking-[-0.01em]">{item.name}</span>
                           </div>
                           {isActive && (
-                            <ChevronRight className="w-4 h-4 shrink-0 text-white" />
+                            <ChevronRight className="w-3.5 h-3.5 shrink-0 text-white/90" />
                           )}
                         </>
                       )}
@@ -280,7 +279,7 @@ export const AdminLayout = () => {
           )}
 
           {/* Nested Content Outlet */}
-          <main className="flex-1 p-4 sm:p-8 bg-[#F8FAFC] min-w-0 w-full pb-32">
+          <main className="flex-1 p-4 sm:p-8 bg-[#F8FAFC] min-w-0 w-full pb-32 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px]">
             <Outlet context={{ globalSearch }} />
           </main>
         </div>

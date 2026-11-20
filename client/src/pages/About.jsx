@@ -583,9 +583,8 @@ export const About = () => {
                 return (
                   <div
                     key={idx}
-                    className={`relative flex flex-col lg:flex-row items-center gap-6 lg:gap-12 ${
-                      isEven ? 'lg:flex-row-reverse' : ''
-                    }`}
+                    className={`relative flex flex-col lg:flex-row items-center gap-6 lg:gap-12 ${isEven ? 'lg:flex-row-reverse' : ''
+                      }`}
                   >
                     {/* Content Card */}
                     <div className="w-full lg:w-1/2">

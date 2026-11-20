@@ -404,38 +404,31 @@ export const AdminGallery = () => {
   const distinctCategoriesCount = categoriesList.length; // 15 categories matching screenshot
 
   return (
-    <div className="space-y-5 w-full min-w-0">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Media Library</span>
-      </div>
-
-      {/* ── Page Header matching screenshot ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* ── Page Header (Executive Proportions) ── */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
             Media & Gallery Library
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Central repository for outreach photography. Files are automatically mirrored to the public directory and linked to campaigns or programs.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={fetchGallery}
             disabled={refreshing}
-            className="p-2 sm:px-3 sm:py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-xs transition cursor-pointer font-semibold text-xs flex items-center gap-1.5 disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
             <span>Refresh</span>
           </button>
 
           <button
             onClick={() => setShowUpload(!showUpload)}
-            className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer"
+            className="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-[11px] px-3 py-1.5 rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer active:scale-[0.98]"
           >
             {showUpload ? (
               <>
@@ -445,84 +438,72 @@ export const AdminGallery = () => {
             ) : (
               <>
                 <Upload className="w-3.5 h-3.5" />
-                <span>+ Upload Media</span>
+                <span>Upload Media</span>
               </>
             )}
           </button>
         </div>
       </div>
 
-      {/* ── 4 KPI Metric Cards matching screenshot ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── 4 KPI Metric Cards (Dashboard Compact Hierarchy) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* TOTAL MEDIA ASSETS */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center justify-between">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
               TOTAL MEDIA ASSETS
             </p>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                {totalAssetsCount}
-              </span>
-              <span className="text-xs text-slate-400 font-normal">(105.1 MB)</span>
-            </div>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {totalAssetsCount} <span className="text-[10.5px] font-normal text-slate-400">(105.1 MB)</span>
+            </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
-            <ImageIcon className="w-5 h-5 text-[#DC2626]" />
+          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
+            <ImageIcon className="w-4 h-4" />
           </div>
         </div>
 
         {/* CAMPAIGN LINKED */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center justify-between">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
               CAMPAIGN LINKED
             </p>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                {campaignLinkedCount}
-              </span>
-              <span className="text-xs text-slate-500 font-semibold">Active Appeals</span>
-            </div>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {campaignLinkedCount} <span className="text-[10.5px] font-normal text-slate-400">appeals</span>
+            </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-            <Heart className="w-5 h-5 text-emerald-600" />
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <Heart className="w-4 h-4" />
           </div>
         </div>
 
         {/* PROGRAM LINKED */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center justify-between">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
               PROGRAM LINKED
             </p>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                {programLinkedCount}
-              </span>
-              <span className="text-xs text-slate-500 font-semibold">Core Pillars</span>
-            </div>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {programLinkedCount} <span className="text-[10.5px] font-normal text-slate-400">core pillars</span>
+            </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-            <Folder className="w-5 h-5 text-blue-600" />
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+            <Folder className="w-4 h-4" />
           </div>
         </div>
 
         {/* FIELD CATEGORIES */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center justify-between">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
               FIELD CATEGORIES
             </p>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                {distinctCategoriesCount}
-              </span>
-              <span className="text-xs text-slate-500 font-semibold">Distinct Tracks</span>
-            </div>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {distinctCategoriesCount} <span className="text-[10.5px] font-normal text-slate-400">tracks</span>
+            </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5 text-purple-600" />
+          <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+            <Sparkles className="w-4 h-4" />
           </div>
         </div>
       </div>
@@ -892,7 +873,7 @@ export const AdminGallery = () => {
         </div>
       ) : (
         /* List / Table View with Sticky Card Container */
-        <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)]">
+        <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[64px] z-10 flex flex-col max-h-[calc(100vh-84px)]">
           <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-t-2xl">
             <table className="w-full text-left text-xs min-w-[800px] border-separate border-spacing-0">
               <thead className="sticky top-0 z-20 shadow-xs">

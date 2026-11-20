@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useWebsite } from '../context/WebsiteContext';
-import { PageHero } from '../components/PageHero';
 import api from '../services/api';
 import {
   Heart,
@@ -15,6 +14,9 @@ import {
   Building,
   QrCode,
   ArrowRight,
+  Check,
+  FileText,
+  ChevronDown,
   Sparkles,
 } from 'lucide-react';
 
@@ -25,42 +27,38 @@ export const Donate = () => {
   // Selected Amount & Campaign
   const [amount, setAmount] = useState(() => {
     const queryAmt = searchParams.get('amount');
-    return queryAmt ? Number(queryAmt) : settings.donationSettings?.defaultPreset || 2500;
+    return queryAmt ? Number(queryAmt) : 1000;
   });
   const [customAmount, setCustomAmount] = useState('');
-  const [selectedCampaignId, setSelectedCampaignId] = useState(() => searchParams.get('campaignId') || '');
+  const [selectedPurpose, setSelectedPurpose] = useState('General Charitable Fund');
   const [campaigns, setCampaigns] = useState([]);
 
-  // Donor Details
+  // Donor Details Form
   const [donorName, setDonorName] = useState('');
   const [donorEmail, setDonorEmail] = useState('');
   const [donorPhone, setDonorPhone] = useState('');
   const [donorPan, setDonorPan] = useState('');
-  const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [isAnonymous, setIsAnonymous] = useState(false);
-  const [notes, setNotes] = useState('');
+  const [utrNumber, setUtrNumber] = useState('');
 
-  // Payment State
-  const [paymentMode, setPaymentMode] = useState('gateway'); // 'gateway' | 'bank'
+  // Payment Tab: 'online' | 'bank'
+  const [paymentTab, setPaymentTab] = useState('online');
   const [processing, setProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successDonation, setSuccessDonation] = useState(null);
+  const [copiedKey, setCopiedKey] = useState(null);
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
         const res = await api.get('/projects?status=active');
-        if (res?.projects) {
+        if (res?.projects && res.projects.length > 0) {
           setCampaigns(res.projects);
         }
       } catch (err) {
         console.warn('Error fetching campaigns list:', err.message);
       }
     };
-
     fetchCampaigns();
   }, []);
 
@@ -71,39 +69,39 @@ export const Donate = () => {
     setCustomAmount('');
   };
 
+  const handleCopy = (text, key) => {
+    navigator.clipboard.writeText(text);
+    setCopiedKey(key);
+    showToast(`Copied to clipboard: ${text}`, 'info');
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
+
   const handleInitiatePayment = async (e) => {
     e.preventDefault();
     setErrorMsg('');
 
-    if (!effectiveAmount || effectiveAmount < 100) {
-      setErrorMsg('Minimum contribution amount is ₹100.');
+    if (!effectiveAmount || effectiveAmount < 500) {
+      setErrorMsg('Minimum contribution amount is ₹500.');
       return;
     }
 
     if (!donorName.trim() || !donorEmail.trim() || !donorPhone.trim()) {
-      setErrorMsg('Please provide your full name, email address, and phone number.');
+      setErrorMsg('Please enter your full name, email address, and mobile number.');
       return;
     }
 
     setProcessing(true);
 
     try {
-      const selectedCampaign = campaigns.find((c) => c._id === selectedCampaignId);
-
       const orderPayload = {
         amount: effectiveAmount,
         donorName: donorName.trim(),
         donorEmail: donorEmail.trim(),
         donorPhone: donorPhone.trim(),
         donorPan: donorPan.trim().toUpperCase(),
-        address: address.trim(),
         city: city.trim(),
-        state: state.trim(),
-        postalCode: postalCode.trim(),
-        campaignId: selectedCampaignId || null,
-        campaignTitle: selectedCampaign ? selectedCampaign.title : 'General Charitable Relief Fund',
-        isAnonymous,
-        notes: notes.trim(),
+        campaignTitle: selectedPurpose,
+        isAnonymous: false,
       };
 
       const orderRes = await api.post('/donations/create-order', orderPayload);
@@ -118,8 +116,8 @@ export const Donate = () => {
           key: orderRes.key,
           amount: Math.round(effectiveAmount * 100),
           currency: 'INR',
-          name: settings.siteName || 'RK FOUNDATION',
-          description: `Donation towards ${orderPayload.campaignTitle}`,
+          name: settings.siteName || 'REBIRTH CARE TRUST',
+          description: `Contribution for ${selectedPurpose}`,
           order_id: orderRes.orderId,
           prefill: {
             name: donorName,
@@ -127,7 +125,7 @@ export const Donate = () => {
             contact: donorPhone,
           },
           theme: {
-            color: '#036C6C',
+            color: '#DC2626',
           },
           handler: async (response) => {
             try {
@@ -158,7 +156,7 @@ export const Donate = () => {
         const rzp = new window.Razorpay(options);
         rzp.open();
       } else {
-        // Direct sandbox / test verification simulation
+        // Direct sandbox / verification simulation for test setups
         const verifyRes = await api.post('/donations/verify-payment', {
           donationId: orderRes.donationId,
           razorpay_order_id: orderRes.orderId,
@@ -178,92 +176,147 @@ export const Donate = () => {
     }
   };
 
-  const handleCopy = (text, label) => {
-    navigator.clipboard.writeText(text);
-    showToast(`${label} copied to clipboard!`, 'info');
+  const handleBankTransferSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (!effectiveAmount || effectiveAmount < 500) {
+      setErrorMsg('Please enter valid transferred amount (Min ₹500).');
+      return;
+    }
+    if (!utrNumber.trim()) {
+      setErrorMsg('Please enter Bank UTR / Transaction Reference Number.');
+      return;
+    }
+    if (!donorName.trim() || !donorEmail.trim() || !donorPhone.trim()) {
+      setErrorMsg('Please enter your full name, email, and mobile number.');
+      return;
+    }
+
+    setProcessing(true);
+    try {
+      const payload = {
+        donorName: donorName.trim(),
+        donorEmail: donorEmail.trim(),
+        donorPhone: donorPhone.trim(),
+        donorPan: donorPan.trim().toUpperCase(),
+        city: city.trim(),
+        amount: effectiveAmount,
+        paymentMode: 'bank_transfer',
+        paymentStatus: 'pending',
+        transactionId: utrNumber.trim(),
+        campaignTitle: selectedPurpose,
+        notes: `Offline Bank Transfer UTR: ${utrNumber.trim()}`,
+      };
+
+      const res = await api.post('/donations', payload);
+      if (res?.donation || res?.success) {
+        setSuccessDonation(res.donation || {
+          receiptNumber: `RCT-PENDING-${Date.now().toString().slice(-4)}`,
+          donorName,
+          donorEmail,
+          donorPhone,
+          donorPan,
+          amount: effectiveAmount,
+          paymentStatus: 'pending_verification',
+          paymentId: utrNumber.trim(),
+          campaignTitle: selectedPurpose,
+          createdAt: new Date().toISOString(),
+        });
+        showToast('Transfer record submitted! Trust accountant will verify within 2 hours.', 'success');
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Submission failed. Please try again.');
+    } finally {
+      setProcessing(false);
+    }
   };
 
   // SUCCESS SCREEN: Instant Printable 80G Tax Exemption Receipt
   if (successDonation) {
     return (
-      <div className="bg-[#FAF7F2] min-h-screen py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-8">
-          <div className="text-center space-y-3">
-            <div className="w-16 h-16 rounded-full bg-[#036C6C] text-[#F67708] flex items-center justify-center mx-auto shadow-md">
-              <CheckCircle2 className="w-10 h-10" />
+      <div className="bg-[#F8FAFC] min-h-screen py-12 px-4 sm:px-6">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <div className="text-center space-y-2">
+            <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto shadow-xs">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl font-extrabold text-[#323D3D]">
-              Thank You for Your Generous Contribution!
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Thank You for Your Life-Changing Contribution!
             </h1>
-            <p className="text-sm text-[#697777] max-w-lg mx-auto">
+            <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto">
               Your contribution makes an immediate difference. Your official Section 80G Tax Exemption receipt is generated below.
             </p>
           </div>
 
           {/* Printable Official Receipt Card */}
-          <div id="printable-receipt" className="bg-white p-8 sm:p-10 rounded-3xl border border-[#E3D9CF] shadow-card space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#E3D9CF] gap-4">
+          <div id="printable-receipt" className="bg-white p-6 sm:p-9 rounded-3xl border border-slate-200/90 shadow-md space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-200 gap-3">
               <div>
-                <span className="text-xs font-bold text-[#F67708] tracking-wider uppercase block">
+                <span className="text-[10px] font-bold text-[#DC2626] tracking-wider uppercase block">
                   Official Donation Receipt (Section 80G)
                 </span>
-                <h2 className="text-2xl font-black text-[#323D3D]">{settings.siteName || 'RK FOUNDATION'}</h2>
-                <p className="text-xs text-[#697777]">{settings.contact?.address}</p>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">
+                  {settings.siteName || 'REBIRTH CARE TRUST'}
+                </h2>
+                <p className="text-[11px] text-slate-500">
+                  Reg No. 769 • PAN No. {settings.compliance?.panNumber || 'AAETR1099J'} • NITI Aayog: {settings.compliance?.ngoDarpanUid || 'DL/2020/0262802'}
+                </p>
               </div>
               <div className="text-left sm:text-right">
-                <span className="text-xs text-[#A0A4AE] block">Receipt Number</span>
-                <strong className="text-sm font-mono text-[#036C6C]">{successDonation.receiptNumber}</strong>
-                <span className="text-[11px] text-[#A0A4AE] block mt-1">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Receipt Number</span>
+                <strong className="text-xs sm:text-sm font-mono text-[#DC2626]">{successDonation.receiptNumber}</strong>
+                <span className="text-[11px] text-slate-400 block mt-0.5">
                   Date: {new Date(successDonation.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="space-y-1 bg-[#FAF7F2] p-4 rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#A0A4AE] block font-semibold">Donor Details</span>
-                <p className="font-bold text-sm text-[#323D3D]">{successDonation.donorName}</p>
-                <p className="text-[#697777]">{successDonation.donorEmail} | {successDonation.donorPhone}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="space-y-1 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Donor Details</span>
+                <p className="font-bold text-sm text-slate-900">{successDonation.donorName}</p>
+                <p className="text-slate-500">{successDonation.donorEmail} • {successDonation.donorPhone}</p>
                 {successDonation.donorPan && (
-                  <p className="text-[#036C6C] font-mono font-bold">PAN: {successDonation.donorPan}</p>
+                  <p className="text-[#DC2626] font-mono font-bold text-[11px]">PAN: {successDonation.donorPan}</p>
                 )}
               </div>
 
-              <div className="space-y-1 bg-[#FAF7F2] p-4 rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#A0A4AE] block font-semibold">Payment & Purpose</span>
-                <p className="font-bold text-sm text-[#323D3D]">{successDonation.campaignTitle}</p>
-                <p className="text-[#697777]">Payment ID: <span className="font-mono">{successDonation.paymentId}</span></p>
-                <p className="text-[#697777]">Status: <strong className="text-[#036C6C] font-bold uppercase">{successDonation.paymentStatus}</strong></p>
+              <div className="space-y-1 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Payment & Purpose</span>
+                <p className="font-bold text-sm text-slate-900">{successDonation.campaignTitle}</p>
+                <p className="text-slate-500 font-mono text-[11px]">Ref ID: {successDonation.paymentId || 'ONLINE'}</p>
+                <p className="text-slate-500 text-[11px]">Status: <strong className="text-emerald-600 font-bold uppercase">{successDonation.paymentStatus || 'COMPLETED'}</strong></p>
               </div>
             </div>
 
-            <div className="p-5 bg-[#036C6C] text-white rounded-2xl flex items-center justify-between">
-              <span className="text-sm font-bold text-slate-300">Total Amount Contributed:</span>
-              <span className="text-2xl font-black text-[#F67708]">
+            <div className="p-4 bg-slate-900 text-white rounded-2xl flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-300">Total Contribution Amount:</span>
+              <span className="text-xl sm:text-2xl font-black text-white">
                 {formatINR(successDonation.amount)}
               </span>
             </div>
 
-            <div className="text-[11px] text-[#697777] leading-relaxed border-t border-[#E3D9CF] pt-4 space-y-1">
-              <p className="font-bold text-[#323D3D]">Statutory Tax Benefit Disclosure:</p>
+            <div className="text-[10.5px] text-slate-500 leading-relaxed border-t border-slate-200 pt-3.5 space-y-1">
+              <p className="font-bold text-slate-800">Statutory Tax Benefit Disclosure:</p>
               <p>
-                All donations made to RK FOUNDATION are 50% exempt from Income Tax under Section 80G of the Income Tax Act, 1961 vide Order No. <strong>{settings.compliance?.section80GRegNo || 'CIT(E)/DELHI/80G/2021-22/A/1045'}</strong>. NITI Aayog NGO Darpan UID: <strong>{settings.compliance?.ngoDarpanUid || 'DL/2021/0298412'}</strong>.
+                All donations made to Rebirth Care Trust are 50% exempt from Income Tax under Section 80G of the Indian Income Tax Act, 1961 vide Order No. <strong>{settings.compliance?.section80GRegNo || 'CIT(E)/DELHI/80G/2021-22/A/1045'}</strong>. NITI Aayog NGO Darpan UID: <strong>{settings.compliance?.ngoDarpanUid || 'DL/2020/0262802'}</strong>.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={() => window.print()}
-              className="px-6 py-3 rounded-full font-bold text-sm text-white bg-[#036C6C] hover:bg-black transition flex items-center gap-2 cursor-pointer shadow-md"
+              className="px-5 py-2.5 rounded-xl font-bold text-xs text-white bg-[#DC2626] hover:bg-red-700 transition flex items-center gap-2 cursor-pointer shadow-xs"
             >
-              <Printer className="w-4 h-4 text-[#F67708]" />
-              <span>Print / Save as PDF</span>
+              <Printer className="w-3.5 h-3.5" />
+              <span>Print Official Receipt</span>
             </button>
 
             <Link
               to="/"
-              className="px-6 py-3 rounded-full font-semibold text-sm text-[#323D3D] bg-white hover:bg-[#E3D9CF] border border-[#E3D9CF] transition"
+              className="px-5 py-2.5 rounded-xl font-semibold text-xs text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition shadow-2xs"
             >
               Return to Homepage
             </Link>
@@ -274,308 +327,627 @@ export const Donate = () => {
   }
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen">
-      {/* Standardized Hero */}
-      <PageHero
-        badge="100% Tax Exempt Philanthropy"
-        title="Support Our Life-Transforming Mission"
-        subtitle="Every rupee directly funds bridge classrooms, pediatric emergency surgeries, women vocational tailoring units, and nutritious ration drives with instant 80G receipts."
-        breadcrumbs={[
-          { label: 'Home', path: '/' },
-          { label: 'Donate Online' },
-        ]}
-      />
-
-      {/* Main Donation Container */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
-        {/* Toggle Payment Mode: Online Gateway vs Direct Bank / UPI Transfer */}
-        <div className="flex rounded-full bg-white p-1.5 max-w-md mx-auto mb-12 text-xs sm:text-sm font-bold border border-[#E3D9CF] shadow-card">
-          <button
-            type="button"
-            onClick={() => setPaymentMode('gateway')}
-            className={`flex-1 py-3 rounded-full transition-all duration-200 cursor-pointer ${
-              paymentMode === 'gateway'
-                ? 'bg-[#036C6C] text-[#F67708] shadow-sm'
-                : 'text-[#697777] hover:text-[#323D3D]'
-            }`}
-          >
-            Online (UPI, Card, NetBanking)
-          </button>
-          <button
-            type="button"
-            onClick={() => setPaymentMode('bank')}
-            className={`flex-1 py-3 rounded-full transition-all duration-200 cursor-pointer ${
-              paymentMode === 'bank'
-                ? 'bg-[#036C6C] text-[#F67708] shadow-sm'
-                : 'text-[#697777] hover:text-[#323D3D]'
-            }`}
-          >
-            Bank Transfer / NEFT / RTGS
-          </button>
+    <div className="bg-[#F8FAFC] min-h-screen py-8 sm:py-10">
+      {/* ── Top Header Section (Exact Match With Uploaded Screenshot) ── */}
+      <div className="text-center px-4 max-w-3xl mx-auto mb-8 sm:mb-10">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-50 text-[#DC2626] border border-red-100 mb-2.5 shadow-2xs">
+          <Heart className="w-3 h-3 fill-[#DC2626] text-[#DC2626]" />
+          <span>OFFICIAL SECURE DONATION DESK</span>
         </div>
 
-        {paymentMode === 'gateway' ? (
-          <form onSubmit={handleInitiatePayment} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Left Column: Amount & Campaign Selection */}
-            <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-[#E3D9CF] shadow-card space-y-6">
-              <div>
-                <h3 className="text-lg font-bold text-[#323D3D]">Step 1: Select Contribution Amount</h3>
-                <p className="text-xs text-[#697777] mt-0.5">Select a suggested tier or enter any custom contribution (INR)</p>
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Make a Life-Changing <span className="text-[#DC2626]">Contribution</span>
+        </h1>
 
-                <div className="grid grid-cols-3 gap-3 mt-4">
-                  {(settings.donationSettings?.presetAmounts || [500, 1000, 2500, 5000, 10000, 25000]).map((preset) => (
-                    <button
-                      key={preset}
-                      type="button"
-                      onClick={() => handlePresetClick(preset)}
-                      className={`py-3 px-3 rounded-2xl text-sm font-extrabold border transition-all duration-200 cursor-pointer ${
-                        amount === preset && !customAmount
-                          ? 'bg-[#036C6C] text-[#F67708] border-[#036C6C] shadow-md scale-102'
-                          : 'bg-[#FAF7F2] text-[#323D3D] border-[#E3D9CF] hover:border-[#F67708]'
-                      }`}
-                    >
-                      ₹{preset.toLocaleString('en-IN')}
-                    </button>
-                  ))}
-                </div>
+        <p className="text-xs sm:text-[13px] text-slate-500 max-w-xl mx-auto mt-2 leading-relaxed">
+          Every rupee goes directly towards nutritious meals, school education, winter clothing, and critical pediatric healthcare with official 50% tax exemption.
+        </p>
+      </div>
 
-                <div className="mt-4">
-                  <label className="block text-xs font-bold text-[#697777] mb-1">
-                    Or Enter Other Amount (INR):
+      {/* ── Main 2-Column Donation Desk Grid ── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* ════════════ LEFT COLUMN: DONATION FORM CARD ════════════ */}
+          <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-xs">
+            {/* Top Payment Mode Tabs */}
+            <div className="bg-slate-100/80 p-1 rounded-xl flex gap-1 mb-6 text-xs sm:text-[13px] font-bold">
+              <button
+                type="button"
+                onClick={() => setPaymentTab('online')}
+                className={`flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer select-none ${
+                  paymentTab === 'online'
+                    ? 'bg-white text-slate-900 shadow-xs border border-slate-200/60 font-bold'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <Lock className="w-3.5 h-3.5 text-red-500" />
+                <span>Online Payment (UPI/Cards/Netbanking)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPaymentTab('bank')}
+                className={`flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer select-none ${
+                  paymentTab === 'bank'
+                    ? 'bg-white text-slate-900 shadow-xs border border-slate-200/60 font-bold'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <Building className="w-3.5 h-3.5 text-slate-500" />
+                <span>Bank Transfer / UPI QR</span>
+              </button>
+            </div>
+
+            {paymentTab === 'online' ? (
+              /* ── Online Payment Mode Form ── */
+              <form onSubmit={handleInitiatePayment} className="space-y-6">
+                {/* 1. CHOOSE DONATION AMOUNT (INR) */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2.5">
+                    1. CHOOSE DONATION AMOUNT (INR)
                   </label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#036C6C] font-black">
+
+                  {/* 6 Preset Buttons */}
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-2.5">
+                    {[500, 1000, 2000, 3000, 5000, 10000].map((preset) => {
+                      const isSelected = amount === preset && !customAmount;
+                      return (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => handlePresetClick(preset)}
+                          className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm transition cursor-pointer text-center select-none ${
+                            isSelected
+                              ? 'border-2 border-red-500 text-red-600 bg-white font-extrabold shadow-2xs'
+                              : 'border border-slate-200 text-slate-700 bg-white hover:border-slate-300 font-bold'
+                          }`}
+                        >
+                          ₹{preset.toLocaleString('en-IN')}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Custom Amount Input */}
+                  <div className="relative mt-2.5">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs sm:text-sm">
                       ₹
                     </span>
                     <input
                       type="number"
-                      min="100"
-                      placeholder="e.g. 7500"
+                      min="500"
+                      placeholder="Or enter custom amount (Min. ₹500)"
                       value={customAmount}
                       onChange={(e) => {
                         setCustomAmount(e.target.value);
                         setAmount(null);
                       }}
-                      className="w-full pl-9 pr-4 py-3 rounded-2xl border border-[#E3D9CF] text-sm font-bold focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2] text-[#323D3D]"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Purpose / Campaign Selection */}
-              <div className="pt-4 border-t border-[#E3D9CF]">
-                <label className="block text-xs font-bold text-[#323D3D] mb-2">
-                  Select Cause / Campaign (Optional)
-                </label>
-                <select
-                  value={selectedCampaignId}
-                  onChange={(e) => setSelectedCampaignId(e.target.value)}
-                  className="w-full px-4 py-3 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm font-medium focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2] text-[#323D3D]"
-                >
-                  <option value="">General Charitable Relief Fund (Where Most Urgently Needed)</option>
-                  {campaigns.map((c) => (
-                    <option key={c._id} value={c._id}>
-                      {c.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Donor Details */}
-              <div className="pt-4 border-t border-[#E3D9CF] space-y-4">
-                <h3 className="text-lg font-bold text-[#323D3D]">Step 2: Donor Details</h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-[#323D3D] mb-1">Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rajesh Kumar"
-                      value={donorName}
-                      onChange={(e) => setDonorName(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-[#323D3D] mb-1">Email Address *</label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="e.g. rajesh@example.com"
-                      value={donorEmail}
-                      onChange={(e) => setDonorEmail(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
+                      className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-semibold placeholder:text-slate-400 focus:outline-none focus:border-red-400 text-slate-800 shadow-2xs transition"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-[#323D3D] mb-1">Mobile Phone *</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="e.g. +91 98765 43210"
-                      value={donorPhone}
-                      onChange={(e) => setDonorPhone(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
-                    />
+                {/* 2. DONOR DETAILS (FOR OFFICIAL TAX RECEIPT) */}
+                <div className="space-y-3.5 pt-2 border-t border-slate-100">
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                    2. DONOR DETAILS (FOR OFFICIAL TAX RECEIPT)
+                  </label>
+
+                  {/* Row 1: Full Name & Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={donorName}
+                        onChange={(e) => setDonorName(e.target.value)}
+                        placeholder="e.g. Ramesh Kumar"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-semibold text-slate-700">
+                          Email Address *
+                        </label>
+                        <span className="text-[10px] text-slate-400">
+                          Tax receipt will be sent here
+                        </span>
+                      </div>
+                      <input
+                        type="email"
+                        required
+                        value={donorEmail}
+                        onChange={(e) => setDonorEmail(e.target.value)}
+                        placeholder="name@example.com"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-[#323D3D] mb-1">
-                      PAN Card Number (for 80G Tax Exemption)
-                    </label>
-                    <input
-                      type="text"
-                      maxLength={10}
-                      placeholder="e.g. ABCDE1234F"
-                      value={donorPan}
-                      onChange={(e) => setDonorPan(e.target.value.toUpperCase())}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm font-mono uppercase focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
-                    />
-                  </div>
-                </div>
+                  {/* Row 2: Mobile Number & PAN */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-semibold text-slate-700">
+                          Mobile Number *
+                        </label>
+                        <span className="text-[10px] text-slate-400">
+                          SMS/WhatsApp receipt
+                        </span>
+                      </div>
+                      <div className="flex rounded-xl border border-slate-200 bg-white overflow-hidden shadow-2xs focus-within:border-red-400 transition">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-2 bg-slate-50 border-r border-slate-200 text-xs font-semibold text-slate-700 shrink-0 select-none">
+                          <span className="text-sm leading-none">🇮🇳</span>
+                          <span>+91</span>
+                        </span>
+                        <input
+                          type="tel"
+                          required
+                          value={donorPhone}
+                          onChange={(e) =>
+                            setDonorPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))
+                          }
+                          placeholder="98765 43210"
+                          className="w-full px-3 py-2 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-[#323D3D] mb-1">Postal Address</label>
-                  <input
-                    type="text"
-                    placeholder="House/Street, City, Pincode"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Order Summary & Checkout Trigger */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#E3D9CF] shadow-card space-y-5 sticky top-28">
-                <h3 className="text-lg font-bold text-[#323D3D]">Donation Summary</h3>
-
-                <div className="p-4 bg-[#FAF7F2] rounded-2xl space-y-3 border border-[#E3D9CF] text-xs">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#697777]">Contribution Amount:</span>
-                    <strong className="text-xl font-black text-[#036C6C]">
-                      {formatINR(effectiveAmount)}
-                    </strong>
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-semibold text-slate-700">
+                          PAN Card (Optional)
+                        </label>
+                        <span className="text-[10px] text-slate-400">
+                          For 80G Tax Exemption
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        maxLength={10}
+                        value={donorPan}
+                        onChange={(e) => setDonorPan(e.target.value.toUpperCase())}
+                        placeholder="AAAAA9999A"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-mono uppercase text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                      />
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#697777]">80G Tax Exemption:</span>
-                    <strong className="text-[#036C6C] font-bold">50% Deductible</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#697777]">Platform & Processing Fee:</span>
-                    <strong className="text-[#036C6C] font-bold">₹0 (Zero Fee)</strong>
+
+                  {/* Row 3: City & Donation Purpose */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        City
+                      </label>
+                      <input
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="Delhi, Mumbai, etc."
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Donation Purpose
+                      </label>
+                      <div className="relative">
+                        <select
+                          value={selectedPurpose}
+                          onChange={(e) => setSelectedPurpose(e.target.value)}
+                          className="w-full appearance-none px-3.5 pr-8 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:border-red-400 shadow-2xs transition cursor-pointer"
+                        >
+                          <option value="General Charitable Fund">General Charitable Fund</option>
+                          <option value="Elderly Winter Relief & Nutritional Care Drive">
+                            Elderly Winter Relief & Nutritional Care Drive
+                          </option>
+                          <option value="Women Livelihood & Sewing Skill Training Center">
+                            Women Livelihood & Sewing Skill Training Center
+                          </option>
+                          <option value="Underprivileged Children Education & Nutrition 2026">
+                            Underprivileged Children Education & Nutrition 2026
+                          </option>
+                          <option value="Child Welfare & Free Slum Coaching">
+                            Child Welfare & Free Slum Coaching
+                          </option>
+                          <option value="Emergency Healthcare & Pediatric Aid">
+                            Emergency Healthcare & Pediatric Aid
+                          </option>
+                          {campaigns.map((c) => (
+                            <option key={c._id} value={c.title}>
+                              {c.title}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {errorMsg && (
-                  <div className="p-3.5 bg-red-50 text-red-700 rounded-2xl text-xs flex items-start gap-2 border border-red-200">
-                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div className="p-3 bg-red-50 text-red-700 rounded-xl text-xs flex items-center gap-2 border border-red-200">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>{errorMsg}</span>
                   </div>
                 )}
 
-                <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF] text-xs text-[#323D3D] space-y-1">
-                  <div className="flex items-center gap-2 font-bold">
-                    <ShieldCheck className="w-4 h-4 text-[#036C6C]" />
-                    <span>Secure 256-Bit SSL Encrypted</span>
+                {/* Big Red Proceed Button */}
+                <button
+                  type="submit"
+                  disabled={processing}
+                  className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer disabled:opacity-60 active:scale-[0.99]"
+                >
+                  <Heart className="w-4 h-4 fill-white" />
+                  <span>
+                    {processing
+                      ? 'Processing Securely...'
+                      : `Proceed to Donate ${formatINR(effectiveAmount || 1000)}`}
+                  </span>
+                </button>
+
+                {/* Security Trust Micro-footer */}
+                <div className="flex items-center justify-center gap-1.5 text-[11px] sm:text-xs text-slate-500 font-medium text-center pt-1">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>256-bit SSL Secured • Official Signed 100% Tax Receipt</span>
+                </div>
+              </form>
+            ) : (
+              /* ── Direct Bank Transfer / UTR Notification Form ── */
+              <form onSubmit={handleBankTransferSubmit} className="space-y-4">
+                <div className="p-4 bg-red-50/60 border border-red-100 rounded-2xl text-xs text-slate-700 space-y-1">
+                  <div className="flex items-center gap-2 font-bold text-[#DC2626]">
+                    <Building className="w-4 h-4" />
+                    <span>Direct Bank Transfer Verification</span>
                   </div>
-                  <p className="text-[11px] text-[#697777]">
-                    Supports UPI (GPay, PhonePe, Paytm), All Debit/Credit Cards & Net Banking.
+                  <p className="text-[11px] text-slate-500">
+                    Transfer directly to our verified accounts (shown on the right) via NEFT, RTGS, IMPS, or UPI, then enter your UTR reference below to generate your 80G receipt.
                   </p>
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Amount Transferred (INR) *
+                    </label>
+                    <input
+                      type="number"
+                      min="500"
+                      required
+                      value={effectiveAmount || ''}
+                      onChange={(e) => setAmount(Number(e.target.value))}
+                      placeholder="e.g. 5000"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-slate-800"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Bank UTR / Transaction Ref No. *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={utrNumber}
+                      onChange={(e) => setUtrNumber(e.target.value)}
+                      placeholder="e.g. 238918239029"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-mono text-xs sm:text-sm text-slate-800"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={donorName}
+                      onChange={(e) => setDonorName(e.target.value)}
+                      placeholder="e.g. Ramesh Kumar"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={donorEmail}
+                      onChange={(e) => setDonorEmail(e.target.value)}
+                      placeholder="name@example.com"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Mobile Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={donorPhone}
+                      onChange={(e) => setDonorPhone(e.target.value)}
+                      placeholder="+91 98765 43210"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      PAN Card (For 80G Tax Exemption)
+                    </label>
+                    <input
+                      type="text"
+                      maxLength={10}
+                      value={donorPan}
+                      onChange={(e) => setDonorPan(e.target.value.toUpperCase())}
+                      placeholder="AAAAA9999A"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-mono uppercase text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                {errorMsg && (
+                  <div className="p-3 bg-red-50 text-red-700 rounded-xl text-xs flex items-center gap-2 border border-red-200">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
 
                 <button
                   type="submit"
                   disabled={processing}
-                  className="w-full py-4 rounded-xl font-extrabold text-sm uppercase tracking-wider text-white bg-[#F67708] hover:bg-[#E06800] shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm cursor-pointer disabled:opacity-60"
                 >
-                  <Lock className="w-4 h-4" />
-                  <span>
-                    {processing ? 'Processing Securely...' : `Donate ${formatINR(effectiveAmount)} Now`}
-                  </span>
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Submit UTR for Receipt Verification</span>
                 </button>
+              </form>
+            )}
+          </div>
+
+          {/* ════════════ RIGHT COLUMN: CREDENTIALS & BANK CARDS ════════════ */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* Card 1: Legal Trust Credentials */}
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-4 bg-[#DC2626] rounded-full inline-block"></span>
+                <h3 className="font-bold text-slate-900 text-sm sm:text-[15px]">
+                  Legal Trust Credentials
+                </h3>
               </div>
-            </div>
-          </form>
-        ) : (
-          /* Direct Bank Transfer / NEFT / RTGS Details */
-          <div className="bg-white p-8 sm:p-12 rounded-3xl border border-[#E3D9CF] shadow-card space-y-8 max-w-2xl mx-auto">
-            <div className="text-center space-y-2">
-              <div className="w-14 h-14 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center mx-auto shadow-sm">
-                <Building className="w-7 h-7" />
-              </div>
-              <h3 className="text-2xl font-bold text-[#323D3D]">Official Bank Account Details</h3>
-              <p className="text-xs text-[#697777]">
-                You can make direct transfers via NEFT, RTGS, IMPS, or UPI directly to our registered trust account.
+
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Rebirth Care Trust is recognized by NITI Aayog (NGO Darpan) and registered under the Indian Trusts Act.
               </p>
+
+              <div className="space-y-2 pt-1">
+                {/* NGO Darpan UID */}
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/70 text-xs">
+                  <div className="flex items-center gap-2 text-slate-700 font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>NGO Darpan UID</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900 text-[11px] sm:text-xs">
+                    <span>{settings.compliance?.ngoDarpanUid || 'DL/2020/0262802'}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(settings.compliance?.ngoDarpanUid || 'DL/2020/0262802', 'uid')}
+                      className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                      title="Copy UID"
+                    >
+                      {copiedKey === 'uid' ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Trust PAN */}
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/70 text-xs">
+                  <div className="flex items-center gap-2 text-slate-700 font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Trust PAN</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900 text-[11px] sm:text-xs">
+                    <span>{settings.compliance?.panNumber || 'AAETR1099J'}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(settings.compliance?.panNumber || 'AAETR1099J', 'pan')}
+                      className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                      title="Copy PAN"
+                    >
+                      {copiedKey === 'pan' ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Informational Callout Note */}
+              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex items-start gap-2.5 text-[11px] text-slate-600 leading-normal mt-2">
+                <FileText className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                <span>
+                  All donations are accounted for strictly towards charitable causes with computer-generated receipts provided.
+                </span>
+              </div>
             </div>
 
-            <div className="space-y-4 text-xs sm:text-sm">
-              <div className="flex justify-between items-center p-4 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#697777]">Account Name:</span>
-                <span className="font-bold text-[#323D3D] font-mono text-right">{settings.donationSettings?.bankAccountName || 'RK FOUNDATION'}</span>
-              </div>
-
-              <div className="flex justify-between items-center p-4 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#697777]">Bank Name:</span>
-                <span className="font-bold text-[#323D3D]">{settings.donationSettings?.bankName || 'State Bank of India'}</span>
-              </div>
-
-              <div className="flex justify-between items-center p-4 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#697777]">Account Number:</span>
+            {/* Card 2: Direct Bank Accounts */}
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs space-y-3.5">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-[#323D3D]">{settings.donationSettings?.accountNumber || '40918273645'}</span>
-                  <button
-                    onClick={() => handleCopy(settings.donationSettings?.accountNumber || '40918273645', 'Account Number')}
-                    className="p-1 hover:text-[#036C6C] transition"
-                  >
-                    <Copy className="w-4 h-4 text-[#F67708]" />
-                  </button>
+                  <span className="w-1 h-4 bg-[#DC2626] rounded-full inline-block"></span>
+                  <h3 className="font-bold text-slate-900 text-sm sm:text-[15px]">
+                    Direct Bank Accounts
+                  </h3>
                 </div>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-md">
+                  Verified Current A/c
+                </span>
               </div>
 
-              <div className="flex justify-between items-center p-4 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#697777]">IFSC Code:</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-[#323D3D]">{settings.donationSettings?.ifscCode || 'SBIN0004123'}</span>
-                  <button
-                    onClick={() => handleCopy(settings.donationSettings?.ifscCode || 'SBIN0004123', 'IFSC Code')}
-                    className="p-1 hover:text-[#036C6C] transition"
-                  >
-                    <Copy className="w-4 h-4 text-[#F67708]" />
-                  </button>
+              {/* Bank 1: Indian Bank */}
+              <div className="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div className="flex justify-between items-center pb-1 border-b border-slate-200/60">
+                  <span className="font-bold text-slate-900 text-xs sm:text-[13px]">Indian Bank</span>
+                  <span className="text-[10px] text-slate-400 font-medium">Current A/c</span>
                 </div>
+
+                <div className="flex justify-between items-center text-[11.5px] pt-0.5">
+                  <span className="text-slate-500">Account No:</span>
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                    <span>6911724277</span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('6911724277', 'ac1')}
+                      className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                    >
+                      {copiedKey === 'ac1' ? (
+                        <Check className="w-3 h-3 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-[11.5px]">
+                  <span className="text-slate-500">IFSC Code:</span>
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                    <span>IDIB000Y010</span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('IDIB000Y010', 'ifsc1')}
+                      className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                    >
+                      {copiedKey === 'ifsc1' ? (
+                        <Check className="w-3 h-3 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <p className="text-[10.5px] text-slate-400 pt-0.5">
+                  Branch: Yamuna Vihar, Delhi - 110053
+                </p>
               </div>
 
-              <div className="flex justify-between items-center p-4 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF]">
-                <span className="text-[#697777]">Official UPI ID:</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-[#036C6C]">{settings.donationSettings?.upiId || 'rkfoundation@sbi'}</span>
-                  <button
-                    onClick={() => handleCopy(settings.donationSettings?.upiId || 'rkfoundation@sbi', 'UPI ID')}
-                    className="p-1 hover:text-[#036C6C] transition"
-                  >
-                    <Copy className="w-4 h-4 text-[#F67708]" />
-                  </button>
+              {/* Bank 2: Axis Bank */}
+              <div className="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div className="flex justify-between items-center pb-1 border-b border-slate-200/60">
+                  <span className="font-bold text-slate-900 text-xs sm:text-[13px]">Axis Bank</span>
+                  <span className="text-[10px] text-slate-400 font-medium">Current A/c</span>
                 </div>
+
+                <div className="flex justify-between items-center text-[11.5px] pt-0.5">
+                  <span className="text-slate-500">Account No:</span>
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                    <span>920020064952926</span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('920020064952926', 'ac2')}
+                      className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                    >
+                      {copiedKey === 'ac2' ? (
+                        <Check className="w-3 h-3 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-[11.5px]">
+                  <span className="text-slate-500">IFSC Code:</span>
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                    <span>UTIB0003158</span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('UTIB0003158', 'ifsc2')}
+                      className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                    >
+                      {copiedKey === 'ifsc2' ? (
+                        <Check className="w-3 h-3 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <p className="text-[10.5px] text-slate-400 pt-0.5">
+                  Branch: Kaushambi Ghaziabad, UP - 201010
+                </p>
               </div>
             </div>
 
-            <div className="p-5 bg-[#FAF7F2] rounded-2xl border border-[#E3D9CF] text-xs text-[#323D3D] space-y-1.5">
-              <p className="font-bold text-[#036C6C]">After Making Direct Bank Transfer:</p>
-              <p className="text-[#697777]">
-                Please email your transfer UTR / Transaction Reference number along with your PAN card copy to <strong>{settings.contact?.donorEmail || 'donate@rkfoundation.org'}</strong> or WhatsApp us at <strong>{settings.socialLinks?.whatsapp || '+91 98765 43210'}</strong> to receive your 80G tax certificate immediately.
-              </p>
+            {/* Card 3: SCAN & PAY VIA UPI */}
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs space-y-3.5 text-center">
+              <div className="flex items-center justify-between text-left">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  SCAN & PAY VIA UPI
+                </h3>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-md">
+                  Instant • 0% Surcharge
+                </span>
+              </div>
+
+              {/* QR Code Graphic matching screenshot */}
+              <div className="p-3 bg-white rounded-2xl border border-slate-200 inline-block shadow-2xs mx-auto">
+                <img
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi%3A%2F%2Fpay%3Fpa%3Drebirthcaretrust%40indianbk%26pn%3DRebirth%20Care%20Trust%26cu%3DINR"
+                  alt="UPI QR Code - Rebirth Care Trust"
+                  className="w-40 h-40 sm:w-44 sm:h-44 object-contain mx-auto"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-800">
+                  <span>rebirthcaretrust@indianbk</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy('rebirthcaretrust@indianbk', 'upi')}
+                    className="text-slate-400 hover:text-slate-700 transition cursor-pointer p-0.5"
+                    title="Copy UPI ID"
+                  >
+                    {copiedKey === 'upi' ? (
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                </div>
+
+                <p className="text-[10.5px] text-slate-400 pt-1">
+                  Compatible with Google Pay, PhonePe, Paytm, BHIM & all UPI banking apps
+                </p>
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

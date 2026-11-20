@@ -15,6 +15,16 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Crucial for file uploads: If sending FormData, delete Content-Type so the browser/axios
+    // sets the correct multipart boundary automatically. Explicit 'multipart/form-data'
+    // without boundary causes multer connection resets (ERR_CONNECTION_RESET).
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+      if (config.headers?.common) {
+        delete config.headers.common['Content-Type'];
+      }
+    }
     return config;
   },
   (error) => Promise.reject(error)

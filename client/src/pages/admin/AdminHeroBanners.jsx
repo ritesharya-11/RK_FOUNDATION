@@ -126,13 +126,22 @@ export const AdminHeroBanners = () => {
   /* ── local image upload ── */
   const handleFileUpload = async (idx, file) => {
     if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (PNG, JPG, WEBP, GIF).', 'error');
+      return;
+    }
+
+    if (file.size > 20 * 1024 * 1024) {
+      showToast('Image file size exceeds the 20MB limit.', 'error');
+      return;
+    }
+
     setUploadingIdx(idx);
     try {
       const form = new FormData();
       form.append('image', file);
-      const res = await api.post('/upload', form, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const res = await api.post('/upload', form);
       if (res?.imageUrl) {
         updateSlide(idx, 'imageUrl', res.imageUrl);
         showToast('Image uploaded successfully!', 'success');
@@ -188,17 +197,17 @@ export const AdminHeroBanners = () => {
   const activeSlide = banners[expandedIdx] || banners[0] || {};
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-4">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between pb-5 mb-6 border-b border-slate-200 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-slate-200/90 gap-3">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 flex items-center gap-2">
+          <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight flex items-center gap-2">
             Homepage Hero Banners
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-600 border border-red-200">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-600 border border-red-200">
               {banners.length} Slides
             </span>
-          </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          </h1>
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Manage rotating hero slide images, headlines, call-to-action buttons, and local image uploads displayed on the homepage.
           </p>
         </div>
@@ -208,31 +217,31 @@ export const AdminHeroBanners = () => {
             href="/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-sm transition"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition"
           >
             <Eye className="w-3.5 h-3.5" />
             Preview
           </a>
           <button
             onClick={handleAddSlide}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-sm transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
             Add Slide
           </button>
           <button
             onClick={handleSaveAll}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-sm transition cursor-pointer disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-2xs transition cursor-pointer disabled:opacity-60"
           >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
         </div>
       </div>
 
       {/* ── Instruction bar ── */}
-      <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 mb-4 text-xs text-slate-500">
+      <div className="flex items-center justify-between bg-slate-50 border border-slate-200/90 rounded-xl px-3.5 py-2 text-[11px] text-slate-500">
         <div className="flex items-center gap-2">
           <GripVertical className="w-3.5 h-3.5 text-slate-400" />
           <span>Slides automatically cycle on the homepage hero cross-fade slider. Use arrows to reorder.</span>

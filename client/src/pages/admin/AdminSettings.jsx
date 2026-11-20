@@ -212,25 +212,18 @@ export const AdminSettings = () => {
 
   return (
     <div className="space-y-4 w-full min-w-0 pb-16">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Trust Settings</span>
-      </div>
-
-      {/* ── Top Header Card (Matches Screenshot Exactly) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* ── Top Header Card ── */}
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-4.5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
               Trust Settings & Configuration
             </h1>
-            <span className="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-slate-50 text-slate-700 border border-slate-200">
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-50 text-slate-700 border border-slate-200">
               PAN: {formData.compliance.panNumber || 'AAETR1099J'}
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Manage legal registration credentials, banking channels, official contact points, and donation compliance.
           </p>
         </div>
@@ -238,9 +231,9 @@ export const AdminSettings = () => {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-50 shrink-0"
+          className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-2xs transition cursor-pointer disabled:opacity-50 shrink-0"
         >
-          <Save className="w-4 h-4" />
+          <Save className="w-3.5 h-3.5" />
           <span>{saving ? 'Saving...' : 'Save Trust Settings'}</span>
         </button>
       </div>

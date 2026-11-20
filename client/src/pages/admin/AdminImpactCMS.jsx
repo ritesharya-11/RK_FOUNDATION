@@ -388,131 +388,101 @@ export const AdminImpactCMS = () => {
   };
 
   return (
-    <div
-      className="space-y-6 w-full min-w-0 font-sans -m-4 sm:-m-8 p-4 sm:p-8 min-h-screen"
-      style={{
-        backgroundColor: '#F8FAFC',
-        backgroundImage: 'radial-gradient(#cbd5e1 1.2px, transparent 1.2px)',
-        backgroundSize: '18px 18px',
-      }}
-    >
-      {/* ── Top Bar: Breadcrumb & User Info matching screenshot ── */}
-      <div className="flex items-center justify-between pb-1">
-        <nav className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-          <span className="text-slate-400">Admin</span>
-          <span className="text-slate-300">›</span>
-          <span className="text-slate-800 font-semibold">Our Impact CMS</span>
-        </nav>
-
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#DC2626] text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">
-            T
-          </div>
-          <div className="text-left">
-            <span className="block text-xs font-bold text-slate-900 leading-tight">
-              Trust Administrator
-            </span>
-            <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-tight">
-              SUPER ADMIN
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Page Header (Title + Subtitle + Action Buttons) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* ── Page Header (Executive Proportions) ── */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
             Our Impact & Completed Cases CMS
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Administer verified outreach recoveries, outcome metrics, and publish official PDF audit reports.
           </p>
         </div>
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
             <span>Refresh</span>
           </button>
           <button
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
             <span>Add Completed Case</span>
           </button>
         </div>
       </div>
 
-      {/* ── Top 4 KPI Metric Cards (Matches Screenshot Format) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── Top 4 KPI Metric Cards (Dashboard Compact Hierarchy) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* TOTAL IMPACT STORIES */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">TOTAL IMPACT STORIES</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">
-              {stories.length} <span className="text-xs font-semibold text-slate-400">cases</span>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL IMPACT STORIES</p>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {stories.length} <span className="text-[10.5px] font-normal text-slate-400">cases</span>
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
-            <Award className="w-5 h-5 text-[#DC2626]" />
+          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
+            <Award className="w-4 h-4" />
           </div>
         </div>
 
         {/* VERIFIED PDF DOSSIERS */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">VERIFIED PDF DOSSIERS</p>
-            <p className="text-2xl font-black text-emerald-600 mt-1">
-              {totalAudited} <span className="text-xs font-semibold text-slate-400">audited</span>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">VERIFIED PDF DOSSIERS</p>
+            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
+              {totalAudited} <span className="text-[10.5px] font-normal text-slate-400">audited</span>
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <FileText className="w-5 h-5 text-emerald-600" />
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <FileText className="w-4 h-4" />
           </div>
         </div>
 
         {/* FOCUS SECTORS */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">FOCUS SECTORS</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">
-              {uniqueCategories.length} <span className="text-xs font-semibold text-slate-400">pillars</span>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">FOCUS SECTORS</p>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {uniqueCategories.length} <span className="text-[10.5px] font-normal text-slate-400">pillars</span>
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-blue-500" />
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+            <Sparkles className="w-4 h-4" />
           </div>
         </div>
 
         {/* ACTIVE PUBLISHED */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ACTIVE PUBLISHED</p>
-            <p className="text-2xl font-black text-emerald-600 mt-1">
-              {activeCount} <span className="text-xs font-semibold text-slate-400">live</span>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ACTIVE PUBLISHED</p>
+            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
+              {activeCount} <span className="text-[10.5px] font-normal text-slate-400">live</span>
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-4 h-4" />
           </div>
         </div>
       </div>
 
       {/* ── Search and Filter Controls ── */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search completed stories by title, category, location, or slug..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-xs transition"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
           />
         </div>
 
@@ -520,7 +490,7 @@ export const AdminImpactCMS = () => {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[150px]"
+            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
           >
             <option value="">All Categories</option>
             {uniqueCategories.map((c) => (
@@ -529,71 +499,71 @@ export const AdminImpactCMS = () => {
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         <div className="relative">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[150px]"
+            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
           >
             <option value="all">All Statuses ({stories.length})</option>
             <option value="published">Published ({activeCount})</option>
             <option value="draft">Draft ({stories.length - activeCount})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Table Layout matching screenshot ── */}
+      {/* ── Table Layout (Refined Dashboard Typography) ── */}
       <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden w-full">
         <div className="overflow-x-auto custom-admin-scrollbar">
-          <table className="w-full text-left text-xs min-w-[760px]">
-            <thead className="bg-white border-b border-slate-100">
+          <table className="w-full text-left text-xs min-w-[800px]">
+            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs">
               <tr>
-                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   CASE STORY
                 </th>
-                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   CATEGORY & OUTCOME
                 </th>
-                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   LOCATION
                 </th>
-                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   PDF AUDIT DOSSIER
                 </th>
-                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   STATUS
                 </th>
-                <th className="px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right sticky right-0 z-20 bg-white border-b border-slate-100 shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.06)]">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">
                   ACTIONS
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center border-b border-slate-100">
-                    <Loader2 className="w-6 h-6 text-slate-400 animate-spin mx-auto mb-2" />
-                    <p className="text-xs text-slate-400">Loading impact stories...</p>
+                  <td colSpan={6} className="py-12 text-center">
+                    <Loader2 className="w-5 h-5 text-slate-400 animate-spin mx-auto mb-1.5" />
+                    <p className="text-[11px] text-slate-400">Loading impact stories...</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center border-b border-slate-100">
-                    <Award className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                    <p className="text-xs text-slate-400">No completed cases found</p>
+                  <td colSpan={6} className="py-12 text-center">
+                    <Award className="w-7 h-7 text-slate-200 mx-auto mb-1.5" />
+                    <p className="text-[11px] text-slate-400">No completed cases found</p>
                   </td>
                 </tr>
               ) : (
                 filtered.map((item) => (
                   <tr key={item._id || item.slug} className="group hover:bg-slate-50/80 transition-colors">
-                    {/* CASE STORY: Thumbnail + Title + Route */}
-                    <td className="px-5 py-3.5 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] border-b border-slate-100">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                    {/* CASE STORY */}
+                    <td className="px-3.5 py-2.5 align-middle max-w-[200px] sm:max-w-[260px]">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
                           {item.coverImage ? (
                             <img
                               src={item.coverImage}
@@ -608,10 +578,10 @@ export const AdminImpactCMS = () => {
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-bold text-slate-900 text-xs sm:text-sm truncate">
+                          <p className="font-bold text-slate-900 text-xs sm:text-[13px] leading-tight truncate">
                             {item.title}
                           </p>
-                          <p className="text-[11px] text-slate-400 truncate mt-0.5 font-mono">
+                          <p className="text-[10px] text-slate-400 truncate mt-0.5 font-mono">
                             /our-success/{item.slug}
                           </p>
                         </div>
@@ -619,7 +589,7 @@ export const AdminImpactCMS = () => {
                     </td>
 
                     {/* CATEGORY & OUTCOME */}
-                    <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
                       <p className="font-semibold text-slate-800 text-xs">
                         {item.category}
                       </p>
@@ -629,7 +599,7 @@ export const AdminImpactCMS = () => {
                     </td>
 
                     {/* LOCATION */}
-                    <td className="px-5 py-3.5 max-w-[130px] sm:max-w-[170px] border-b border-slate-100">
+                    <td className="px-3.5 py-2.5 align-middle max-w-[130px] sm:max-w-[170px]">
                       <div className="flex items-center gap-1.5 text-slate-600 text-xs truncate">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         <span className="truncate">{item.location || 'Delhi NCR'}</span>
@@ -637,29 +607,29 @@ export const AdminImpactCMS = () => {
                     </td>
 
                     {/* PDF AUDIT DOSSIER */}
-                    <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
                       {item.pdfDossierUrl ? (
                         <a
                           href={item.pdfDossierUrl}
                           target="_blank"
                           rel="noreferrer"
                           title="Open PDF Document"
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition shadow-2xs"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-red-50 text-red-600 border border-red-200/80 hover:bg-red-100 transition shadow-2xs"
                         >
-                          <FileText className="w-3.5 h-3.5 text-red-500" />
+                          <FileText className="w-3 h-3 text-red-500" />
                           <span>PDF Dossier</span>
                         </a>
                       ) : (
-                        <span className="text-[11px] text-slate-400 italic">No File Attached</span>
+                        <span className="text-[10.5px] text-slate-400 italic">No File</span>
                       )}
                     </td>
 
                     {/* STATUS */}
-                    <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
                       <span
-                        className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide uppercase ${
+                        className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase border ${
                           item.status === 'published' || item.isActive
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80'
                             : 'bg-slate-100 text-slate-500 border border-slate-200'
                         }`}
                       >
@@ -667,14 +637,14 @@ export const AdminImpactCMS = () => {
                       </span>
                     </td>
 
-                    {/* ACTIONS (Sticky right column so it never gets hidden) */}
-                    <td className="px-5 py-3.5 text-right whitespace-nowrap border-b border-slate-100 sticky right-0 z-10 bg-white group-hover:bg-slate-50/80 transition-colors shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.06)]">
-                      <div className="inline-flex items-center justify-end gap-1.5">
+                    {/* ACTIONS */}
+                    <td className="px-3.5 py-2.5 align-middle text-right whitespace-nowrap">
+                      <div className="inline-flex items-center justify-end gap-1">
                         <a
                           href={`/our-success/${item.slug}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                          className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
                           title="Public View"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -682,7 +652,7 @@ export const AdminImpactCMS = () => {
 
                         <button
                           onClick={() => handleOpenEdit(item)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                          className="p-1 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
                           title="Edit Case Story"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -690,7 +660,7 @@ export const AdminImpactCMS = () => {
 
                         <button
                           onClick={() => handleDelete(item)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                          className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                           title="Delete Case Story"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -706,8 +676,8 @@ export const AdminImpactCMS = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex items-center justify-between shrink-0">
-            <span className="text-[11px] text-slate-400">
+          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
+            <span className="text-[10.5px] text-slate-400">
               Showing {filtered.length} of {stories.length} completed impact stories
             </span>
             {(search || filterCategory || filterStatus !== 'all') && (
@@ -717,7 +687,7 @@ export const AdminImpactCMS = () => {
                   setFilterCategory('');
                   setFilterStatus('all');
                 }}
-                className="text-[11px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>

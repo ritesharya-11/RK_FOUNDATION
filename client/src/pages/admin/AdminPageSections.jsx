@@ -269,30 +269,23 @@ export const AdminPageSections = () => {
   const publishedCount = pages.filter((p) => p.status === 'published').length;
 
   return (
-    <div className="space-y-5 w-full min-w-0">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Page Sections</span>
-      </div>
-
-      {/* ── Page Header (Matches Screenshot) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 w-full min-w-0">
+      {/* ── Page Header ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+          <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight leading-snug">
             Page Content & SEO CMS
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          </h1>
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Manage structured static pages, legal declarations, and search engine metadata tags.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="p-2 sm:px-3 sm:py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-xs transition cursor-pointer font-semibold text-xs flex items-center gap-1.5 disabled:opacity-60"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-2xs transition cursor-pointer font-semibold text-[11px] flex items-center gap-1.5 disabled:opacity-60"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -300,24 +293,24 @@ export const AdminPageSections = () => {
 
           <button
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-[11px] font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-2xs transition cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
-            <span>+ New Page</span>
+            <Plus className="w-3.5 h-3.5" />
+            <span>New Page</span>
           </button>
         </div>
       </div>
 
-      {/* ── Search & Filter Controls Bar (Matches Screenshot) ── */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      {/* ── Search & Filter Controls Bar ── */}
+      <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search pages by title, slug, summary..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-xs transition"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
           />
         </div>
 
@@ -325,38 +318,38 @@ export const AdminPageSections = () => {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[150px]"
+            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
           >
             <option value="all">All Statuses ({pages.length})</option>
             <option value="published">Published ({publishedCount})</option>
             <option value="draft">Draft ({pages.length - publishedCount})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Table Card Layout (Matches Exact Screenshot Format) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)]">
-        <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-t-2xl">
-          <table className="w-full text-left text-xs min-w-[880px] border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 shadow-xs">
+      {/* ── Table Card Layout ── */}
+      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden w-full flex flex-col">
+        <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar">
+          <table className="w-full text-left text-xs min-w-[840px] border-separate border-spacing-0">
+            <thead className="sticky top-0 z-20 shadow-2xs select-none">
               <tr>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider rounded-tl-2xl">
+                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   PAGE TITLE & DETAILS
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   URL SLUG
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   STATUS
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   SEO READINESS
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   UPDATED AT
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right rounded-tr-2xl">
+                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">
                   ACTIONS
                 </th>
               </tr>
@@ -364,25 +357,25 @@ export const AdminPageSections = () => {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center border-b border-slate-100">
+                  <td colSpan={6} className="py-12 text-center border-b border-slate-100">
                     <FileText className="w-8 h-8 text-slate-200 mx-auto mb-2" />
                     <p className="text-xs text-slate-400">No structured pages found</p>
                   </td>
                 </tr>
               ) : (
                 filtered.map((item) => (
-                  <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
+                  <tr key={item._id} className="group hover:bg-slate-50/70 transition-colors">
                     {/* PAGE TITLE & DETAILS */}
-                    <td className="px-5 py-4 max-w-sm border-b border-slate-100">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-red-50 text-[#DC2626] border border-red-100 flex items-center justify-center shrink-0">
-                          <FileText className="w-4 h-4" />
+                    <td className="px-3.5 py-2.5 max-w-sm border-b border-slate-100">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-red-50 text-[#DC2626] border border-red-100 flex items-center justify-center shrink-0">
+                          <FileText className="w-3.5 h-3.5" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-bold text-slate-900 text-xs sm:text-sm truncate">
+                          <p className="font-bold text-slate-900 text-xs truncate">
                             {item.title}
                           </p>
-                          <p className="text-xs text-slate-400 truncate mt-0.5">
+                          <p className="text-[11px] text-slate-400 truncate mt-0.5">
                             {item.summary}
                           </p>
                         </div>
@@ -390,8 +383,8 @@ export const AdminPageSections = () => {
                     </td>
 
                     {/* URL SLUG with Copy Button */}
-                    <td className="px-5 py-4 whitespace-nowrap border-b border-slate-100">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100/90 border border-slate-200 text-[11px] font-mono text-slate-700">
+                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100">
+                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100/90 border border-slate-200 text-[10.5px] font-mono text-slate-700">
                         <span>{item.slug}</span>
                         <button
                           type="button"
@@ -409,9 +402,9 @@ export const AdminPageSections = () => {
                     </td>
 
                     {/* STATUS: Green Dot Badge */}
-                    <td className="px-5 py-4 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100">
                       <span
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider uppercase ${
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wider uppercase ${
                           item.status === 'published'
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : 'bg-slate-100 text-slate-500 border border-slate-200'
@@ -427,9 +420,9 @@ export const AdminPageSections = () => {
                     </td>
 
                     {/* SEO READINESS */}
-                    <td className="px-5 py-4 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold ${
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9.5px] font-bold ${
                           item.seoReadiness === 'Meta Ready'
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -441,18 +434,18 @@ export const AdminPageSections = () => {
                     </td>
 
                     {/* UPDATED AT */}
-                    <td className="px-5 py-4 whitespace-nowrap border-b border-slate-100 font-medium text-slate-600 text-xs">
+                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100 font-medium text-slate-600 text-[11px]">
                       {item.updatedAt || '21 Oct 2026'}
                     </td>
 
                     {/* ACTIONS */}
-                    <td className="px-5 py-4 text-right whitespace-nowrap border-b border-slate-100">
-                      <div className="inline-flex items-center justify-end gap-1.5">
+                    <td className="px-3.5 py-2.5 text-right whitespace-nowrap border-b border-slate-100">
+                      <div className="inline-flex items-center justify-end gap-1">
                         <a
                           href={item.slug === '/terms-and-conditions' ? '/terms-conditions' : item.slug}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                          className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
                           title="Open Public Page"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -461,7 +454,7 @@ export const AdminPageSections = () => {
                         <button
                           type="button"
                           onClick={(e) => handleOpenEdit(item, e)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                          className="p-1 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
                           title="Edit Page & SEO"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -470,7 +463,7 @@ export const AdminPageSections = () => {
                         <button
                           type="button"
                           onClick={(e) => handleDelete(item._id, e)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                          className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                           title="Delete Page"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -486,8 +479,8 @@ export const AdminPageSections = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex items-center justify-between shrink-0">
-            <span className="text-[11px] text-slate-400">
+          <div className="px-4 py-2 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
+            <span className="text-[10.5px] text-slate-400">
               Showing {filtered.length} of {pages.length} structured pages
             </span>
             {(search || filterStatus !== 'all') && (
@@ -496,7 +489,7 @@ export const AdminPageSections = () => {
                   setSearch('');
                   setFilterStatus('all');
                 }}
-                className="text-[11px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>

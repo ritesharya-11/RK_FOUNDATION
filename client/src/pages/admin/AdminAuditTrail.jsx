@@ -359,25 +359,18 @@ export const AdminAuditTrail = () => {
 
   return (
     <div className="space-y-4 w-full min-w-0">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Audit Trail</span>
-      </div>
-
-      {/* ── Page Header (Exact match with screenshot) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* ── Page Header ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
               Security Audit Trail
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
               {filteredLogs.length} Events
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Immutable log of all administrative operations, logins, data edits, and configuration updates.
           </p>
         </div>
@@ -385,7 +378,7 @@ export const AdminAuditTrail = () => {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
             title="Export CSV"
           >
             <Download className="w-3.5 h-3.5 text-slate-500" />
@@ -395,7 +388,7 @@ export const AdminAuditTrail = () => {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
             title="Refresh Logs"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin' : ''}`} />
@@ -404,22 +397,22 @@ export const AdminAuditTrail = () => {
         </div>
       </div>
 
-      {/* ── Filter Tabs Row (Matches screenshot pills) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-        <div className="flex flex-wrap items-center gap-2">
+      {/* ── Filter Tabs Row ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-0.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           {/* All Operations */}
           <button
             onClick={() => {
               setActiveTab('all');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
               activeTab === 'all'
-                ? 'bg-[#0F172A] text-white shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#0F172A] text-white shadow-2xs'
+                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
             }`}
           >
-            <Activity className="w-3.5 h-3.5" />
+            <Activity className="w-3 h-3" />
             <span>All Operations</span>
           </button>
 
@@ -429,13 +422,13 @@ export const AdminAuditTrail = () => {
               setActiveTab('auth');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
               activeTab === 'auth'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#0F172A] text-white shadow-2xs'
+                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-3 h-3" />
             <span>Auth & Logins</span>
           </button>
 
@@ -445,13 +438,13 @@ export const AdminAuditTrail = () => {
               setActiveTab('update');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
               activeTab === 'update'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#0F172A] text-white shadow-2xs'
+                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
             }`}
           >
-            <Edit3 className="w-3.5 h-3.5" />
+            <Edit3 className="w-3 h-3" />
             <span>Data Updates</span>
           </button>
 
@@ -461,13 +454,13 @@ export const AdminAuditTrail = () => {
               setActiveTab('create');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
               activeTab === 'create'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#0F172A] text-white shadow-2xs'
+                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
             }`}
           >
-            <PlusCircle className="w-3.5 h-3.5" />
+            <PlusCircle className="w-3 h-3" />
             <span>Creations</span>
           </button>
 
@@ -477,38 +470,38 @@ export const AdminAuditTrail = () => {
               setActiveTab('delete');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
               activeTab === 'delete'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#0F172A] text-white shadow-2xs'
+                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
             }`}
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            <Trash2 className="w-3 h-3" />
             <span>Deletions</span>
           </button>
         </div>
 
-        <div className="text-xs text-slate-500 font-medium">
+        <div className="text-[11px] text-slate-500 font-medium">
           Page <span className="font-bold text-slate-700">{currentPage}</span> of{' '}
           <span className="font-bold text-slate-700">{totalPages}</span> • Total{' '}
           <span className="font-bold text-slate-700">{filteredLogs.length}</span> records
         </div>
       </div>
 
-      {/* ── Search Bar matching screenshot ── */}
+      {/* ── Search Bar ── */}
       <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 max-w-md">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by admin email, action name, entity, or IP..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className="w-full pl-10 pr-20 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400 shadow-xs"
+            className="w-full pl-9 pr-18 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
           />
           <button
             type="submit"
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs shadow-2xs transition cursor-pointer"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-[11px] shadow-2xs transition cursor-pointer"
           >
             Search
           </button>
@@ -520,35 +513,35 @@ export const AdminAuditTrail = () => {
               setSearch('');
               setSearchInput('');
             }}
-            className="text-xs text-slate-500 hover:text-slate-800 underline"
+            className="text-[11px] text-slate-500 hover:text-slate-800 underline cursor-pointer"
           >
             Clear
           </button>
         )}
       </form>
 
-      {/* ── Sticky Table Card (Exact match with top-[104px] sticky layout) ── */}
-      <div className="sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)] bg-white border border-slate-200/90 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto overflow-y-auto flex-1">
-          <table className="w-full text-left text-xs border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 shadow-xs select-none">
+      {/* ── Table Card ── */}
+      <div className="flex flex-col bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
+        <div className="overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar">
+          <table className="w-full text-left text-xs border-separate border-spacing-0 min-w-[760px]">
+            <thead className="sticky top-0 z-20 bg-slate-50 shadow-2xs select-none">
               <tr>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
                   TIMESTAMP
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
                   ACTION
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
                   ADMIN / ACTOR
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
                   TARGET ENTITY
                 </th>
-                <th className="px-4 py-3 text-left font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
                   IP ADDRESS
                 </th>
-                <th className="px-4 py-3 text-right font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/80">
+                <th className="px-3.5 py-2.5 text-right font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
                   DETAILS
                 </th>
               </tr>
@@ -559,8 +552,8 @@ export const AdminAuditTrail = () => {
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
                     <ShieldCheck className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                    <p className="font-semibold text-sm text-slate-700">No audit events found</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Try clearing your search query or filters</p>
+                    <p className="font-semibold text-xs text-slate-700">No audit events found</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">Try clearing your search query or filters</p>
                   </td>
                 </tr>
               ) : (
@@ -570,47 +563,47 @@ export const AdminAuditTrail = () => {
                   return (
                     <tr key={log._id} className="hover:bg-slate-50/70 transition-colors group">
                       {/* 1. Timestamp */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
                         <span className="block font-semibold text-slate-800 text-xs">
                           {log.date}
                         </span>
-                        <span className="block font-mono text-[10.5px] text-slate-400 mt-0.5">
+                        <span className="block font-mono text-[10px] text-slate-400 mt-0.5">
                           {log.time}
                         </span>
                       </td>
 
                       {/* 2. Action */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
                         {log.type === 'create' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-[11px] font-mono font-bold">
-                            <PlusCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-[10px] font-mono font-bold">
+                            <PlusCircle className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                         {log.type === 'update' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200/80 text-[11px] font-mono font-bold">
-                            <Edit3 className="w-3.5 h-3.5 shrink-0" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/80 text-[10px] font-mono font-bold">
+                            <Edit3 className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                         {log.type === 'auth' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[11px] font-mono font-bold">
-                            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[10px] font-mono font-bold">
+                            <ShieldCheck className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                         {log.type === 'delete' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 border border-rose-200/80 text-[11px] font-mono font-bold">
-                            <Trash2 className="w-3.5 h-3.5 shrink-0" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200/80 text-[10px] font-mono font-bold">
+                            <Trash2 className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                       </td>
 
                       {/* 3. Admin / Actor */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200">
+                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <div className="w-5.5 h-5.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px] flex items-center justify-center shrink-0 border border-slate-200">
                             {initialLetter}
                           </div>
                           <span className="text-xs font-medium text-slate-700">
@@ -620,25 +613,25 @@ export const AdminAuditTrail = () => {
                       </td>
 
                       {/* 4. Target Entity */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
-                        <span className="inline-block px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-700 font-mono text-xs">
+                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                        <span className="inline-block px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200/80 text-slate-700 font-mono text-[11px]">
                           {log.targetEntity}
                         </span>
                       </td>
 
                       {/* 5. IP Address */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap text-xs font-mono text-slate-500">
+                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap text-xs font-mono text-slate-500">
                         {log.ipAddress}
                       </td>
 
                       {/* 6. Details */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle text-right whitespace-nowrap">
+                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle text-right whitespace-nowrap">
                         <button
                           type="button"
                           onClick={() => setSelectedEvent(log)}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-xs shadow-2xs transition cursor-pointer"
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-[11px] shadow-2xs transition cursor-pointer"
                         >
-                          <Eye className="w-3.5 h-3.5 text-slate-400" />
+                          <Eye className="w-3 h-3 text-slate-400" />
                           <span>Inspect</span>
                         </button>
                       </td>

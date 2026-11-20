@@ -305,104 +305,112 @@ export const AdminParentsVideo = () => {
   const categoriesCount = uniqueCategories.length || 1;
 
   return (
-    <div className="space-y-5 w-full min-w-0">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Parents Video</span>
-      </div>
-
-      {/* ── Top Header Card (Matches Screenshot) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-start sm:items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center shrink-0">
-            <Video className="w-5 h-5 text-[#DC2626]" />
-          </div>
-          <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-              Parents Video Testimonials & CMS
-            </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Upload & manage verified YouTube video reviews of children and families benefited through Rebirth Care Trust.
-            </p>
-          </div>
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* ── Page Header (Executive Proportions) ── */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+        <div>
+          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
+            Parents Video Testimonials & CMS
+          </h2>
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
+            Upload & manage verified YouTube video reviews of children and families benefited through Rebirth Care Trust.
+          </p>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <a
             href="/parents-video"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition"
           >
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
             <span>Public Page</span>
           </a>
 
           <button
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
           >
-            <Plus className="w-4 h-4" />
-            <span>+ Upload Video</span>
+            <Plus className="w-3.5 h-3.5" />
+            <span>Upload Video</span>
           </button>
         </div>
       </div>
 
-      {/* ── 4 KPI Metric Cards (Matches Screenshot) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── 4 KPI Metric Cards (Dashboard Compact Hierarchy) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* TOTAL STORIES */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            TOTAL STORIES
-          </p>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
-            {totalStories}
-          </p>
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
+          <div>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              TOTAL STORIES
+            </p>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {totalStories}
+            </p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
+            <Video className="w-4 h-4" />
+          </div>
         </div>
 
         {/* PUBLISHED LIVE */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            PUBLISHED LIVE
-          </p>
-          <p className="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">
-            {publishedLive}
-          </p>
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
+          <div>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              PUBLISHED LIVE
+            </p>
+            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
+              {publishedLive}
+            </p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-4 h-4" />
+          </div>
         </div>
 
         {/* FEATURED PROOF */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            FEATURED PROOF
-          </p>
-          <p className="text-2xl sm:text-3xl font-black text-amber-600 mt-1">
-            {featuredProof}
-          </p>
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
+          <div>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              FEATURED PROOF
+            </p>
+            <p className="text-lg sm:text-xl font-extrabold text-amber-500 mt-0.5 tracking-tight">
+              {featuredProof}
+            </p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
+            <Star className="w-4 h-4" />
+          </div>
         </div>
 
         {/* CATEGORIES */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            CATEGORIES
-          </p>
-          <p className="text-2xl sm:text-3xl font-black text-blue-600 mt-1">
-            {categoriesCount}
-          </p>
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
+          <div>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              CATEGORIES
+            </p>
+            <p className="text-lg sm:text-xl font-extrabold text-blue-600 mt-0.5 tracking-tight">
+              {categoriesCount}
+            </p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+            <Film className="w-4 h-4" />
+          </div>
         </div>
       </div>
 
-      {/* ── Search & Filter Controls Bar (Matches Screenshot) ── */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      {/* ── Search & Filter Controls Bar ── */}
+      <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by title, beneficiary, location..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-xs transition"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
           />
         </div>
 
@@ -410,7 +418,7 @@ export const AdminParentsVideo = () => {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[150px]"
+            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
           >
             <option value="">All Categories</option>
             {uniqueCategories.map((c) => (
@@ -419,58 +427,58 @@ export const AdminParentsVideo = () => {
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         <div className="relative">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[150px]"
+            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
           >
             <option value="all">All Statuses ({videos.length})</option>
             <option value="published">Published ({publishedLive})</option>
             <option value="draft">Draft ({videos.length - publishedLive})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Table Layout with Sticky Table Card & Header ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)]">
-        <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-t-2xl">
-          <table className="w-full text-left text-xs min-w-[880px] border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 shadow-xs">
+      {/* ── Table Layout (Refined Dashboard Typography) ── */}
+      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden w-full">
+        <div className="overflow-x-auto custom-admin-scrollbar">
+          <table className="w-full text-left text-xs min-w-[850px]">
+            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs">
               <tr>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider rounded-tl-2xl">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   VIDEO STORY
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   BENEFICIARY
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   CATEGORY
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   AID PROVIDED
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   LOCATION / DATE
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   STATUS
                 </th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right rounded-tr-2xl">
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">
                   ACTIONS
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center border-b border-slate-100">
-                    <Film className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                    <p className="text-xs text-slate-400">No parents video reviews found</p>
+                  <td colSpan={7} className="py-12 text-center">
+                    <Film className="w-7 h-7 text-slate-200 mx-auto mb-1.5" />
+                    <p className="text-[11px] text-slate-400">No parents video reviews found</p>
                   </td>
                 </tr>
               ) : (
@@ -484,13 +492,12 @@ export const AdminParentsVideo = () => {
 
                   return (
                     <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
-                      {/* VIDEO STORY: Thumbnail with Play Overlay + Title + Subtitle + ID */}
-                      <td className="px-5 py-3.5 max-w-sm border-b border-slate-100">
-                        <div className="flex items-center gap-3">
-                          {/* Thumbnail with center Play Button */}
+                      {/* VIDEO STORY */}
+                      <td className="px-3.5 py-2.5 align-middle max-w-sm">
+                        <div className="flex items-center gap-2.5">
                           <div
                             onClick={() => setPreviewVideo(item)}
-                            className="relative w-20 h-12 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 shrink-0 group/thumb cursor-pointer shadow-2xs"
+                            className="relative w-16 h-10 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 shrink-0 group/thumb cursor-pointer shadow-2xs"
                           >
                             <img
                               src={thumb}
@@ -500,20 +507,19 @@ export const AdminParentsVideo = () => {
                                 e.target.src = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800';
                               }}
                             />
-                            {/* Center Red Play Button matching screenshot */}
-                            <div className="absolute inset-0 m-auto w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center shadow-md group-hover/thumb:scale-115 transition-transform">
-                              <Play className="w-3 h-3 fill-white ml-0.5" />
+                            <div className="absolute inset-0 m-auto w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center shadow-md group-hover/thumb:scale-115 transition-transform">
+                              <Play className="w-2.5 h-2.5 fill-white ml-0.5" />
                             </div>
                           </div>
 
                           <div className="min-w-0">
-                            <p className="font-bold text-slate-900 text-xs sm:text-sm truncate">
+                            <p className="font-bold text-slate-900 text-xs sm:text-[13px] leading-tight truncate">
                               {item.title}
                             </p>
-                            <p className="text-xs text-slate-500 truncate">
+                            <p className="text-[10.5px] text-slate-500 truncate mt-0.5">
                               {item.parentSubtitle || item.parentName || 'Rebirth Care Trust'}
                             </p>
-                            <p className="text-[11px] text-slate-400 font-mono truncate mt-0.5">
+                            <p className="text-[9.5px] text-slate-400 font-mono truncate mt-0.5">
                               ID: {yId || 'N/A'}
                             </p>
                           </div>
@@ -521,38 +527,38 @@ export const AdminParentsVideo = () => {
                       </td>
 
                       {/* BENEFICIARY */}
-                      <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100 font-semibold text-slate-800 text-xs">
+                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap font-bold text-slate-800 text-xs">
                         {item.beneficiaryName || 'Rebirth Care Trust'}
                       </td>
 
                       {/* CATEGORY */}
-                      <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100">
-                        <span className="bg-slate-100 text-slate-700 px-2.5 py-1 text-[11px] font-semibold rounded-lg inline-block">
+                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
+                        <span className="bg-slate-100 text-slate-700 px-2 py-0.5 text-[9.5px] font-semibold rounded-md inline-block">
                           {item.category || 'Child Healthcare'}
                         </span>
                       </td>
 
                       {/* AID PROVIDED */}
-                      <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100 font-bold text-[#DC2626] text-xs">
+                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap font-bold text-[#DC2626] text-xs">
                         {item.aidProvided || 'Direct Medical Care'}
                       </td>
 
                       {/* LOCATION / DATE */}
-                      <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100">
+                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
                         <p className="font-semibold text-slate-800 text-xs">
                           {item.location || 'Delhi NCR'}
                         </p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">
+                        <p className="text-[10px] text-slate-400 mt-0.5">
                           {item.dateLabel || 'October 2026'}
                         </p>
                       </td>
 
                       {/* STATUS */}
-                      <td className="px-5 py-3.5 whitespace-nowrap border-b border-slate-100">
+                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide uppercase ${
+                          className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase border ${
                             item.status === 'published'
-                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80'
                               : 'bg-slate-100 text-slate-500 border border-slate-200'
                           }`}
                         >
@@ -561,23 +567,21 @@ export const AdminParentsVideo = () => {
                       </td>
 
                       {/* ACTIONS */}
-                      <td className="px-5 py-3.5 text-right whitespace-nowrap border-b border-slate-100">
-                        <div className="inline-flex items-center justify-end gap-1.5">
-                          {/* Play Preview Button */}
+                      <td className="px-3.5 py-2.5 align-middle text-right whitespace-nowrap">
+                        <div className="inline-flex items-center justify-end gap-1">
                           <button
                             type="button"
                             onClick={() => setPreviewVideo(item)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer"
+                            className="p-1 rounded-md text-slate-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer"
                             title="Play Video"
                           >
                             <Play className="w-3.5 h-3.5" />
                           </button>
 
-                          {/* Star Featured Toggle */}
                           <button
                             type="button"
                             onClick={(e) => handleToggleFeatured(item._id, e)}
-                            className={`p-1.5 rounded-lg transition cursor-pointer ${
+                            className={`p-1 rounded-md transition cursor-pointer ${
                               item.isFeatured
                                 ? 'text-amber-500 hover:bg-amber-50'
                                 : 'text-slate-400 hover:text-amber-500 hover:bg-amber-50'
@@ -587,21 +591,19 @@ export const AdminParentsVideo = () => {
                             <Star className={`w-3.5 h-3.5 ${item.isFeatured ? 'fill-amber-500' : ''}`} />
                           </button>
 
-                          {/* Edit Button */}
                           <button
                             type="button"
                             onClick={(e) => handleOpenEdit(item, e)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                            className="p-1 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
                             title="Edit Video"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
                           </button>
 
-                          {/* Delete Button */}
                           <button
                             type="button"
                             onClick={(e) => handleDelete(item._id, e)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Video"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -618,9 +620,9 @@ export const AdminParentsVideo = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex items-center justify-between shrink-0">
-            <span className="text-[11px] text-slate-400">
-              Showing {filtered.length} of {videos.length} video stories
+          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
+            <span className="text-[10.5px] text-slate-400">
+              Showing {filtered.length} of {videos.length} videos
             </span>
             {(search || filterCategory || filterStatus !== 'all') && (
               <button
@@ -629,7 +631,7 @@ export const AdminParentsVideo = () => {
                   setFilterCategory('');
                   setFilterStatus('all');
                 }}
-                className="text-[11px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>

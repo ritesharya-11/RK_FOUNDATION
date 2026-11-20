@@ -229,14 +229,14 @@ export const AdminLiveCases = () => {
   };
 
   return (
-    <div className="space-y-5">
-      {/* ── Page Header (Breadcrumbs + Title + Action Buttons) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* ── Page Header (Executive Proportions) ── */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
             Live Beneficiary Emergency Cases
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
             Manage live emergency cases, verified medical dossiers, and transfer completed hospital recoveries directly to Our Impact.
           </p>
         </div>
@@ -244,131 +244,131 @@ export const AdminLiveCases = () => {
           <button
             onClick={() => fetchLiveCases(true)}
             disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition cursor-pointer disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
             Refresh
           </button>
           <button
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
             New Beneficiary Case
           </button>
         </div>
       </div>
 
-      {/* ── Top 4 Metric KPI Cards (Matches Screenshot Format) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── Top 4 Metric KPI Cards (Dashboard Compact Hierarchy) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* ACTIVE APPEALS */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ACTIVE APPEALS</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">
-              {activeAppealsCount} <span className="text-xs font-semibold text-slate-400">cases</span>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ACTIVE APPEALS</p>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {activeAppealsCount} <span className="text-[10.5px] font-normal text-slate-400">cases</span>
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
-            <Heart className="w-5 h-5 text-[#DC2626]" />
+          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
+            <Heart className="w-4 h-4" />
           </div>
         </div>
 
         {/* COMPLETED / IN IMPACT */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">COMPLETED / IN IMPACT</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">
-              {curedCount} <span className="text-xs font-semibold text-slate-400">cured</span>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">COMPLETED / IN IMPACT</p>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
+              {curedCount} <span className="text-[10.5px] font-normal text-slate-400">cured</span>
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-4 h-4" />
           </div>
         </div>
 
         {/* TOTAL EMERGENCY TARGET */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">TOTAL EMERGENCY TARGET</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL EMERGENCY TARGET</p>
+            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
               {formatINR(totalTarget)}
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-            <ShieldCheck className="w-5 h-5 text-blue-500" />
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+            <ShieldCheck className="w-4 h-4" />
           </div>
         </div>
 
         {/* VERIFIED RAISED */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 flex items-center justify-between shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">VERIFIED RAISED</p>
-            <p className="text-2xl font-black text-emerald-600 mt-1">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">VERIFIED RAISED</p>
+            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
               {formatINR(totalRaised)}
             </p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-emerald-600" />
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <Sparkles className="w-4 h-4" />
           </div>
         </div>
       </div>
 
       {/* ── Search & Filter Controls ── */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by beneficiary name, condition, hospital, or slug..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-xs transition"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
           />
         </div>
         <div className="relative">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[160px]"
+            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[150px]"
           >
             <option value="all">All Statuses ({cases.length})</option>
             <option value="active">Active Appeals ({activeAppealsCount})</option>
             <option value="completed">Completed / In Impact ({curedCount})</option>
             <option value="paused">Paused ({cases.filter((c) => c.status === 'paused').length})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Live Cases Table (Exact Match to Screenshot Format) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[104px] z-10 flex flex-col max-h-[calc(100vh-124px)]">
-        <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-t-2xl">
-          <table className="w-full text-left text-xs min-w-full border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 shadow-xs">
+      {/* ── Live Cases Table (Refined Dashboard Typography) ── */}
+      <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs min-w-[850px]">
+            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs">
               <tr>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider rounded-tl-2xl">BENEFICIARY</th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">CONDITION & HOSPITAL</th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">TARGET NEED</th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">RAISED</th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-center">STATUS & LIFECYCLE</th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-center">CONSENT</th>
-                <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right rounded-tr-2xl">ACTIONS</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">BENEFICIARY</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">CONDITION & HOSPITAL</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">TARGET NEED</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">RAISED</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">STATUS & LIFECYCLE</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">CONSENT</th>
+                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">ACTIONS</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center">
-                    <Loader2 className="w-6 h-6 text-slate-400 animate-spin mx-auto mb-2" />
-                    <p className="text-xs text-slate-400">Loading emergency cases...</p>
+                  <td colSpan={7} className="py-12 text-center">
+                    <Loader2 className="w-5 h-5 text-slate-400 animate-spin mx-auto mb-1.5" />
+                    <p className="text-[11px] text-slate-400">Loading emergency cases...</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center">
-                    <Heart className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                    <p className="text-xs text-slate-400">No emergency cases found</p>
+                  <td colSpan={7} className="py-12 text-center">
+                    <Heart className="w-7 h-7 text-slate-200 mx-auto mb-1.5" />
+                    <p className="text-[11px] text-slate-400">No emergency cases found</p>
                   </td>
                 </tr>
               ) : (
@@ -384,10 +384,10 @@ export const AdminLiveCases = () => {
 
                   return (
                     <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
-                      {/* BENEFICIARY: Photo + Name + Subtitle (Age • Gender) */}
-                      <td className="px-5 py-3.5 whitespace-nowrap">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                      {/* BENEFICIARY */}
+                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
                             {item.coverImage ? (
                               <img
                                 src={item.coverImage}
@@ -402,79 +402,79 @@ export const AdminLiveCases = () => {
                             )}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900 text-sm leading-snug">
+                            <p className="font-bold text-slate-900 text-xs sm:text-[13px] leading-snug">
                               {bName}
                             </p>
-                            <p className="text-[11px] text-slate-400 mt-0.5">
+                            <p className="text-[10.5px] text-slate-400 mt-0.5">
                               {ageSubtitle}
                             </p>
                           </div>
                         </div>
                       </td>
 
-                      {/* CONDITION & HOSPITAL: Condition Name + Hospital Address */}
-                      <td className="px-5 py-3.5">
+                      {/* CONDITION & HOSPITAL */}
+                      <td className="px-3.5 py-2.5 align-middle">
                         <div className="max-w-xs sm:max-w-md">
-                          <p className="font-bold text-slate-900 text-xs sm:text-sm line-clamp-1">
+                          <p className="font-bold text-slate-900 text-xs sm:text-[12.5px] line-clamp-1">
                             {condTitle}
                           </p>
-                          <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
+                          <p className="text-[10.5px] text-slate-400 line-clamp-1 mt-0.5">
                             {hospSubtitle}
                           </p>
                         </div>
                       </td>
 
-                      {/* TARGET NEED: Bold formatted currency */}
-                      <td className="px-5 py-3.5 font-bold text-slate-900 text-sm whitespace-nowrap">
+                      {/* TARGET NEED */}
+                      <td className="px-3.5 py-2.5 align-middle font-extrabold text-slate-900 text-xs sm:text-[13px] whitespace-nowrap">
                         {formatINR(item.targetAmount || 0)}
                       </td>
 
-                      {/* RAISED: Bold Emerald figure */}
-                      <td className="px-5 py-3.5 font-bold text-emerald-600 text-sm whitespace-nowrap">
+                      {/* RAISED */}
+                      <td className="px-3.5 py-2.5 align-middle font-extrabold text-emerald-600 text-xs sm:text-[13px] whitespace-nowrap">
                         {formatINR(item.raisedAmount || 0)}
                       </td>
 
-                      {/* STATUS & LIFECYCLE: Pill badge */}
-                      <td className="px-5 py-3.5 text-center whitespace-nowrap">
+                      {/* STATUS & LIFECYCLE */}
+                      <td className="px-3.5 py-2.5 align-middle text-center whitespace-nowrap">
                         {item.inImpact || item.status === 'completed' ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200/80">
                             IN IMPACT / CURED
                           </span>
                         ) : item.status === 'active' ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide uppercase bg-blue-50 text-blue-600 border border-blue-200">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-blue-50 text-blue-600 border border-blue-200/80">
                             ACTIVE APPEAL
                           </span>
                         ) : (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide uppercase bg-slate-100 text-slate-500 border border-slate-200">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-slate-100 text-slate-500 border border-slate-200">
                             PAUSED
                           </span>
                         )}
                       </td>
 
-                      {/* CONSENT: Pill badge */}
-                      <td className="px-5 py-3.5 text-center whitespace-nowrap">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {/* CONSENT */}
+                      <td className="px-3.5 py-2.5 align-middle text-center whitespace-nowrap">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200/80">
                           {item.consentStatus || 'CERTIFIED'}
                         </span>
                       </td>
 
-                      {/* ACTIONS: Transfer to Impact + External + Edit + Trash */}
-                      <td className="px-5 py-3.5 text-right whitespace-nowrap">
-                        <div className="inline-flex items-center justify-end gap-1.5">
+                      {/* ACTIONS */}
+                      <td className="px-3.5 py-2.5 align-middle text-right whitespace-nowrap">
+                        <div className="inline-flex items-center justify-end gap-1">
                           <button
                             onClick={() => handleTransferToImpact(item)}
                             disabled={item.inImpact || transferringId === item._id}
-                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer border ${
+                            className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10.5px] font-semibold transition cursor-pointer border ${
                               item.inImpact
                                 ? 'bg-slate-50 text-slate-400 border-slate-200 cursor-default'
-                                : 'bg-emerald-50/70 hover:bg-emerald-100 text-emerald-700 border-emerald-200 shadow-2xs'
+                                : 'bg-emerald-50/70 hover:bg-emerald-100 text-emerald-700 border-emerald-200/80 shadow-2xs'
                             }`}
                             title="Transfer completed recovery to Our Impact"
                           >
                             {transferringId === item._id ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              <Loader2 className="w-3 h-3 animate-spin" />
                             ) : (
-                              <Share2 className="w-3.5 h-3.5" />
+                              <Share2 className="w-3 h-3" />
                             )}
                             <span>{item.inImpact ? 'Transferred' : 'Transfer to Impact'}</span>
                           </button>
@@ -483,7 +483,7 @@ export const AdminLiveCases = () => {
                             href={`/projects/${item.slug || item._id}`}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                            className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
                             title="Public View"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
@@ -491,7 +491,7 @@ export const AdminLiveCases = () => {
 
                           <button
                             onClick={() => handleOpenEdit(item)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                            className="p-1 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
                             title="Edit Case"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -499,7 +499,7 @@ export const AdminLiveCases = () => {
 
                           <button
                             onClick={() => handleDelete(item._id)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Case"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -516,8 +516,8 @@ export const AdminLiveCases = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex items-center justify-between shrink-0">
-            <span className="text-[11px] text-slate-400">
+          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
+            <span className="text-[10.5px] text-slate-400">
               Showing {filtered.length} of {cases.length} emergency cases
             </span>
             {(search || filterStatus !== 'all') && (
@@ -526,7 +526,7 @@ export const AdminLiveCases = () => {
                   setSearch('');
                   setFilterStatus('all');
                 }}
-                className="text-[11px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>
