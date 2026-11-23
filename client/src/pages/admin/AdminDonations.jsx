@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useWebsite } from '../../context/WebsiteContext';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
+import { DonationReceipt } from '../../components/DonationReceipt';
 import {
   FileSpreadsheet,
   Download,
@@ -953,118 +954,22 @@ export const AdminDonations = () => {
 
       {/* ── 7. Modal: Official 80G Tax Receipt Preview & Instant Print ── */}
       {printReceiptData && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white border border-slate-200 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto print:p-0 print:bg-white print:fixed print:inset-0">
+          <div className="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full p-4 sm:p-6 space-y-4 shadow-2xl relative my-6 print:border-none print:shadow-none print:p-0 print:m-0 print:max-w-none">
             <button
               onClick={() => setPrintReceiptData(null)}
-              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer print:hidden"
             >
               ×
             </button>
 
-            {/* Printable Receipt Paper */}
-            <div id="printable-80g-receipt" className="border-2 border-slate-800 p-6 sm:p-8 rounded-xl space-y-5 bg-white text-slate-900">
-              {/* Header */}
-              <div className="text-center pb-4 border-b-2 border-slate-800 space-y-1">
-                <div className="inline-block px-3 py-0.5 bg-[#0F172A] text-white text-[10px] font-black uppercase tracking-widest rounded-md mb-1">
-                  OFFICIAL 80G TAX EXEMPTION DONATION RECEIPT
-                </div>
-                <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] uppercase tracking-tight">
-                  {settings.siteName || 'RK FOUNDATION'}
-                </h2>
-                <p className="text-xs text-slate-600 font-medium">
-                  Registered Public Charitable Trust · NGO Darpan UID: {settings.compliance?.ngoDarpanUid || 'DL/2021/0298412'}
-                </p>
-                <p className="text-[11px] text-slate-500">
-                  Registered Office: {settings.contact?.address || 'E-48, Institutional Area, Sector 62, Noida, Delhi-NCR - 201309'}
-                </p>
-                <div className="flex flex-wrap justify-center gap-3 pt-1 text-[11px] font-mono text-slate-700 font-bold">
-                  <span>PAN: {settings.compliance?.panNumber || 'AAETR5566K'}</span>
-                  <span>·</span>
-                  <span>80G REG: {settings.compliance?.section80GRegNo || 'CIT(E)/DELHI/80G/2021-22/A/1045'}</span>
-                </div>
-              </div>
-
-              {/* Receipt Reference Bar */}
-              <div className="grid grid-cols-2 gap-4 text-xs py-2 bg-slate-50 border border-slate-200 rounded-lg p-3">
-                <div>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase block">Receipt Number</span>
-                  <span className="font-mono font-bold text-slate-900 text-sm">
-                    {printReceiptData.receiptNumber || `RKF-2026-REC-${printReceiptData.shortNumber || '0028'}`}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase block">Date of Issue</span>
-                  <span className="font-bold text-slate-900">
-                    {formatDateDDMMYYYY(printReceiptData.createdAt)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Donor Details Table */}
-              <div className="space-y-3 text-xs">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-lg">
-                    <span className="text-[10px] text-slate-400 font-bold uppercase block">Donor Full Name</span>
-                    <strong className="text-sm text-slate-900">{printReceiptData.donorName}</strong>
-                    <p className="text-slate-500 mt-0.5">{printReceiptData.donorEmail || 'No Email'}</p>
-                    <p className="text-slate-500">{printReceiptData.donorPhone || 'N/A'}</p>
-                    {printReceiptData.city && <p className="text-slate-400 mt-0.5">City: {printReceiptData.city}</p>}
-                  </div>
-
-                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-lg">
-                    <span className="text-[10px] text-slate-400 font-bold uppercase block">Tax Deduction Compliance</span>
-                    <p className="font-mono font-bold text-slate-900 mt-0.5">
-                      PAN: {printReceiptData.donorPan || 'Not Provided / Claimed'}
-                    </p>
-                    <p className="text-emerald-700 font-semibold mt-1">Section 80G: 50% Tax Exemption Eligible</p>
-                  </div>
-                </div>
-
-                {/* Amount Box */}
-                <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl flex items-center justify-between">
-                  <div>
-                    <span className="text-[10.5px] font-bold text-emerald-800 uppercase block">Contribution Amount</span>
-                    <span className="text-xl sm:text-2xl font-black text-emerald-900">
-                      ₹{Number(printReceiptData.amount).toLocaleString('en-IN')}
-                    </span>
-                    <span className="block text-[11px] text-emerald-700 font-medium italic mt-0.5">
-                      ({numberToWords(printReceiptData.amount)})
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase block">Mode of Payment</span>
-                    <span className="font-bold text-slate-900 uppercase">
-                      {printReceiptData.paymentModeFormatted || printReceiptData.paymentGateway || 'UPI'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="text-[11px] text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
-                  <strong>Cause Allocation:</strong> {printReceiptData.campaignTitle || 'General Charitable Relief Fund'}
-                  <br />
-                  <span className="text-[10.5px] text-slate-500">
-                    Statutory Declaration: Donations made to RK FOUNDATION are exempt under section 80G of the Income Tax Act, 1961. This is a computer-generated institutional receipt requiring no physical stamp.
-                  </span>
-                </div>
-              </div>
-
-              {/* Signature Row */}
-              <div className="flex justify-between items-end pt-4 border-t border-slate-200 text-xs">
-                <div>
-                  <span className="font-mono text-[10px] text-slate-400">VERIFICATION HASH: 80G-{printReceiptData._id}</span>
-                </div>
-                <div className="text-right">
-                  <div className="font-serif italic font-bold text-slate-800 text-base">Authorized Signatory</div>
-                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">
-                    RK FOUNDATION TRUST
-                  </span>
-                </div>
-              </div>
+            {/* Official PDF-Grade Printable Receipt */}
+            <div className="max-h-[80vh] overflow-y-auto custom-admin-scrollbar pr-1 print:max-h-none print:overflow-visible">
+              <DonationReceipt donation={printReceiptData} id="printable-80g-receipt" />
             </div>
 
             {/* Modal Actions */}
-            <div className="flex justify-between items-center pt-2">
+            <div className="flex justify-between items-center pt-2 border-t border-slate-100 print:hidden">
               <Link
                 to={`/receipt/verify?receiptNumber=${printReceiptData.receiptNumber}`}
                 target="_blank"
@@ -1085,7 +990,7 @@ export const AdminDonations = () => {
                   className="px-5 py-2 rounded-xl bg-[#DC2626] hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer"
                 >
                   <Printer className="w-4 h-4" />
-                  <span>Print Receipt</span>
+                  <span>Print Receipt / PDF</span>
                 </button>
               </div>
             </div>

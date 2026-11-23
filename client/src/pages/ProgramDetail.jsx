@@ -186,22 +186,33 @@ export const ProgramDetail = () => {
 
             {/* Right Media Preview */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden shadow-card border border-slate-200/80 aspect-[4/3] bg-slate-900 group">
+              <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 aspect-[16/11] sm:aspect-[4/3] bg-slate-950 group ring-1 ring-slate-900/5">
                 <img
                   src={
                     isChildrenDevelopment
                       ? '/programs/children-development-relief.jpg'
-                      : program.coverImage || '/programs/children-development.jpg'
+                      : (program.coverImage && !program.coverImage.includes('photo-1542838132-92c53300491e')
+                          ? program.coverImage
+                          : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=1200&auto=format&fit=crop&q=80')
                   }
                   alt={program.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover object-[center_16%] group-hover:scale-105 transition-transform duration-700 ease-out contrast-[1.03] saturate-[1.05]"
                   onError={(e) => {
                     e.currentTarget.src = '/programs/children-development.jpg';
                   }}
                 />
 
+                {/* Subtle Protective Gradient Vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+
+                {/* Top Field Verification Badge */}
+                <div className="absolute top-3 right-3 bg-black/65 backdrop-blur-md text-white text-[10.5px] font-semibold px-2.5 py-1 rounded-full border border-white/20 shadow-xs z-10 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Field Relief Action</span>
+                </div>
+
                 {/* Location Overlay Tag Bottom Left */}
-                <div className="absolute bottom-3 left-3 bg-[#111827]/85 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 border border-white/10 shadow-sm">
+                <div className="absolute bottom-3 left-3 bg-black/75 backdrop-blur-md text-white text-[11px] font-medium px-3 py-1 rounded-full flex items-center gap-1.5 border border-white/20 shadow-sm z-10">
                   <MapPin className="w-3.5 h-3.5 text-[#F67708]" />
                   <span>Delhi-NCR • Urban Settlements</span>
                 </div>

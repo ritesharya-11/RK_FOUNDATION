@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useWebsite } from '../context/WebsiteContext';
-import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
 import api from '../services/api';
 import {
@@ -74,18 +73,7 @@ export const Contact = () => {
 
   return (
     <div className="bg-[#FAF7F2] min-h-screen">
-      {/* Standardized Hero */}
-      <PageHero
-        badge="Connect With Us"
-        title="We Are Here to Assist You"
-        subtitle="Have questions about donations, tax exemption certificates, corporate CSR partnerships, or volunteering? Reach out to our dedicated team anytime."
-        breadcrumbs={[
-          { label: 'Home', path: '/' },
-          { label: 'Contact Us' },
-        ]}
-      />
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 space-y-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-20">
         {/* Contact Grid: Form & Info */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Column: Office Details */}
@@ -103,8 +91,8 @@ export const Contact = () => {
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-4 p-5 bg-white rounded-3xl border border-[#E3D9CF] shadow-card">
-                <div className="w-10 h-10 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-4 p-5 bg-white rounded-none border border-[#E3D9CF] shadow-card">
+                <div className="w-10 h-10 rounded-none bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -115,8 +103,8 @@ export const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 bg-white rounded-3xl border border-[#E3D9CF] shadow-card">
-                <div className="w-10 h-10 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-4 p-5 bg-white rounded-none border border-[#E3D9CF] shadow-card">
+                <div className="w-10 h-10 rounded-none bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
@@ -132,8 +120,8 @@ export const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 bg-white rounded-3xl border border-[#E3D9CF] shadow-card">
-                <div className="w-10 h-10 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-4 p-5 bg-white rounded-none border border-[#E3D9CF] shadow-card">
+                <div className="w-10 h-10 rounded-none bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -147,8 +135,8 @@ export const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 bg-white rounded-3xl border border-[#E3D9CF] shadow-card">
-                <div className="w-10 h-10 rounded-2xl bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-4 p-5 bg-white rounded-none border border-[#E3D9CF] shadow-card">
+                <div className="w-10 h-10 rounded-none bg-[#036C6C] text-[#F67708] flex items-center justify-center shrink-0">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
@@ -163,7 +151,7 @@ export const Contact = () => {
 
           {/* Right Column: Inquiry Message Form */}
           <div className="lg:col-span-7">
-            <div className="bg-white p-6 sm:p-10 rounded-3xl border border-[#E3D9CF] shadow-card space-y-6">
+            <div className="bg-white p-6 sm:p-10 rounded-none border border-[#E3D9CF] shadow-card space-y-6">
               <div>
                 <h3 className="text-2xl font-bold text-[#323D3D]">Send Us a Message</h3>
                 <p className="text-xs text-[#697777] mt-1">
@@ -172,14 +160,14 @@ export const Contact = () => {
               </div>
 
               {success && (
-                <div className="p-4 bg-emerald-50 text-emerald-800 rounded-2xl text-xs flex items-center gap-2 border border-emerald-200">
+                <div className="p-4 bg-emerald-50 text-emerald-800 rounded-none text-xs flex items-center gap-2 border border-emerald-200">
                   <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
                   <span>Your message has been sent successfully! Our team will contact you shortly.</span>
                 </div>
               )}
 
               {errorMsg && (
-                <div className="p-3.5 bg-red-50 text-red-700 rounded-2xl text-xs flex items-center gap-2 border border-red-200">
+                <div className="p-3.5 bg-red-50 text-red-700 rounded-none text-xs flex items-center gap-2 border border-red-200">
                   <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
                   <span>{errorMsg}</span>
                 </div>
@@ -197,7 +185,7 @@ export const Contact = () => {
                       placeholder="e.g. Ramesh Chandra"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
+                      className="w-full px-4 py-2.5 rounded-none border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
                     />
                   </div>
 
@@ -211,7 +199,7 @@ export const Contact = () => {
                       placeholder="e.g. ramesh@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
+                      className="w-full px-4 py-2.5 rounded-none border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
                     />
                   </div>
                 </div>
@@ -226,7 +214,7 @@ export const Contact = () => {
                       placeholder="e.g. +91 98100 23456"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
+                      className="w-full px-4 py-2.5 rounded-none border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
                     />
                   </div>
 
@@ -240,7 +228,7 @@ export const Contact = () => {
                       placeholder="e.g. CSR Partnership / 80G Receipt Query"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
+                      className="w-full px-4 py-2.5 rounded-none border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
                     />
                   </div>
                 </div>
@@ -255,14 +243,14 @@ export const Contact = () => {
                     placeholder="Write your inquiry or feedback in detail..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-2xl border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
+                    className="w-full px-4 py-2.5 rounded-none border border-[#E3D9CF] text-xs sm:text-sm focus:outline-none focus:border-[#036C6C] focus:ring-1 focus:ring-[#036C6C] bg-[#FAF7F2]"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 rounded-full font-extrabold text-sm text-white bg-[#F67708] hover:bg-[#E06800] shadow-md transition disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-4 rounded-none font-extrabold text-sm text-white bg-[#F67708] hover:bg-[#E06800] shadow-md transition disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   <span>{submitting ? 'Sending Message...' : 'Submit Inquiry'}</span>

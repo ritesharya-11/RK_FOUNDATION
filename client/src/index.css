@@ -23,7 +23,16 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  .font-handwriting {
+    font-family: 'Caveat', cursive, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
     letter-spacing: -0.02em;
     color: var(--color-text);
@@ -43,6 +52,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .btn-vermillion:hover {
   background-color: #E06800;
   transform: translateY(-1px);
@@ -59,6 +69,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .btn-pill-vermillion:hover {
   background-color: #E06800;
   transform: translateY(-1px);
@@ -73,6 +84,7 @@
   border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
+
 .btn-outline-vermillion:hover {
   background-color: #F67708;
   color: #FFFFFF;
@@ -85,6 +97,7 @@
   border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
+
 .btn-teal:hover {
   background-color: #024747;
   transform: translateY(-1px);
@@ -104,6 +117,7 @@
   border-radius: 1.25rem;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .reference-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 25px -5px rgba(3, 108, 108, 0.08), 0 8px 10px -6px rgba(3, 108, 108, 0.04);
@@ -124,6 +138,7 @@
   border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
+
 .gold-btn:hover {
   background-color: #E06800;
   transform: translateY(-1px);
@@ -138,6 +153,7 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.2s ease;
 }
+
 .dark-pill-btn:hover {
   background-color: #024747;
   transform: translateY(-1px);
@@ -147,13 +163,43 @@
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #FAF7F2;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #D8CCBF;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #B5A899;
+}
+
+/* ── Clean Print Media Query for Official 80G Receipts ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  header, footer, nav, aside, .print\:hidden, button, a {
+    display: none !important;
+  }
+  #printable-receipt, #printable-80g-receipt, #printable-donation-receipt {
+    display: block !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
 }

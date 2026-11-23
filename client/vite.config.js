@@ -7,6 +7,9 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+    watch: {
+      ignored: ['**/*.temp.*', '**/*.temp.jsx', '**/.*'],
+    },
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:5000',

@@ -25,6 +25,61 @@ import {
   List,
 } from 'lucide-react';
 
+export const isBrokenOrLegacyAsset = (item) => {
+  if (!item) return true;
+  const id = String(item._id || item.id || '').toLowerCase();
+  const title = String(item.title || '').toLowerCase();
+  const url = String(item.imageUrl || item.coverImage || '').toLowerCase();
+
+  const BROKEN_PATTERNS = [
+    'rct-ground-',
+    'protective mask distribution',
+    'elderly health support',
+    'on-ground hand sanitization',
+    'dignified clothing',
+    'dry ration & nutritional staple',
+    'community protective gear',
+    'community hand hygiene',
+    'direct assistance for differently-abled',
+    'apparel & festive clothing',
+    'orderly beneficiary queue',
+    'rebirth care trust ground volunteer',
+    'warm cloth & winter essential',
+    'comprehensive textile',
+    'dignity kit presentation',
+    'mask distribution & contactless sanitizer',
+    '/gallery/rct-',
+  ];
+
+  if (BROKEN_PATTERNS.some((p) => id.includes(p) || title.includes(p) || url.includes(p))) {
+    return true;
+  }
+  if (!item.imageUrl || typeof item.imageUrl !== 'string' || item.imageUrl.trim() === '') {
+    return true;
+  }
+  return false;
+};
+
+export const getCategoryFallbackImage = (category = '') => {
+  const cat = String(category).toLowerCase();
+  if (cat.includes('health') || cat.includes('medic') || cat.includes('mask') || cat.includes('sanitiz')) {
+    return 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800';
+  }
+  if (cat.includes('food') || cat.includes('ration') || cat.includes('nutrition') || cat.includes('staple')) {
+    return 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=800';
+  }
+  if (cat.includes('cloth') || cat.includes('winter') || cat.includes('warmth') || cat.includes('fabric')) {
+    return 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb9?q=80&w=800';
+  }
+  if (cat.includes('education') || cat.includes('child') || cat.includes('literacy') || cat.includes('school')) {
+    return 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800';
+  }
+  if (cat.includes('women') || cat.includes('tailor') || cat.includes('sewing') || cat.includes('livelihood')) {
+    return 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800';
+  }
+  return 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800';
+};
+
 const INITIAL_MEDIA_ASSETS = [
   {
     _id: 'media-dalit-1',
@@ -43,7 +98,7 @@ const INITIAL_MEDIA_ASSETS = [
     _id: 'media-1',
     title: 'Free Ration & Blanket Drive in Nand Nagri',
     category: 'General Community Work',
-    imageUrl: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=800',
     campaign: '',
     program: '',
     location: 'Nand Nagri, Seemapuri',
@@ -126,8 +181,24 @@ export const AdminGallery = () => {
     try {
       const stored = localStorage.getItem('rk_media_gallery_assets');
       if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        let parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Strictly purge broken legacy assets
+          const cleaned = parsed.filter((item) => !isBrokenOrLegacyAsset(item));
+          if (cleaned.length !== parsed.length) {
+            localStorage.setItem('rk_media_gallery_assets', JSON.stringify(cleaned));
+          }
+          // Replace any instances of the unwanted repeating photo with category-appropriate photos
+          return cleaned.map((item) => {
+            if (item.imageUrl && item.imageUrl.includes('photo-1593113598332-cd288d649433')) {
+              return {
+                ...item,
+                imageUrl: getCategoryFallbackImage(item.category),
+              };
+            }
+            return item;
+          });
+        }
       }
     } catch {
       // fallback
@@ -164,13 +235,23 @@ export const AdminGallery = () => {
     setRefreshing(true);
     try {
       const res = await api.get('/gallery');
-      if (res?.items && Array.isArray(res.items) && res.items.length > 0) {
+      if (res?.items && Array.isArray(res.items)) {
+        const validApiItems = res.items.filter((item) => !isBrokenOrLegacyAsset(item));
         setItems((currentItems) => {
-          const apiIds = new Set(res.items.map((r) => r._id));
-          const apiUrls = new Set(res.items.map((r) => r.imageUrl));
+          const apiIds = new Set(validApiItems.map((r) => r._id));
+          const apiUrls = new Set(validApiItems.map((r) => r.imageUrl));
           // Preserve any locally uploaded items not yet in API
-          const localOnly = currentItems.filter((c) => !apiIds.has(c._id) && !apiUrls.has(c.imageUrl));
-          const combined = [...res.items, ...localOnly];
+          const localOnly = currentItems.filter((c) => !apiIds.has(c._id) && !apiUrls.has(c.imageUrl) && !isBrokenOrLegacyAsset(c));
+          // Clean up any items that had the repeating placeholder image
+          const combined = [...validApiItems, ...localOnly].map((item) => {
+            if (item.imageUrl && item.imageUrl.includes('photo-1593113598332-cd288d649433')) {
+              return {
+                ...item,
+                imageUrl: getCategoryFallbackImage(item.category),
+              };
+            }
+            return item;
+          });
           try {
             localStorage.setItem('rk_media_gallery_assets', JSON.stringify(combined));
           } catch {
@@ -308,7 +389,7 @@ export const AdminGallery = () => {
           program: form.program || '',
           location: form.location || 'Delhi-NCR',
           caption: form.caption || '',
-          imageUrl: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=800',
+          imageUrl: getCategoryFallbackImage(form.category),
           fileSize: '1.4 MB',
           dimensions: '1920x1080',
           createdAt: new Date().toISOString().split('T')[0],
@@ -342,7 +423,7 @@ export const AdminGallery = () => {
   };
 
   const handleDeleteItem = async (id, e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!window.confirm('Delete this photo asset from media library?')) return;
 
     try {
@@ -352,7 +433,17 @@ export const AdminGallery = () => {
     }
     const updated = items.filter((i) => i._id !== id);
     persistItems(updated);
-    showToast('Media asset removed.', 'info');
+    if (inspectItem && inspectItem._id === id) {
+      setInspectItem(null);
+    }
+    showToast('Media asset removed from gallery.', 'info');
+  };
+
+  const handleRemoveRepeatedPlaceholder = () => {
+    if (!window.confirm('Remove all photo assets that use this placeholder image?')) return;
+    const updated = items.filter((i) => !i.imageUrl || !i.imageUrl.includes('photo-1593113598332-cd288d649433'));
+    persistItems(updated);
+    showToast('Removed repeated placeholder images from gallery.', 'success');
   };
 
   const handleCopyUrl = (url, id, e) => {
@@ -801,6 +892,17 @@ export const AdminGallery = () => {
             <List className="w-4 h-4" />
           </button>
         </div>
+
+        {items.some((i) => i.imageUrl?.includes('photo-1593113598332-cd288d649433')) && (
+          <button
+            onClick={handleRemoveRepeatedPlaceholder}
+            className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold inline-flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+            title="Remove all items with repeated placeholder image"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Remove Repeated Placeholders</span>
+          </button>
+        )}
       </div>
 
       {/* ── Media Assets Gallery Grid ── */}
@@ -819,7 +921,8 @@ export const AdminGallery = () => {
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=800';
+                    e.target.onerror = null;
+                    e.target.src = getCategoryFallbackImage(item.category);
                   }}
                 />
                 <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-black/60 backdrop-blur-xs text-white">
@@ -908,6 +1011,10 @@ export const AdminGallery = () => {
                           alt={item.title}
                           className="w-14 h-10 object-cover rounded-lg border border-slate-200 shrink-0 cursor-pointer"
                           onClick={() => setInspectItem(item)}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = getCategoryFallbackImage(item.category);
+                          }}
                         />
                         <div className="min-w-0">
                           <p className="font-bold text-slate-900 text-xs truncate">{item.title}</p>
@@ -1024,6 +1131,16 @@ export const AdminGallery = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={(e) => handleDeleteItem(inspectItem._id, e)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold border border-rose-200 transition cursor-pointer"
+                    title="Delete Photo"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete Photo</span>
+                  </button>
+
                   <button
                     onClick={(e) => handleCopyUrl(inspectItem.imageUrl, inspectItem._id, e)}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 transition cursor-pointer"

@@ -154,7 +154,11 @@ export const Programs = () => {
               >
                 <div className="h-56 overflow-hidden relative">
                   <img
-                    src={prog.coverImage}
+                    src={
+                      prog.coverImage && !prog.coverImage.includes('photo-1542838132-92c53300491e')
+                        ? prog.coverImage
+                        : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=1200&auto=format&fit=crop&q=80'
+                    }
                     alt={prog.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />

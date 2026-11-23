@@ -257,7 +257,7 @@ const seedDatabase = async () => {
         fullDescription:
           'Dedicated to constitutional equality and social justice, this initiative assists marginalized Dalit and minority settlements with government scheme linkages, scholarship applications, free legal advice, and youth leadership training.',
         iconName: 'ShieldCheck',
-        coverImage: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop',
+        coverImage: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1200&auto=format&fit=crop',
         objectives: [
           'Legal aid clinics and social welfare documentation camps',
           'Hostel and higher-education scholarship enrollment help',

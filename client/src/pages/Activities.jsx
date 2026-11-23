@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageHero } from '../components/PageHero';
 import api from '../services/api';
 import { Calendar, MapPin, Filter, Search, Award } from 'lucide-react';
+import { isBrokenOrLegacyAsset } from './Gallery';
 
 const FALLBACK_ACTIVITIES = [
   {
@@ -125,7 +126,7 @@ export const Activities = () => {
             const localAssets = JSON.parse(stored);
             if (Array.isArray(localAssets)) {
               const localAsActivities = localAssets
-                .filter((a) => a.imageUrl && a.title)
+                .filter((a) => a.imageUrl && a.title && !isBrokenOrLegacyAsset(a))
                 .map((a) => ({
                   _id: a._id,
                   title: a.title,

@@ -327,49 +327,49 @@ export const Donate = () => {
   }
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen py-8 sm:py-10">
-      {/* ── Top Header Section (Exact Match With Uploaded Screenshot) ── */}
-      <div className="text-center px-4 max-w-3xl mx-auto mb-8 sm:mb-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-50 text-[#DC2626] border border-red-100 mb-2.5 shadow-2xs">
+    <div className="bg-[#F8FAFC] min-h-screen py-6 sm:py-8">
+      {/* ── Top Header Section ── */}
+      <div className="text-center px-4 max-w-2xl mx-auto mb-6 sm:mb-8">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-red-50 text-[#DC2626] border border-red-100 mb-2 shadow-2xs">
           <Heart className="w-3 h-3 fill-[#DC2626] text-[#DC2626]" />
-          <span>OFFICIAL SECURE DONATION DESK</span>
+          <span>Official Secure Donation Desk</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Make a Life-Changing <span className="text-[#DC2626]">Contribution</span>
         </h1>
 
-        <p className="text-xs sm:text-[13px] text-slate-500 max-w-xl mx-auto mt-2 leading-relaxed">
+        <p className="text-xs sm:text-[13px] text-slate-500 max-w-lg mx-auto mt-1.5 leading-relaxed font-normal">
           Every rupee goes directly towards nutritious meals, school education, winter clothing, and critical pediatric healthcare with official 50% tax exemption.
         </p>
       </div>
 
       {/* ── Main 2-Column Donation Desk Grid ── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
           {/* ════════════ LEFT COLUMN: DONATION FORM CARD ════════════ */}
-          <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-xs">
+          <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs">
             {/* Top Payment Mode Tabs */}
-            <div className="bg-slate-100/80 p-1 rounded-xl flex gap-1 mb-6 text-xs sm:text-[13px] font-bold">
+            <div className="bg-slate-100/80 p-1 rounded-xl flex gap-1 mb-5 text-xs font-semibold">
               <button
                 type="button"
                 onClick={() => setPaymentTab('online')}
-                className={`flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer select-none ${
+                className={`flex-1 py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer select-none ${
                   paymentTab === 'online'
-                    ? 'bg-white text-slate-900 shadow-xs border border-slate-200/60 font-bold'
+                    ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/60 font-bold'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
                 <Lock className="w-3.5 h-3.5 text-red-500" />
-                <span>Online Payment (UPI/Cards/Netbanking)</span>
+                <span>Online Payment (UPI/Cards)</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setPaymentTab('bank')}
-                className={`flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer select-none ${
+                className={`flex-1 py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer select-none ${
                   paymentTab === 'bank'
-                    ? 'bg-white text-slate-900 shadow-xs border border-slate-200/60 font-bold'
+                    ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/60 font-bold'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
@@ -380,15 +380,15 @@ export const Donate = () => {
 
             {paymentTab === 'online' ? (
               /* ── Online Payment Mode Form ── */
-              <form onSubmit={handleInitiatePayment} className="space-y-6">
+              <form onSubmit={handleInitiatePayment} className="space-y-4">
                 {/* 1. CHOOSE DONATION AMOUNT (INR) */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2.5">
-                    1. CHOOSE DONATION AMOUNT (INR)
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    1. Choose Donation Amount (INR)
                   </label>
 
                   {/* 6 Preset Buttons */}
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-2.5">
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 sm:gap-2">
                     {[500, 1000, 2000, 3000, 5000, 10000].map((preset) => {
                       const isSelected = amount === preset && !customAmount;
                       return (
@@ -396,10 +396,10 @@ export const Donate = () => {
                           key={preset}
                           type="button"
                           onClick={() => handlePresetClick(preset)}
-                          className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm transition cursor-pointer text-center select-none ${
+                          className={`py-2 px-1.5 rounded-lg text-xs transition cursor-pointer text-center select-none font-bold ${
                             isSelected
-                              ? 'border-2 border-red-500 text-red-600 bg-white font-extrabold shadow-2xs'
-                              : 'border border-slate-200 text-slate-700 bg-white hover:border-slate-300 font-bold'
+                              ? 'border border-red-500 text-red-600 bg-red-50/30 font-extrabold shadow-2xs'
+                              : 'border border-slate-200 text-slate-700 bg-white hover:border-slate-300'
                           }`}
                         >
                           ₹{preset.toLocaleString('en-IN')}
@@ -409,8 +409,8 @@ export const Donate = () => {
                   </div>
 
                   {/* Custom Amount Input */}
-                  <div className="relative mt-2.5">
-                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs sm:text-sm">
+                  <div className="relative mt-2">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">
                       ₹
                     </span>
                     <input
@@ -422,22 +422,22 @@ export const Donate = () => {
                         setCustomAmount(e.target.value);
                         setAmount(null);
                       }}
-                      className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-semibold placeholder:text-slate-400 focus:outline-none focus:border-red-400 text-slate-800 shadow-2xs transition"
+                      className="w-full pl-7 pr-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-medium placeholder:text-slate-400 focus:outline-none focus:border-red-400 text-slate-800 shadow-2xs transition"
                     />
                   </div>
                 </div>
 
                 {/* 2. DONOR DETAILS (FOR OFFICIAL TAX RECEIPT) */}
-                <div className="space-y-3.5 pt-2 border-t border-slate-100">
-                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
-                    2. DONOR DETAILS (FOR OFFICIAL TAX RECEIPT)
+                <div className="space-y-3 pt-3 border-t border-slate-100">
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+                    2. Donor Details (For Official Tax Receipt)
                   </label>
 
                   {/* Row 1: Full Name & Email */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Full Name *
+                      <label className="block text-xs font-medium text-slate-600 mb-1">
+                        Full Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -445,17 +445,17 @@ export const Donate = () => {
                         value={donorName}
                         onChange={(e) => setDonorName(e.target.value)}
                         placeholder="e.g. Ramesh Kumar"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
                       />
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <label className="block text-xs font-semibold text-slate-700">
-                          Email Address *
+                        <label className="block text-xs font-medium text-slate-600">
+                          Email Address <span className="text-red-500">*</span>
                         </label>
-                        <span className="text-[10px] text-slate-400">
-                          Tax receipt will be sent here
+                        <span className="text-[10px] text-slate-400 font-normal">
+                          Receipt sent here
                         </span>
                       </div>
                       <input
@@ -464,25 +464,25 @@ export const Donate = () => {
                         value={donorEmail}
                         onChange={(e) => setDonorEmail(e.target.value)}
                         placeholder="name@example.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
                       />
                     </div>
                   </div>
 
                   {/* Row 2: Mobile Number & PAN */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <label className="block text-xs font-semibold text-slate-700">
-                          Mobile Number *
+                        <label className="block text-xs font-medium text-slate-600">
+                          Mobile Number <span className="text-red-500">*</span>
                         </label>
-                        <span className="text-[10px] text-slate-400">
-                          SMS/WhatsApp receipt
+                        <span className="text-[10px] text-slate-400 font-normal">
+                          WhatsApp/SMS
                         </span>
                       </div>
-                      <div className="flex rounded-xl border border-slate-200 bg-white overflow-hidden shadow-2xs focus-within:border-red-400 transition">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-2 bg-slate-50 border-r border-slate-200 text-xs font-semibold text-slate-700 shrink-0 select-none">
-                          <span className="text-sm leading-none">🇮🇳</span>
+                      <div className="flex rounded-lg border border-slate-200 bg-white overflow-hidden shadow-2xs focus-within:border-red-400 transition">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-slate-50 border-r border-slate-200 text-xs font-medium text-slate-600 shrink-0 select-none">
+                          <span className="text-xs leading-none">🇮🇳</span>
                           <span>+91</span>
                         </span>
                         <input
@@ -493,18 +493,18 @@ export const Donate = () => {
                             setDonorPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))
                           }
                           placeholder="98765 43210"
-                          className="w-full px-3 py-2 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none"
+                          className="w-full px-2.5 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none"
                         />
                       </div>
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <label className="block text-xs font-semibold text-slate-700">
+                        <label className="block text-xs font-medium text-slate-600">
                           PAN Card (Optional)
                         </label>
-                        <span className="text-[10px] text-slate-400">
-                          For 80G Tax Exemption
+                        <span className="text-[10px] text-slate-400 font-normal">
+                          For 80G Exemption
                         </span>
                       </div>
                       <input
@@ -513,15 +513,15 @@ export const Donate = () => {
                         value={donorPan}
                         onChange={(e) => setDonorPan(e.target.value.toUpperCase())}
                         placeholder="AAAAA9999A"
-                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-mono uppercase text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-mono uppercase text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
                       />
                     </div>
                   </div>
 
                   {/* Row 3: City & Donation Purpose */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      <label className="block text-xs font-medium text-slate-600 mb-1">
                         City
                       </label>
                       <input
@@ -529,19 +529,19 @@ export const Donate = () => {
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         placeholder="Delhi, Mumbai, etc."
-                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      <label className="block text-xs font-medium text-slate-600 mb-1">
                         Donation Purpose
                       </label>
                       <div className="relative">
                         <select
                           value={selectedPurpose}
                           onChange={(e) => setSelectedPurpose(e.target.value)}
-                          className="w-full appearance-none px-3.5 pr-8 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:border-red-400 shadow-2xs transition cursor-pointer"
+                          className="w-full appearance-none px-3 pr-7 py-2 rounded-lg border border-slate-200 bg-white text-xs font-medium text-slate-800 focus:outline-none focus:border-red-400 shadow-2xs transition cursor-pointer"
                         >
                           <option value="General Charitable Fund">General Charitable Fund</option>
                           <option value="Elderly Winter Relief & Nutritional Care Drive">
@@ -565,26 +565,26 @@ export const Donate = () => {
                             </option>
                           ))}
                         </select>
-                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {errorMsg && (
-                  <div className="p-3 bg-red-50 text-red-700 rounded-xl text-xs flex items-center gap-2 border border-red-200">
+                  <div className="p-2.5 bg-red-50 text-red-700 rounded-lg text-xs flex items-center gap-2 border border-red-200">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>{errorMsg}</span>
                   </div>
                 )}
 
-                {/* Big Red Proceed Button */}
+                {/* Proceed Button */}
                 <button
                   type="submit"
                   disabled={processing}
-                  className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer disabled:opacity-60 active:scale-[0.99]"
+                  className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-bold py-2.5 sm:py-3 px-5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 text-xs sm:text-sm cursor-pointer disabled:opacity-60 active:scale-[0.99]"
                 >
-                  <Heart className="w-4 h-4 fill-white" />
+                  <Heart className="w-3.5 h-3.5 fill-white" />
                   <span>
                     {processing
                       ? 'Processing Securely...'
@@ -593,28 +593,28 @@ export const Donate = () => {
                 </button>
 
                 {/* Security Trust Micro-footer */}
-                <div className="flex items-center justify-center gap-1.5 text-[11px] sm:text-xs text-slate-500 font-medium text-center pt-1">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 font-medium text-center">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                   <span>256-bit SSL Secured • Official Signed 100% Tax Receipt</span>
                 </div>
               </form>
             ) : (
               /* ── Direct Bank Transfer / UTR Notification Form ── */
-              <form onSubmit={handleBankTransferSubmit} className="space-y-4">
-                <div className="p-4 bg-red-50/60 border border-red-100 rounded-2xl text-xs text-slate-700 space-y-1">
-                  <div className="flex items-center gap-2 font-bold text-[#DC2626]">
-                    <Building className="w-4 h-4" />
+              <form onSubmit={handleBankTransferSubmit} className="space-y-3.5">
+                <div className="p-3 bg-red-50/60 border border-red-100 rounded-xl text-xs text-slate-700 space-y-0.5">
+                  <div className="flex items-center gap-2 font-bold text-[#DC2626] text-xs">
+                    <Building className="w-3.5 h-3.5" />
                     <span>Direct Bank Transfer Verification</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-500 leading-relaxed font-normal">
                     Transfer directly to our verified accounts (shown on the right) via NEFT, RTGS, IMPS, or UPI, then enter your UTR reference below to generate your 80G receipt.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Amount Transferred (INR) *
+                    <label className="block text-xs font-medium text-slate-600 mb-1">
+                      Amount Transferred (INR) <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="number"
@@ -623,13 +623,13 @@ export const Donate = () => {
                       value={effectiveAmount || ''}
                       onChange={(e) => setAmount(Number(e.target.value))}
                       placeholder="e.g. 5000"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-slate-800"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Bank UTR / Transaction Ref No. *
+                    <label className="block text-xs font-medium text-slate-600 mb-1">
+                      Bank UTR / Transaction Ref No. <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -637,15 +637,15 @@ export const Donate = () => {
                       value={utrNumber}
                       onChange={(e) => setUtrNumber(e.target.value)}
                       placeholder="e.g. 238918239029"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-mono text-xs sm:text-sm text-slate-800"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 font-mono text-xs text-slate-800"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Full Name *
+                    <label className="block text-xs font-medium text-slate-600 mb-1">
+                      Full Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -653,13 +653,13 @@ export const Donate = () => {
                       value={donorName}
                       onChange={(e) => setDonorName(e.target.value)}
                       placeholder="e.g. Ramesh Kumar"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 text-xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Email Address *
+                    <label className="block text-xs font-medium text-slate-600 mb-1">
+                      Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -667,15 +667,15 @@ export const Donate = () => {
                       value={donorEmail}
                       onChange={(e) => setDonorEmail(e.target.value)}
                       placeholder="name@example.com"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 text-xs"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Mobile Number *
+                    <label className="block text-xs font-medium text-slate-600 mb-1">
+                      Mobile Number <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="tel"
@@ -683,12 +683,12 @@ export const Donate = () => {
                       value={donorPhone}
                       onChange={(e) => setDonorPhone(e.target.value)}
                       placeholder="+91 98765 43210"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 text-xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-600 mb-1">
                       PAN Card (For 80G Tax Exemption)
                     </label>
                     <input
@@ -697,13 +697,13 @@ export const Donate = () => {
                       value={donorPan}
                       onChange={(e) => setDonorPan(e.target.value.toUpperCase())}
                       placeholder="AAAAA9999A"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-mono uppercase text-xs sm:text-sm"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 font-mono uppercase text-xs"
                     />
                   </div>
                 </div>
 
                 {errorMsg && (
-                  <div className="p-3 bg-red-50 text-red-700 rounded-xl text-xs flex items-center gap-2 border border-red-200">
+                  <div className="p-2.5 bg-red-50 text-red-700 rounded-lg text-xs flex items-center gap-2 border border-red-200">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>{errorMsg}</span>
                   </div>
@@ -712,7 +712,7 @@ export const Donate = () => {
                 <button
                   type="submit"
                   disabled={processing}
-                  className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm cursor-pointer disabled:opacity-60"
+                  className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-xs transition flex items-center justify-center gap-2 text-xs cursor-pointer disabled:opacity-60"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Submit UTR for Receipt Verification</span>
@@ -722,28 +722,28 @@ export const Donate = () => {
           </div>
 
           {/* ════════════ RIGHT COLUMN: CREDENTIALS & BANK CARDS ════════════ */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-3.5">
             {/* Card 1: Legal Trust Credentials */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs space-y-3">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs space-y-2.5">
               <div className="flex items-center gap-2">
-                <span className="w-1 h-4 bg-[#DC2626] rounded-full inline-block"></span>
-                <h3 className="font-bold text-slate-900 text-sm sm:text-[15px]">
+                <span className="w-1 h-3.5 bg-[#DC2626] rounded-full inline-block"></span>
+                <h3 className="font-bold text-slate-900 text-xs sm:text-[13px]">
                   Legal Trust Credentials
                 </h3>
               </div>
 
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <p className="text-[11px] text-slate-500 leading-relaxed font-normal">
                 Rebirth Care Trust is recognized by NITI Aayog (NGO Darpan) and registered under the Indian Trusts Act.
               </p>
 
-              <div className="space-y-2 pt-1">
+              <div className="space-y-1.5 pt-0.5">
                 {/* NGO Darpan UID */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/70 text-xs">
-                  <div className="flex items-center gap-2 text-slate-700 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-50/80 border border-slate-200/70 text-[11px]">
+                  <div className="flex items-center gap-1.5 text-slate-600 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     <span>NGO Darpan UID</span>
                   </div>
-                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900 text-[11px] sm:text-xs">
+                  <div className="flex items-center gap-1 font-mono font-bold text-slate-800 text-[11px]">
                     <span>{settings.compliance?.ngoDarpanUid || 'DL/2020/0262802'}</span>
                     <button
                       type="button"
@@ -752,21 +752,21 @@ export const Donate = () => {
                       title="Copy UID"
                     >
                       {copiedKey === 'uid' ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <Check className="w-3 h-3 text-emerald-600" />
                       ) : (
-                        <Copy className="w-3.5 h-3.5" />
+                        <Copy className="w-3 h-3" />
                       )}
                     </button>
                   </div>
                 </div>
 
                 {/* Trust PAN */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/70 text-xs">
-                  <div className="flex items-center gap-2 text-slate-700 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-50/80 border border-slate-200/70 text-[11px]">
+                  <div className="flex items-center gap-1.5 text-slate-600 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     <span>Trust PAN</span>
                   </div>
-                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900 text-[11px] sm:text-xs">
+                  <div className="flex items-center gap-1 font-mono font-bold text-slate-800 text-[11px]">
                     <span>{settings.compliance?.panNumber || 'AAETR1099J'}</span>
                     <button
                       type="button"
@@ -775,9 +775,9 @@ export const Donate = () => {
                       title="Copy PAN"
                     >
                       {copiedKey === 'pan' ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <Check className="w-3 h-3 text-emerald-600" />
                       ) : (
-                        <Copy className="w-3.5 h-3.5" />
+                        <Copy className="w-3 h-3" />
                       )}
                     </button>
                   </div>
@@ -785,8 +785,8 @@ export const Donate = () => {
               </div>
 
               {/* Informational Callout Note */}
-              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex items-start gap-2.5 text-[11px] text-slate-600 leading-normal mt-2">
-                <FileText className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+              <div className="p-2.5 bg-slate-50 border border-slate-200/80 rounded-lg flex items-start gap-2 text-[10.5px] text-slate-500 leading-normal mt-1.5">
+                <FileText className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
                 <span>
                   All donations are accounted for strictly towards charitable causes with computer-generated receipts provided.
                 </span>
@@ -794,29 +794,29 @@ export const Donate = () => {
             </div>
 
             {/* Card 2: Direct Bank Accounts */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs space-y-3.5">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs space-y-2.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-1 h-4 bg-[#DC2626] rounded-full inline-block"></span>
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-[15px]">
+                  <span className="w-1 h-3.5 bg-[#DC2626] rounded-full inline-block"></span>
+                  <h3 className="font-bold text-slate-900 text-xs sm:text-[13px]">
                     Direct Bank Accounts
                   </h3>
                 </div>
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-md">
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded">
                   Verified Current A/c
                 </span>
               </div>
 
               {/* Bank 1: Indian Bank */}
-              <div className="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3.5 space-y-1.5 text-xs">
-                <div className="flex justify-between items-center pb-1 border-b border-slate-200/60">
-                  <span className="font-bold text-slate-900 text-xs sm:text-[13px]">Indian Bank</span>
-                  <span className="text-[10px] text-slate-400 font-medium">Current A/c</span>
+              <div className="bg-slate-50/70 border border-slate-200/80 rounded-lg p-2.5 space-y-1 text-xs">
+                <div className="flex justify-between items-center pb-0.5 border-b border-slate-200/60">
+                  <span className="font-bold text-slate-800 text-[11.5px]">Indian Bank</span>
+                  <span className="text-[10px] text-slate-400 font-normal">Current A/c</span>
                 </div>
 
-                <div className="flex justify-between items-center text-[11.5px] pt-0.5">
+                <div className="flex justify-between items-center text-[11px]">
                   <span className="text-slate-500">Account No:</span>
-                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                  <div className="flex items-center gap-1 font-mono font-bold text-slate-800">
                     <span>6911724277</span>
                     <button
                       type="button"
@@ -832,9 +832,9 @@ export const Donate = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center text-[11.5px]">
+                <div className="flex justify-between items-center text-[11px]">
                   <span className="text-slate-500">IFSC Code:</span>
-                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                  <div className="flex items-center gap-1 font-mono font-bold text-slate-800">
                     <span>IDIB000Y010</span>
                     <button
                       type="button"
@@ -850,21 +850,21 @@ export const Donate = () => {
                   </div>
                 </div>
 
-                <p className="text-[10.5px] text-slate-400 pt-0.5">
+                <p className="text-[10px] text-slate-400">
                   Branch: Yamuna Vihar, Delhi - 110053
                 </p>
               </div>
 
               {/* Bank 2: Axis Bank */}
-              <div className="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3.5 space-y-1.5 text-xs">
-                <div className="flex justify-between items-center pb-1 border-b border-slate-200/60">
-                  <span className="font-bold text-slate-900 text-xs sm:text-[13px]">Axis Bank</span>
-                  <span className="text-[10px] text-slate-400 font-medium">Current A/c</span>
+              <div className="bg-slate-50/70 border border-slate-200/80 rounded-lg p-2.5 space-y-1 text-xs">
+                <div className="flex justify-between items-center pb-0.5 border-b border-slate-200/60">
+                  <span className="font-bold text-slate-800 text-[11.5px]">Axis Bank</span>
+                  <span className="text-[10px] text-slate-400 font-normal">Current A/c</span>
                 </div>
 
-                <div className="flex justify-between items-center text-[11.5px] pt-0.5">
+                <div className="flex justify-between items-center text-[11px]">
                   <span className="text-slate-500">Account No:</span>
-                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                  <div className="flex items-center gap-1 font-mono font-bold text-slate-800">
                     <span>920020064952926</span>
                     <button
                       type="button"
@@ -880,9 +880,9 @@ export const Donate = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center text-[11.5px]">
+                <div className="flex justify-between items-center text-[11px]">
                   <span className="text-slate-500">IFSC Code:</span>
-                  <div className="flex items-center gap-1.5 font-mono font-bold text-slate-900">
+                  <div className="flex items-center gap-1 font-mono font-bold text-slate-800">
                     <span>UTIB0003158</span>
                     <button
                       type="button"
@@ -898,34 +898,34 @@ export const Donate = () => {
                   </div>
                 </div>
 
-                <p className="text-[10.5px] text-slate-400 pt-0.5">
+                <p className="text-[10px] text-slate-400">
                   Branch: Kaushambi Ghaziabad, UP - 201010
                 </p>
               </div>
             </div>
 
             {/* Card 3: SCAN & PAY VIA UPI */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs space-y-3.5 text-center">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-xs space-y-2 text-center">
               <div className="flex items-center justify-between text-left">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
                   SCAN & PAY VIA UPI
                 </h3>
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-md">
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-1.5 py-0.5 rounded">
                   Instant • 0% Surcharge
                 </span>
               </div>
 
               {/* QR Code Graphic matching screenshot */}
-              <div className="p-3 bg-white rounded-2xl border border-slate-200 inline-block shadow-2xs mx-auto">
+              <div className="p-2 bg-white rounded-xl border border-slate-200 inline-block shadow-2xs mx-auto">
                 <img
                   src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi%3A%2F%2Fpay%3Fpa%3Drebirthcaretrust%40indianbk%26pn%3DRebirth%20Care%20Trust%26cu%3DINR"
                   alt="UPI QR Code - Rebirth Care Trust"
-                  className="w-40 h-40 sm:w-44 sm:h-44 object-contain mx-auto"
+                  className="w-32 h-32 object-contain mx-auto"
                 />
               </div>
 
-              <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-800">
+              <div className="space-y-0.5">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-800">
                   <span>rebirthcaretrust@indianbk</span>
                   <button
                     type="button"
@@ -934,14 +934,14 @@ export const Donate = () => {
                     title="Copy UPI ID"
                   >
                     {copiedKey === 'upi' ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <Check className="w-3 h-3 text-emerald-600" />
                     ) : (
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-3 h-3" />
                     )}
                   </button>
                 </div>
 
-                <p className="text-[10.5px] text-slate-400 pt-1">
+                <p className="text-[10px] text-slate-400 pt-0.5">
                   Compatible with Google Pay, PhonePe, Paytm, BHIM & all UPI banking apps
                 </p>
               </div>

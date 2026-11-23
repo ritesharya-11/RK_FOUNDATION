@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useWebsite } from '../context/WebsiteContext';
 import {
   MapPin,
   Phone,
   Mail,
-  ChevronRight,
   ShieldCheck,
-  CheckCircle2,
+  Heart,
+  ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 
 export const Footer = () => {
-  const { settings, showToast } = useWebsite();
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const { settings } = useWebsite();
 
   const phone = settings.contact?.phone || '+91-9876543210';
   const emailAddr = settings.contact?.email || 'contact@rkfoundation.org';
@@ -22,82 +20,11 @@ export const Footer = () => {
     settings.contact?.address ||
     'E-48, Institutional Area, Sector 62, Noida, Delhi-NCR, India - 201309';
 
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    if (showToast) {
-      showToast('Thank you for subscribing to RK Foundation newsletter!', 'success');
-    }
-  };
-
   return (
     <footer className="w-full bg-[#036C6C] text-white pt-12 pb-8 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         {/* ========================================================
-            1. TOP NEWSLETTER STRIP (Exact Reference Image 11)
-            Asymmetric Deep Teal container with rounded-tr-[40px]
-        ======================================================== */}
-        <div className="bg-[#025858] border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-8 mb-12 shadow-xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            {/* Left Title */}
-            <div className="lg:col-span-4 space-y-1">
-              <span className="text-[10px] font-bold tracking-widest uppercase text-[#F67708]">
-                STAY UPDATED WITH OUR IMPACT
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">
-                SIGN UP TO RK FOUNDATION
-              </h3>
-            </div>
-
-            {/* Newsletter Form */}
-            <div className="lg:col-span-8">
-              {subscribed ? (
-                <div className="flex items-center gap-2 p-3 bg-white/10 rounded-xl text-emerald-300 text-xs font-semibold">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>You have successfully joined our community updates!</span>
-                </div>
-              ) : (
-                <form
-                  onSubmit={handleNewsletterSubmit}
-                  className="grid grid-cols-1 sm:grid-cols-12 gap-3"
-                >
-                  <div className="sm:col-span-4">
-                    <input
-                      type="text"
-                      placeholder="FULL NAME"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      required
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#014040] border border-white/15 text-white placeholder-teal-200/60 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#F67708]"
-                    />
-                  </div>
-                  <div className="sm:col-span-5">
-                    <input
-                      type="email"
-                      placeholder="EMAIL"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#014040] border border-white/15 text-white placeholder-teal-200/60 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#F67708]"
-                    />
-                  </div>
-                  <div className="sm:col-span-3">
-                    <button
-                      type="submit"
-                      className="w-full btn-vermillion py-2.5 text-xs font-bold shadow-md tracking-wider uppercase cursor-pointer"
-                    >
-                      SUBMIT NOW
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* ========================================================
-            2. MAIN 4-COLUMN FOOTER GRID (Exact Reference Image 11)
+            MAIN 4-COLUMN FOOTER GRID (Exact Reference Image 11)
         ======================================================== */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-white/15">
           {/* Column 1: Primary Navigation */}
@@ -200,27 +127,146 @@ export const Footer = () => {
                   {emailAddr}
                 </a>
               </div>
+
+              {/* Connect with RCT - Social Media Links */}
+              <div className="pt-3 border-t border-white/10 space-y-2">
+                <span className="text-[11px] font-bold tracking-widest uppercase text-teal-200 block">
+                  CONNECT WITH RCT
+                </span>
+                <div className="flex items-center gap-2.5">
+                  {/* Facebook */}
+                  <a
+                    href="https://www.facebook.com/RebirthCareTrust"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#024747] hover:bg-[#F67708] border border-white/15 text-white flex items-center justify-center transition shadow-sm hover:scale-110"
+                    title="Facebook - Rebirth Care Trust"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </a>
+
+                  {/* X (Twitter) */}
+                  <a
+                    href="https://x.com/CareRebirth"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#024747] hover:bg-[#F67708] border border-white/15 text-white flex items-center justify-center transition shadow-sm hover:scale-110"
+                    title="X (Twitter) - @CareRebirth"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </a>
+
+                  {/* YouTube */}
+                  <a
+                    href="https://www.youtube.com/channel/UC7Wmeu7CyiH8jvdVpBrmHhA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#024747] hover:bg-[#F67708] border border-white/15 text-white flex items-center justify-center transition shadow-sm hover:scale-110"
+                    title="YouTube - Rebirth Care Trust"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  </a>
+
+                  {/* Instagram */}
+                  <a
+                    href="https://www.instagram.com/rebirthcaretrust4/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#024747] hover:bg-[#F67708] border border-white/15 text-white flex items-center justify-center transition shadow-sm hover:scale-110"
+                    title="Instagram - @rebirthcaretrust4"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Column 4: Right Dark Box "LET'S START A CONVERSATION" */}
-          <div className="lg:col-span-4 bg-[#024747] border border-white/10 rounded-2xl p-6 sm:p-7 space-y-3 shadow-lg">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#F67708] block">
-              COLLABORATE WITH US
-            </span>
-            <h4 className="text-lg sm:text-xl font-black uppercase text-white tracking-tight">
-              LET'S START A CONVERSATION
-            </h4>
-            <p className="text-xs text-teal-100/90 leading-relaxed">
-              Whether it's about CSR collaboration, institutional support, volunteering, or field visits, we are here to listen and respond. Together, we can create lasting change.
-            </p>
-            <div className="pt-2">
-              <Link
-                to="/contact"
-                className="btn-vermillion px-6 py-2.5 text-xs font-bold uppercase shadow-md"
-              >
-                CONTACT US
-              </Link>
+          {/* Column 4: Modern Action Card (Font Sizes & Visibility Matching Official Desk) */}
+          <div className="lg:col-span-4 flex justify-start lg:justify-end">
+            <div className="w-full max-w-[380px] bg-gradient-to-br from-[#024747] via-[#013838] to-[#012222] border border-white/20 hover:border-[#F67708]/60 transition-colors duration-300 rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-2xl relative overflow-hidden space-y-4">
+              {/* Ambient decorative glow */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#F67708]/20 rounded-full blur-2xl pointer-events-none" />
+
+              {/* 1. Top Section: Badge & Headline */}
+              <div className="space-y-2.5 relative z-10">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F67708]/15 border border-[#F67708]/40 text-[#F67708] text-[11px] font-bold uppercase tracking-wider">
+                    <Heart className="w-3.5 h-3.5 fill-[#F67708]" />
+                    50% Tax Exemption (80G)
+                  </span>
+                  <span className="text-xs font-semibold text-teal-200/80">
+                    100% Verified
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="text-lg sm:text-xl font-black uppercase text-white tracking-tight leading-snug">
+                    Transform A Child's Life
+                  </h4>
+                  <p className="text-xs sm:text-[13px] text-teal-100/90 leading-relaxed mt-1 font-medium">
+                    Every rupee directly supports nutritious meals, schooling kits, and critical medical care.
+                  </p>
+                </div>
+              </div>
+
+              {/* 2. Middle Section: Quick Preset Amount Buttons */}
+              <div className="space-y-2 relative z-10">
+                <div className="flex justify-between text-xs text-teal-200/90 font-bold uppercase tracking-wider">
+                  <span>Quick Contribution:</span>
+                  <span className="text-[#F67708] font-bold">Sec 80G Certified</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <Link
+                    to="/donate?amount=500"
+                    className="py-2.5 px-2 rounded-xl bg-white/10 hover:bg-[#F67708] hover:text-white border border-white/20 text-white text-xs sm:text-sm font-extrabold text-center transition shadow-xs hover:scale-105"
+                  >
+                    ₹500
+                  </Link>
+                  <Link
+                    to="/donate?amount=1000"
+                    className="py-2.5 px-2 rounded-xl bg-white/10 hover:bg-[#F67708] hover:text-white border border-white/20 text-white text-xs sm:text-sm font-extrabold text-center transition shadow-xs hover:scale-105"
+                  >
+                    ₹1,000
+                  </Link>
+                  <Link
+                    to="/donate?amount=2500"
+                    className="py-2.5 px-2 rounded-xl bg-white/10 hover:bg-[#F67708] hover:text-white border border-white/20 text-white text-xs sm:text-sm font-extrabold text-center transition shadow-xs hover:scale-105"
+                  >
+                    ₹2,500
+                  </Link>
+                </div>
+              </div>
+
+              {/* 3. Bottom Section: Main CTA & CSR Link */}
+              <div className="space-y-2.5 pt-1 relative z-10">
+                <Link
+                  to="/donate"
+                  className="w-full flex items-center justify-center gap-2 bg-[#F67708] hover:bg-[#e06800] text-white font-black text-xs sm:text-sm uppercase py-3 px-5 rounded-xl shadow-lg transition hover:scale-[1.02] tracking-wider"
+                >
+                  <span>DONATE NOW</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <div className="pt-2 border-t border-white/15 flex items-center justify-between text-xs text-teal-100/90 font-medium">
+                  <span>CSR Collaboration?</span>
+                  <Link
+                    to="/contact"
+                    className="text-[#F67708] hover:text-white font-bold underline transition inline-flex items-center gap-1"
+                  >
+                    <span>Inquire Here</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

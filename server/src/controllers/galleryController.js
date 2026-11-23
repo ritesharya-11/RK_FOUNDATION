@@ -1,5 +1,24 @@
 import Gallery from '../models/Gallery.js';
 
+const BROKEN_PATTERNS = [
+  'rct-ground-',
+  'protective mask distribution',
+  'elderly health support',
+  'on-ground hand sanitization',
+  'dignified clothing',
+  'dry ration & nutritional staple',
+  'community protective gear',
+  'community hand hygiene',
+  'direct assistance for differently-abled',
+  'apparel & festive clothing',
+  'orderly beneficiary queue',
+  'rebirth care trust ground volunteer',
+  'warm cloth & winter essential',
+  'comprehensive textile',
+  'dignity kit presentation',
+  'mask distribution & contactless sanitizer',
+];
+
 // @desc    Get all gallery photos
 // @route   GET /api/gallery
 // @access  Public
@@ -15,7 +34,12 @@ export const getGallery = async (req, res, next) => {
       query.isFeatured = true;
     }
 
-    const items = await Gallery.find(query).sort({ eventDate: -1, createdAt: -1 });
+    const rawItems = await Gallery.find(query).sort({ eventDate: -1, createdAt: -1 });
+    const items = rawItems.filter((i) => {
+      const t = String(i.title || '').toLowerCase();
+      const u = String(i.imageUrl || '').toLowerCase();
+      return !BROKEN_PATTERNS.some((p) => t.includes(p) || u.includes(p));
+    });
     res.status(200).json({ success: true, count: items.length, items });
   } catch (err) {
     next(err);

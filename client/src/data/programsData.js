@@ -69,7 +69,7 @@ export const operationalProgramsData = [
       'Community legal aid, constitutional rights literacy, caste discrimination grievance support, and educational advancement for Dalit youth.',
     fullDescription:
       'Dedicated to constitutional equality and social justice, this initiative assists marginalized Dalit and minority settlements with government scheme linkages, scholarship applications, free legal advice, and youth leadership training.\n\nWe organize grassroot legal clinics that empower communities to assert their legal entitlements without fear.',
-    coverImage: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop',
+    coverImage: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=1200&auto=format&fit=crop&q=80',
     objectives: [
       'Legal aid clinics and social welfare documentation camps',
       'Hostel and higher-education scholarship enrollment help',
