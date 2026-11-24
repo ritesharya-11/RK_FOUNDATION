@@ -38,7 +38,7 @@ const CATEGORY_COLORS = {
   'Health and Family Welfare':         'bg-green-50 text-green-700 border-green-100',
   'Healthcare':                        'bg-green-50 text-green-700 border-green-100',
   'Healthcare & Relief':               'bg-green-50 text-green-700 border-green-100',
-  'Dalit Upliftment & Rights':         'bg-orange-50 text-orange-700 border-orange-100',
+  'Dalit Upliftment & Rights':         'bg-slate-100 text-slate-700 border-slate-200',
   'Drinking Water & Sanitation':       'bg-sky-50 text-sky-700 border-sky-100',
   'Environment and Forest Protection': 'bg-emerald-50 text-emerald-700 border-emerald-100',
   'Disaster Management & Emergency Relief': 'bg-red-50 text-red-700 border-red-100',

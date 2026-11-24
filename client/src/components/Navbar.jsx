@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useWebsite } from '../context/WebsiteContext';
 import {
   Heart,
+  HeartHandshake,
   ChevronDown,
   Menu,
   X,
@@ -24,6 +25,7 @@ export const Navbar = () => {
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
   const [programsDropdownOpen, setProgramsDropdownOpen] = useState(false);
   const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -31,97 +33,78 @@ export const Navbar = () => {
     setProgramsDropdownOpen(false);
   }, [location.pathname]);
 
-  // 10 Core Operational Charitable Programs (Exact Image Reference)
-  const operationalProgramsCol1 = [
-    {
-      title: 'Children Development',
-      slug: 'children-development',
-      icon: GraduationCap,
-      iconBg: 'bg-rose-50 text-rose-500 border border-rose-100',
-    },
-    {
-      title: 'Aged / Elderly Care',
-      slug: 'aged-elderly-care',
-      icon: Heart,
-      iconBg: 'bg-amber-50 text-amber-500 border border-amber-100',
-    },
-    {
-      title: 'Education and Literacy',
-      slug: 'education-and-literacy',
-      icon: BookOpen,
-      iconBg: 'bg-blue-50 text-blue-500 border border-blue-100',
-    },
-    {
-      title: 'Dalit Upliftment & Rights',
-      slug: 'dalit-upliftment-and-rights',
-      icon: Shield,
-      iconBg: 'bg-purple-50 text-purple-500 border border-purple-100',
-    },
-    {
-      title: 'Drinking Water & Sanitation',
-      slug: 'drinking-water-and-sanitation',
-      icon: Droplets,
-      iconBg: 'bg-rose-50 text-rose-500 border border-rose-100',
-    },
+  // Operational Field Initiatives matching reference dropdown
+  const fieldInitiatives = [
+    { title: 'CHILDREN DEVELOPMENT', slug: 'children-development' },
+    { title: 'HEALTH AND FAMILY WELFARE', slug: 'health-and-family-welfare' },
+    { title: 'WOMEN EMPOWERMENT', slug: 'womens-development-and-empowerment' },
+    { title: 'EDUCATION AND LITERACY', slug: 'education-and-literacy' },
+    { title: 'DISASTER PREPAREDNESS', slug: 'disaster-management-and-emergency-relief' },
+    { title: 'ENVIRONMENT AND FOREST', slug: 'environment-and-forest-protection' },
+    { title: 'DIFFERENTLY ABLED', slug: 'differently-abled-support' },
+    { title: 'DRINKING & SANITATION', slug: 'drinking-water-and-sanitation' },
+    { title: 'DALIT UPLIFTMENT', slug: 'dalit-upliftment-and-rights' },
+    { title: 'AGED / ELDERLY CARE', slug: 'aged-elderly-care' },
   ];
 
-  const operationalProgramsCol2 = [
-    {
-      title: "Women's Development and Empowerment",
-      slug: 'womens-development-and-empowerment',
-      icon: Sparkles,
-      iconBg: 'bg-pink-50 text-pink-500 border border-pink-100',
-    },
-    {
-      title: 'Differently Abled Support',
-      slug: 'differently-abled-support',
-      icon: ShieldCheck,
-      iconBg: 'bg-indigo-50 text-indigo-500 border border-indigo-100',
-    },
-    {
-      title: 'Health and Family Welfare',
-      slug: 'health-and-family-welfare',
-      icon: HeartPulse,
-      iconBg: 'bg-emerald-50 text-emerald-500 border border-emerald-100',
-    },
-    {
-      title: 'Environment and Forest Protection',
-      slug: 'environment-and-forest-protection',
-      icon: Leaf,
-      iconBg: 'bg-teal-50 text-teal-500 border border-teal-100',
-    },
-    {
-      title: 'Disaster Management & Emergency Relief',
-      slug: 'disaster-management-and-emergency-relief',
-      icon: LifeBuoy,
-      iconBg: 'bg-rose-50 text-rose-500 border border-rose-100',
-    },
-  ];
-
-  // Helper for active link matching reference format
+  // Helper matching reference: active = dark solid pill (#121316), inactive = text-slate-700
   const getNavLinkClass = (path, exact = false) => {
     const isActive = exact
       ? location.pathname === path
       : location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
 
     if (isActive) {
-      return 'px-3.5 py-1.5 rounded-lg bg-[#FFF4EB] border border-[#F67708]/30 text-[#F67708] font-bold text-[13px] transition shadow-xs flex items-center gap-1';
+      return 'px-5 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-[13px] uppercase tracking-wider bg-[#14382C] text-white shadow-md flex items-center gap-1.5 transition-all';
     }
-    return 'px-2.5 py-1.5 text-[13px] font-semibold text-[#323D3D] hover:text-[#F67708] transition flex items-center gap-1';
+    return 'px-4 sm:px-5 py-2.5 font-bold text-xs sm:text-[13px] uppercase tracking-wider text-slate-700 hover:text-[#14382C] hover:bg-slate-100 rounded-full transition-all flex items-center gap-1.5';
   };
 
-  return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-xs transition-all">
-      {/* 1. Top Colored Accent Stripe */}
-      <div className="w-full h-1 bg-[#F67708]" />
+  const contactPhone = settings?.phone || '+91-9650896859';
+  const panNumber = settings.compliance?.panNumber || 'AATTA1099H';
+  const regNumber = settings.compliance?.ngoDarpanUid || 'DL/2021/0298412';
 
-      {/* 2. Main Navbar Bar */}
-      <div className="w-full border-b border-[#E3D9CF]/70">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
+  return (
+    <header className="sticky top-0 z-50 w-full transition-all">
+      {/* ========================================================
+          TIER 1: TOP BLACK ANNOUNCEMENT & COMPLIANCE BAR
+      ======================================================== */}
+      <div className="w-full bg-[#121316] text-white py-2 px-4 sm:px-8 lg:px-12 xl:px-16 border-b border-black">
+        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-1.5 text-xs">
+          {/* Left Compliance Notice */}
+          <div className="font-semibold tracking-wide text-white flex items-center gap-2 text-center md:text-left">
+            <span className="w-2 h-2 rounded-full bg-white shrink-0" />
+            <span>All Donations Are Exempted Under Section 80 G(5)(IV) Of Income Tax Act 1961.</span>
+          </div>
+
+          {/* Right Registration & Contact Details */}
+          <div className="flex items-center flex-wrap justify-center md:justify-end gap-2.5 sm:gap-4 text-slate-300 font-medium tracking-wide text-xs">
+            <span>
+              PAN: <strong className="text-white font-mono font-bold">{panNumber}</strong>
+            </span>
+            <span className="text-white/40 hidden sm:inline">•</span>
+            <span>
+              Reg: <strong className="text-white font-mono font-bold">{regNumber}</strong>
+            </span>
+            <span className="text-white/40 hidden sm:inline">•</span>
+            <a
+              href={`tel:${contactPhone.replace(/\s+/g, '')}`}
+              className="text-slate-300 hover:text-white transition-colors"
+            >
+              Mob: <strong className="text-white hover:text-white font-mono font-bold">{contactPhone}</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================
+          TIER 2: MAIN NAVIGATION BAR (Substantial & Spacious)
+      ======================================================== */}
+      <div className="w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-4 sm:py-4.5 flex items-center justify-between">
           {/* Left Brand Area (Logo + Foundation Title) */}
-          <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#E3D9CF] flex items-center justify-center p-1.5 shadow-xs group-hover:scale-105 transition-transform">
+          <div className="flex items-center gap-4">
+            <Link to="/" className="flex items-center gap-3.5 group shrink-0">
+              <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center p-2 shadow-xs group-hover:scale-105 transition-transform">
                 <img
                   src="/logo-icon.png"
                   alt="RK Foundation Logo"
@@ -133,26 +116,29 @@ export const Navbar = () => {
               </div>
 
               <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-black text-base sm:text-lg tracking-tight text-[#323D3D] leading-none group-hover:text-[#F67708] transition-colors">
-                    RK FOUNDATION
-                  </span>
-                </div>
-                <span className="text-[10px] font-medium text-[#697777] italic tracking-wide mt-0.5">
+                <span className="font-black text-lg sm:text-xl tracking-tight text-[#121316] leading-none group-hover:text-[#121316] transition-colors">
+                  RK FOUNDATION
+                </span>
+                <span className="text-[11px] font-medium text-slate-400 italic tracking-wide mt-1">
                   A belief in humanity
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Center Navigation Links (Matching Screenshot Format) */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {/* Home */}
+          {/* Center Navigation Links: HOME, ABOUT US, OUR WORK, LIVE CASES, GALLERY, OUR SUCCESS, CONTACT US */}
+          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2.5">
+            {/* HOME */}
             <NavLink to="/" className={getNavLinkClass('/', true)}>
-              Home
+              HOME
             </NavLink>
 
-            {/* Our Programs (Mega Dropdown Menu) */}
+            {/* ABOUT US */}
+            <NavLink to="/about" className={getNavLinkClass('/about')}>
+              ABOUT US
+            </NavLink>
+
+            {/* OUR WORK (Mega Dropdown Menu) */}
             <div
               className="relative"
               onMouseEnter={() => setProgramsDropdownOpen(true)}
@@ -163,146 +149,82 @@ export const Navbar = () => {
                 onClick={() => setProgramsDropdownOpen(!programsDropdownOpen)}
                 className={`cursor-pointer ${getNavLinkClass('/programs')}`}
               >
-                <span>Our Programs</span>
+                <span>OUR WORK</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    programsDropdownOpen ? 'rotate-180 text-[#F67708]' : 'opacity-70'
-                  }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${programsDropdownOpen ? 'rotate-180 text-[#121316]' : 'text-slate-400'
+                    }`}
                 />
               </button>
 
-              {/* Exact Mega Dropdown matching uploaded screenshot */}
+              {/* Vertical Dropdown Menu (Exact Reference Format) */}
               {programsDropdownOpen && (
                 <div
-                  className="absolute top-full -left-20 sm:-left-36 w-[640px] xl:w-[720px] bg-white border border-slate-200 rounded-2xl shadow-2xl p-6 mt-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                  className="absolute top-full left-0 mt-2 w-72 sm:w-80 bg-white border border-slate-100 rounded-2xl shadow-2xl p-4 sm:p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 normal-case"
                   onMouseEnter={() => setProgramsDropdownOpen(true)}
                   onMouseLeave={() => setProgramsDropdownOpen(false)}
                 >
-                  {/* Top Header Strip */}
-                  <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-700">
-                      OPERATIONAL CHARITABLE PROGRAMS
+                  {/* Header Strip: FIELD INITIATIVES | 10 Programs */}
+                  <div className="flex items-center justify-between pb-3.5 mb-2.5 border-b border-slate-100">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      FIELD INITIATIVES
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-[11px] font-semibold text-slate-500">
-                      10 Programs
+                    <span className="text-[10px] sm:text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-full">
+                      {fieldInitiatives.length} Programs
                     </span>
                   </div>
 
-                  {/* 2-Column Grid */}
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 py-3.5">
-                    {/* Column 1 */}
-                    <div className="space-y-1">
-                      {operationalProgramsCol1.map((prog, idx) => {
-                        const IconComponent = prog.icon;
-                        return (
-                          <Link
-                            key={idx}
-                            to={`/programs/${prog.slug}`}
-                            onClick={() => setProgramsDropdownOpen(false)}
-                            className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition group"
-                          >
-                            <div
-                              className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${prog.iconBg} group-hover:scale-105 transition-transform`}
-                            >
-                              <IconComponent className="w-4 h-4" />
-                            </div>
-                            <span className="text-xs sm:text-[13px] font-semibold text-slate-800 group-hover:text-[#F67708] transition truncate">
-                              {prog.title}
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-
-                    {/* Column 2 */}
-                    <div className="space-y-1">
-                      {operationalProgramsCol2.map((prog, idx) => {
-                        const IconComponent = prog.icon;
-                        return (
-                          <Link
-                            key={idx}
-                            to={`/programs/${prog.slug}`}
-                            onClick={() => setProgramsDropdownOpen(false)}
-                            className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition group"
-                          >
-                            <div
-                              className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${prog.iconBg} group-hover:scale-105 transition-transform`}
-                            >
-                              <IconComponent className="w-4 h-4" />
-                            </div>
-                            <span className="text-xs sm:text-[13px] font-semibold text-slate-800 group-hover:text-[#F67708] transition truncate">
-                              {prog.title}
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Bottom Footer Strip */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="text-slate-500 font-normal">
-                      Direct on-ground NGO initiatives across Delhi-NCR
-                    </span>
-                    <Link
-                      to="/programs"
-                      onClick={() => setProgramsDropdownOpen(false)}
-                      className="font-bold text-[#F67708] hover:text-[#E06800] flex items-center gap-1 transition"
-                    >
-                      <span>Explore All Programs</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                  {/* Clean Vertical Links List */}
+                  <div className="flex flex-col space-y-0.5">
+                    {fieldInitiatives.map((prog, idx) => (
+                      <Link
+                        key={idx}
+                        to={`/programs/${prog.slug}`}
+                        onClick={() => setProgramsDropdownOpen(false)}
+                        className="px-2.5 py-2 rounded-lg font-bold text-xs sm:text-[12.5px] uppercase tracking-wider text-slate-800 hover:text-black hover:bg-slate-50 transition-colors block text-left leading-snug"
+                      >
+                        {prog.title}
+                      </Link>
+                    ))}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Live Cases */}
+            {/* LIVE CASES */}
             <NavLink to="/projects" className={getNavLinkClass('/projects')}>
-              Live Cases
+              LIVE CASES
             </NavLink>
 
-            {/* Successful Stories */}
-            <NavLink to="/news" className={getNavLinkClass('/news')}>
-              Successful Stories
-            </NavLink>
-
-            {/* Parents Video */}
-            <NavLink to="/parents-video" className={getNavLinkClass('/parents-video')}>
-              Parents Video
-            </NavLink>
-
-            {/* Gallery */}
+            {/* GALLERY */}
             <NavLink to="/gallery" className={getNavLinkClass('/gallery')}>
-              Gallery
+              GALLERY
             </NavLink>
 
-            {/* About */}
-            <NavLink to="/about" className={getNavLinkClass('/about')}>
-              About
+            {/* OUR SUCCESS */}
+            <NavLink to="/news" className={getNavLinkClass('/news')}>
+              OUR SUCCESS
             </NavLink>
 
-            {/* Contact */}
+            {/* CONTACT US */}
             <NavLink to="/contact" className={getNavLinkClass('/contact')}>
-              Contact
+              CONTACT US
             </NavLink>
           </nav>
 
-          {/* Right Action: Red/Vermillion Pill Button with Heart & Arrow */}
+          {/* Right Action: Clean Forest Green Pill Button */}
           <div className="flex items-center gap-3">
             <Link
               to="/donate"
-              className="px-5 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm text-white bg-[#F67708] hover:bg-[#E06800] shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center gap-2 cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-7 py-3 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-md hover:shadow-lg transition-all transform hover:scale-105 group cursor-pointer"
             >
-              <Heart className="w-4 h-4 fill-current text-white shrink-0" />
-              <span>Donate Now</span>
-              <ArrowRight className="w-4 h-4 shrink-0" />
+              <Heart className="w-4 h-4 fill-white text-white transition-colors" />
+              <span>DONATE NOW</span>
             </Link>
 
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[#323D3D] hover:text-[#F67708] rounded-lg transition cursor-pointer"
+              className="lg:hidden p-2 text-slate-700 hover:text-[#121316] rounded-xl hover:bg-slate-100 transition cursor-pointer"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -311,14 +233,21 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Full Width) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-[#E3D9CF] px-6 py-5 space-y-3 shadow-xl">
+        <div className="lg:hidden w-full bg-white border-b border-slate-200 px-6 py-5 space-y-3 shadow-2xl">
           <Link
             to="/"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2 border-b border-slate-100"
           >
-            Home
+            HOME
+          </Link>
+
+          <Link
+            to="/about"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2 border-b border-slate-100"
+          >
+            ABOUT US
           </Link>
 
           {/* Collapsible Mobile Programs */}
@@ -326,37 +255,33 @@ export const Navbar = () => {
             <button
               type="button"
               onClick={() => setMobileProgramsOpen(!mobileProgramsOpen)}
-              className="w-full flex items-center justify-between text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
+              className="w-full flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2 border-b border-slate-100"
             >
-              <span>Our Programs (10)</span>
+              <span>OUR WORK (10)</span>
               <ChevronDown
-                className={`w-4 h-4 transition-transform ${
-                  mobileProgramsOpen ? 'rotate-180 text-[#F67708]' : ''
-                }`}
+                className={`w-4 h-4 transition-transform ${mobileProgramsOpen ? 'rotate-180 text-[#121316]' : 'text-slate-400'
+                  }`}
               />
             </button>
 
             {mobileProgramsOpen && (
-              <div className="pl-2 py-2 space-y-1 bg-slate-50/70 rounded-xl mt-1">
-                {[...operationalProgramsCol1, ...operationalProgramsCol2].map((prog, idx) => {
-                  const Icon = prog.icon;
-                  return (
-                    <Link
-                      key={idx}
-                      to={`/programs/${prog.slug}`}
-                      className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-700 hover:text-[#F67708] transition"
-                    >
-                      <Icon className="w-3.5 h-3.5 text-[#F67708]" />
-                      <span className="truncate">{prog.title}</span>
-                    </Link>
-                  );
-                })}
+              <div className="pl-2 py-2 space-y-1 bg-slate-50 rounded-xl mt-1 normal-case">
+                {fieldInitiatives.map((prog, idx) => (
+                  <Link
+                    key={idx}
+                    to={`/programs/${prog.slug}`}
+                    className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#121316] hover:bg-slate-100 rounded-lg transition"
+                  >
+                    {prog.title}
+                  </Link>
+                ))}
                 <div className="pt-2 px-3 border-t border-slate-200">
                   <Link
                     to="/programs"
-                    className="text-xs font-bold text-[#F67708] hover:underline block"
+                    className="text-xs font-bold text-[#121316] hover:underline flex items-center gap-1"
                   >
-                    Explore All Programs →
+                    <span>Explore All Programs</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -365,49 +290,39 @@ export const Navbar = () => {
 
           <Link
             to="/projects"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2 border-b border-slate-100"
           >
-            Live Cases
+            LIVE CASES
           </Link>
-          <Link
-            to="/news"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
-          >
-            Successful Stories
-          </Link>
-          <Link
-            to="/parents-video"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
-          >
-            Parents Video
-          </Link>
+
           <Link
             to="/gallery"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2 border-b border-slate-100"
           >
-            Gallery
+            GALLERY
           </Link>
+
           <Link
-            to="/about"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2 border-b border-slate-100"
+            to="/news"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2 border-b border-slate-100"
           >
-            About
+            OUR SUCCESS
           </Link>
+
           <Link
             to="/contact"
-            className="block text-sm font-bold text-[#323D3D] hover:text-[#F67708] py-2"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-800 hover:text-[#121316] py-2"
           >
-            Contact
+            CONTACT US
           </Link>
 
           <div className="pt-3">
             <Link
               to="/donate"
-              className="w-full py-3 rounded-full font-bold text-xs uppercase tracking-wider text-white bg-[#F67708] hover:bg-[#E06800] text-center shadow-md flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-full font-bold text-xs uppercase tracking-wider text-white bg-[#14382C] hover:bg-[#1B4D3E] text-center shadow-md flex items-center justify-center gap-2 group transition-all"
             >
-              <Heart className="w-4 h-4 fill-current text-white" />
-              <span>Donate Now</span>
-              <ArrowRight className="w-4 h-4" />
+              <Heart className="w-4 h-4 fill-white text-white transition-colors" />
+              <span>DONATE NOW</span>
             </Link>
           </div>
         </div>

@@ -60,7 +60,7 @@ export const ProgramDetail = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#FAF7F2] min-h-screen py-36 text-center text-[#A0A4AE] font-medium">
+      <div className="bg-white min-h-screen py-36 text-center text-slate-400 font-medium">
         Loading program details...
       </div>
     );
@@ -68,9 +68,9 @@ export const ProgramDetail = () => {
 
   if (!program) {
     return (
-      <div className="bg-[#FAF7F2] min-h-screen py-36 text-center space-y-4">
-        <h2 className="text-2xl font-bold text-[#323D3D]">Program Not Found</h2>
-        <Link to="/programs" className="text-[#036C6C] font-semibold underline hover:text-[#F67708]">
+      <div className="bg-white min-h-screen py-36 text-center space-y-4">
+        <h2 className="text-2xl font-bold text-[#121316]">Program Not Found</h2>
+        <Link to="/programs" className="text-[#121316] font-semibold underline hover:text-[#121316]">
           Back to all programs
         </Link>
       </div>
@@ -81,23 +81,23 @@ export const ProgramDetail = () => {
   const isChildrenDevelopment = slug === 'children-development';
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen text-[#323D3D] py-6 sm:py-10">
+    <div className="bg-white min-h-screen text-[#121316] py-6 sm:py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         {/* ========================================================
             1. BREADCRUMBS & SHARE BUTTON (Exact Reference)
         ======================================================== */}
         <div className="flex items-center justify-between text-xs text-slate-500">
           <nav className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-            <Link to="/" className="hover:text-[#F67708] flex items-center gap-1 transition">
+            <Link to="/" className="hover:text-[#121316] flex items-center gap-1 transition">
               <Home className="w-3.5 h-3.5" />
               <span>Home</span>
             </Link>
             <span className="text-slate-300">›</span>
-            <Link to="/programs" className="hover:text-[#F67708] transition">
+            <Link to="/programs" className="hover:text-[#121316] transition">
               Our Programs
             </Link>
             <span className="text-slate-300">›</span>
-            <span className="text-[#323D3D] font-semibold">{program.title}</span>
+            <span className="text-[#121316] font-semibold">{program.title}</span>
           </nav>
 
           <button
@@ -106,8 +106,8 @@ export const ProgramDetail = () => {
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-700">Link Copied!</span>
+                <Check className="w-3.5 h-3.5 text-[#121316]" />
+                <span className="text-[#121316]">Link Copied!</span>
               </>
             ) : (
               <>
@@ -121,17 +121,17 @@ export const ProgramDetail = () => {
         {/* ========================================================
             2. MAIN HERO CARD (Exact Reference: media_1794892603884_c38da316.jpg)
         ======================================================== */}
-        <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-soft">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-soft">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-5">
               {/* Top Category Badges */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#FFF4EB] text-[#F67708] border border-[#F67708]/30">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#FFF4EB] text-[#121316] border border-slate-300">
                   {program.category || 'Child Welfare'}
                 </span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-[#121316] border border-slate-200 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#121316]" />
                   <span>Active Grassroots Initiative</span>
                 </span>
               </div>
@@ -139,7 +139,7 @@ export const ProgramDetail = () => {
               {/* Program Title */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E293B] tracking-tight">
                 {program.title.split(' ')[0]}{' '}
-                <span className="text-[#F67708]">
+                <span className="text-[#121316]">
                   {program.title.split(' ').slice(1).join(' ') || 'Development'}
                 </span>
               </h1>
@@ -154,13 +154,13 @@ export const ProgramDetail = () => {
               {/* 3 Verification Check Pills */}
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="px-3.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-semibold flex items-center gap-1.5">
-                  <span className="text-emerald-600 font-bold">✓</span> Direct Field Execution
+                  <span className="text-[#121316] font-bold">✓</span> Direct Field Execution
                 </span>
                 <span className="px-3.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-semibold flex items-center gap-1.5">
-                  <span className="text-emerald-600 font-bold">✓</span> 80G Tax Deductible
+                  <span className="text-[#121316] font-bold">✓</span> 80G Tax Deductible
                 </span>
                 <span className="px-3.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-semibold flex items-center gap-1.5">
-                  <span className="text-emerald-600 font-bold">✓</span> Field Verified Roster
+                  <span className="text-[#121316] font-bold">✓</span> Field Verified Roster
                 </span>
               </div>
 
@@ -168,7 +168,7 @@ export const ProgramDetail = () => {
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <Link
                   to={`/donate?program=${encodeURIComponent(program.title)}`}
-                  className="px-6 py-3 rounded-xl bg-[#F67708] hover:bg-[#E06800] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm hover:shadow transition"
+                  className="px-6 py-3 rounded-xl bg-[#121316] hover:bg-[#252830] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm hover:shadow transition"
                 >
                   <Heart className="w-4 h-4 fill-white" />
                   <span>Sponsor This Program</span>
@@ -207,13 +207,13 @@ export const ProgramDetail = () => {
 
                 {/* Top Field Verification Badge */}
                 <div className="absolute top-3 right-3 bg-black/65 backdrop-blur-md text-white text-[10.5px] font-semibold px-2.5 py-1 rounded-full border border-white/20 shadow-xs z-10 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#121316]"></span>
                   <span>Field Relief Action</span>
                 </div>
 
                 {/* Location Overlay Tag Bottom Left */}
                 <div className="absolute bottom-3 left-3 bg-black/75 backdrop-blur-md text-white text-[11px] font-medium px-3 py-1 rounded-full flex items-center gap-1.5 border border-white/20 shadow-sm z-10">
-                  <MapPin className="w-3.5 h-3.5 text-[#F67708]" />
+                  <MapPin className="w-3.5 h-3.5 text-[#121316]" />
                   <span>Delhi-NCR • Urban Settlements</span>
                 </div>
               </div>
@@ -226,8 +226,8 @@ export const ProgramDetail = () => {
         ======================================================== */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Pillar 1: Target Beneficiary Group */}
-          <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 shadow-soft space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-[#FFF4EB] border border-[#F67708]/30 flex items-center justify-center text-[#F67708]">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-[#FFF4EB] border border-slate-300 flex items-center justify-center text-[#121316]">
               <Target className="w-5 h-5" />
             </div>
             <h3 className="font-black text-sm sm:text-base text-[#1E293B]">
@@ -239,8 +239,8 @@ export const ProgramDetail = () => {
           </div>
 
           {/* Pillar 2: On-Ground Execution */}
-          <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 shadow-soft space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-[#121316]">
               <Activity className="w-5 h-5" />
             </div>
             <h3 className="font-black text-sm sm:text-base text-[#1E293B]">
@@ -252,8 +252,8 @@ export const ProgramDetail = () => {
           </div>
 
           {/* Pillar 3: Statutory Oversight */}
-          <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 shadow-soft space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 border border-blue-200 flex items-center justify-center text-[#121316]">
               <FileText className="w-5 h-5" />
             </div>
             <h3 className="font-black text-sm sm:text-base text-[#1E293B]">
@@ -268,10 +268,10 @@ export const ProgramDetail = () => {
         {/* ========================================================
             4. OPERATIONAL SCOPE & IMPLEMENTATION BLUEPRINT (Exact Reference)
         ======================================================== */}
-        <div className="bg-white border border-[#E3D9CF] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-soft space-y-6">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-soft space-y-6">
           {/* Section Header */}
           <div className="flex items-center gap-2.5 text-base sm:text-lg font-black text-[#1E293B] border-b border-slate-100 pb-4">
-            <BookOpen className="w-5 h-5 text-[#F67708]" />
+            <BookOpen className="w-5 h-5 text-[#121316]" />
             <span>Operational Scope & Implementation Blueprint</span>
           </div>
 
@@ -292,25 +292,25 @@ export const ProgramDetail = () => {
             </h5>
             <ul className="space-y-2.5 text-xs sm:text-sm text-slate-600">
               <li className="flex items-start gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#121316] mt-2 shrink-0" />
                 <span>
                   Provide free nutritious meals, clean clothing, essential medicines, and hygiene kits to homeless and daily-wage migrant children.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#121316] mt-2 shrink-0" />
                 <span>
                   Operate non-formal learning centers bridging out-of-school children back into formal academic schools.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#121316] mt-2 shrink-0" />
                 <span>
                   Conduct routine pediatric health screening and immunization drives in underserved settlements.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F67708] mt-2 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#121316] mt-2 shrink-0" />
                 <span>
                   Sponsor school fees, books, and uniforms for bright children from economically vulnerable families.
                 </span>
@@ -322,13 +322,13 @@ export const ProgramDetail = () => {
           <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <Link
               to="/programs"
-              className="text-xs font-bold text-[#F67708] hover:text-[#E06800] flex items-center gap-1.5 transition"
+              className="text-xs font-bold text-[#121316] hover:text-[#121316] flex items-center gap-1.5 transition"
             >
               <span>← Explore Other Institutional Programs</span>
             </Link>
 
             <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
               <span>Registered Under Indian Trusts Act • 80G Tax Deductible</span>
             </div>
           </div>
@@ -337,7 +337,7 @@ export const ProgramDetail = () => {
         {/* ========================================================
             5. SUPPORT CALL-TO-ACTION BANNER (Exact Reference: media_1794892668501_9119a2e5.jpg)
         ======================================================== */}
-        <div className="bg-[#FFF6EF] border border-[#F67708]/30 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+        <div className="bg-[#FFF6EF] border border-slate-300 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
           {/* Left Text */}
           <div className="space-y-1.5 text-left w-full md:w-auto">
             <h3 className="text-xl sm:text-2xl font-black text-[#1E293B]">
@@ -352,7 +352,7 @@ export const ProgramDetail = () => {
           <div className="flex flex-wrap items-center gap-3 shrink-0 w-full md:w-auto">
             <Link
               to={`/donate?program=children-development`}
-              className="px-6 py-3 rounded-xl bg-[#F67708] hover:bg-[#E06800] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition"
+              className="px-6 py-3 rounded-xl bg-[#121316] hover:bg-[#252830] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition"
             >
               <Heart className="w-4 h-4 fill-white" />
               <span>Make a Contribution</span>

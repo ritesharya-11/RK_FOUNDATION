@@ -67,21 +67,21 @@ export const ParentsVideo = () => {
   const [activeVideo, setActiveVideo] = useState(null);
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen text-[#323D3D] py-8 sm:py-12">
+    <div className="bg-white min-h-screen text-[#121316] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* ========================================================
             1. SECTION HEADER (Exact Reference: media_1794820375198_ac4b4dfa.jpg)
         ======================================================== */}
         <div className="text-center max-w-4xl mx-auto space-y-3 pt-2">
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#FFF4EB] text-[#F67708] border border-[#F67708]/30 shadow-xs">
-            <Video className="w-3.5 h-3.5 text-[#F67708]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#FFF4EB] text-[#121316] border border-slate-300 shadow-xs">
+            <Video className="w-3.5 h-3.5 text-[#121316]" />
             <span>Verified YouTube Video Reviews & Testimonials</span>
           </div>
 
           {/* Heading */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E293B] tracking-tight">
-            Parents Video & <span className="text-[#F67708]">Ground Reviews</span>
+            Parents Video & <span className="text-[#121316]">Ground Reviews</span>
           </h1>
 
           {/* Subtitle */}
@@ -91,18 +91,18 @@ export const ParentsVideo = () => {
 
           {/* 3 Trust Guarantee Badges (Exact Reference) */}
           <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 pt-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full shadow-xs">
+              <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
               <span>100% Verified Parent Testimonials</span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full shadow-xs">
+              <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
               <span>Registered Public Charitable Trust</span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200/80 px-3.5 py-1.5 rounded-full shadow-xs">
-              <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full shadow-xs">
+              <Sparkles className="w-4 h-4 text-[#121316] shrink-0" />
               <span>80G Tax Exemption on All Aid</span>
             </div>
           </div>
@@ -148,7 +148,7 @@ export const ParentsVideo = () => {
               {/* Card Meta & Title */}
               <div className="p-4 sm:p-5 space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-1.5 font-bold text-[#F67708]">
+                  <div className="flex items-center gap-1.5 font-bold text-[#121316]">
                     <Users className="w-3.5 h-3.5" />
                     <span>{v.organization}</span>
                   </div>
@@ -158,7 +158,7 @@ export const ParentsVideo = () => {
                   </div>
                 </div>
 
-                <h3 className="font-bold text-sm sm:text-base text-[#1E293B] group-hover:text-[#F67708] transition-colors line-clamp-2">
+                <h3 className="font-bold text-sm sm:text-base text-[#1E293B] group-hover:text-[#121316] transition-colors line-clamp-2">
                   {v.title}
                 </h3>
 
@@ -179,7 +179,7 @@ export const ParentsVideo = () => {
               {/* Header with Close */}
               <div className="flex items-center justify-between text-white border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#121316] animate-pulse" />
                   <h3 className="font-bold text-sm sm:text-base text-white truncate max-w-lg">
                     {activeVideo.title}
                   </h3>
@@ -207,14 +207,14 @@ export const ParentsVideo = () => {
               {/* Footer Note */}
               <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <ShieldCheck className="w-4 h-4 text-white" />
                   <span>100% Verified Beneficiary Family Ground Documentation</span>
                 </div>
                 <a
                   href={activeVideo.youtubeUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[#F67708] hover:underline flex items-center gap-1 font-semibold"
+                  className="text-[#121316] hover:underline flex items-center gap-1 font-semibold"
                 >
                   <span>Watch on YouTube</span>
                   <ExternalLink className="w-3.5 h-3.5" />

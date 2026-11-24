@@ -76,7 +76,7 @@ export const About = () => {
   ];
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen text-[#323D3D]">
+    <div className="bg-white min-h-screen text-[#121316]">
       {/* ========================================================
           2. ORIGIN & GRASSROOTS MISSION (Story + Authentic Photos)
       ======================================================== */}
@@ -85,47 +85,47 @@ export const About = () => {
           {/* Left Text Narrative */}
           <div className="lg:col-span-7 space-y-6">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#F67708]/20 text-[#036C6C] border border-[#F67708]/40 shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#036C6C]" />
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#121316]/20 text-[#121316] border border-slate-300 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#121316]" />
                 <span>Our Grassroots Journey</span>
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#323D3D] tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#121316] tracking-tight leading-tight">
               Rooted in Compassion, Driven by Measurable Ground Change
             </h2>
 
-            <p className="text-[#697777] leading-relaxed text-sm sm:text-base">
+            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
               <strong>RK FOUNDATION</strong> was established by a collective of passionate educators, healthcare workers, and social advocates who witnessed firsthand the severe neglect of children of daily-wage migrant workers, abandoned elderly citizens, and impoverished mothers in urban clusters.
             </p>
 
-            <p className="text-[#697777] leading-relaxed text-sm sm:text-base">
+            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
               Starting from a single makeshift evening classroom in an East Delhi resettlement colony, our grassroots platform has grown into an accredited public charitable trust delivering 10 operational initiatives. We deliver food directly to malnourished children, provide certified sewing machines to single mothers, supply mobility kits to differently-abled citizens, and deploy mobile medical checkups directly into unserved settlements.
             </p>
 
             {/* Checklist of Trust Guarantees */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#036C6C] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#323D3D]">
+                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
+                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
                   Direct Doorstep Relief (Zero Middlemen)
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#036C6C] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#323D3D]">
-                  NITI Aayog Darpan UID: <strong className="font-mono text-[#036C6C]">{darpanUid}</strong>
+                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
+                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
+                  NITI Aayog Darpan UID: <strong className="font-mono text-[#121316]">{darpanUid}</strong>
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#036C6C] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#323D3D]">
+                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
+                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
                   50% Tax Deduction Under Section 80G
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#036C6C] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#323D3D]">
+                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
+                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
                   100% Audited Financials & Instant Receipts
                 </span>
               </div>
@@ -135,16 +135,16 @@ export const About = () => {
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <Link
                 to="/programs"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-xs sm:text-sm text-white bg-[#F67708] hover:bg-[#E06800] shadow-md transition transform hover:-translate-y-0.5 group"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-xs sm:text-sm text-white bg-[#121316] hover:bg-[#252830] shadow-md transition transform hover:-translate-y-0.5 group"
               >
                 <span>Explore Our 10 Programs</span>
-                <ArrowRight className="w-4 h-4 text-[#036C6C] group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-[#121316] group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/receipt-verify"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm text-[#323D3D] bg-white border border-[#E3D9CF] hover:bg-slate-50 transition shadow-xs"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm text-[#121316] bg-white border border-slate-200 hover:bg-slate-50 transition shadow-xs"
               >
-                <ShieldCheck className="w-4 h-4 text-[#036C6C]" />
+                <ShieldCheck className="w-4 h-4 text-[#121316]" />
                 <span>Verify Trust Registrations</span>
               </Link>
             </div>
@@ -160,13 +160,13 @@ export const About = () => {
                   alt="RK Foundation child welfare on-ground field distribution"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <span className="absolute top-3 left-3 bg-[#036C6C]/85 backdrop-blur-md text-[#F67708] text-[11px] font-bold px-3 py-1 rounded-full border border-white/10 shadow-xs">
+                <span className="absolute top-3 left-3 bg-[#121316]/85 backdrop-blur-md text-[#121316] text-[11px] font-bold px-3 py-1 rounded-full border border-white/10 shadow-xs">
                   Child Welfare & Field Drives
                 </span>
               </div>
-              <div className="p-4 bg-white border-t border-[#E3D9CF] flex items-center justify-between text-xs">
-                <span className="text-[#697777] font-medium">Volunteers distributing food & study kits</span>
-                <span className="font-bold text-[#323D3D]">Delhi-NCR Bastis</span>
+              <div className="p-4 bg-white border-t border-slate-200 flex items-center justify-between text-xs">
+                <span className="text-slate-600 font-medium">Volunteers distributing food & study kits</span>
+                <span className="font-bold text-[#121316]">Delhi-NCR Bastis</span>
               </div>
             </div>
           </div>
@@ -177,37 +177,37 @@ export const About = () => {
           3. OUR WORK IN ACTION (VIDEO DOCUMENTARY & FIELD EVIDENCE)
           Matching Reference Screenshot UI
       ======================================================== */}
-      <section className="bg-white py-16 sm:py-24 border-y border-[#E3D9CF]">
+      <section className="bg-white py-16 sm:py-24 border-y border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Column: Heading & Description */}
             <div className="lg:col-span-5 space-y-5">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-5 bg-[#F67708] rounded-full inline-block" />
-                <span className="text-xs font-bold text-[#323D3D] uppercase tracking-wider">
+                <span className="w-1.5 h-5 bg-[#121316] rounded-full inline-block" />
+                <span className="text-xs font-bold text-[#121316] uppercase tracking-wider">
                   Our Work in Action
                 </span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323D3D] tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#121316] tracking-tight leading-tight">
                 Documentary Field Evidence Across Slum Clusters
               </h2>
 
-              <p className="text-sm sm:text-base text-[#697777] leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                 Watch our dedicated ground taskforce in motion. From organizing morning remedial bridge classes to distributing cooked nutritious meals and deploying mobile clinics, our impact is 100% visible and verifiable.
               </p>
 
               <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#323D3D]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#121316]">
+                  <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
                   <span>Real-time photo and video distribution logs</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#323D3D]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#121316]">
+                  <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
                   <span>Recorded video testimonials from beneficiary mothers</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#323D3D]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#121316]">
+                  <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
                   <span>Zero administrative leakage guarantee</span>
                 </div>
               </div>
@@ -215,10 +215,10 @@ export const About = () => {
               <div className="pt-2">
                 <Link
                   to="/activities"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#036C6C] hover:text-[#E06800] transition group"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#121316] hover:text-[#121316] transition group"
                 >
                   <span>Watch Parents Video Reviews</span>
-                  <span className="text-[#E06800] font-black group-hover:translate-x-1 transition-transform">→</span>
+                  <span className="text-[#121316] font-black group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
               </div>
             </div>
@@ -227,7 +227,7 @@ export const About = () => {
             <div className="lg:col-span-7">
               <div
                 onClick={() => setVideoModalOpen(true)}
-                className="bg-[#036C6C] rounded-3xl overflow-hidden border border-slate-200 shadow-2xl relative group cursor-pointer"
+                className="bg-[#121316] rounded-3xl overflow-hidden border border-slate-200 shadow-2xl relative group cursor-pointer"
               >
                 <div className="h-72 sm:h-96 w-full relative overflow-hidden">
                   <img
@@ -237,10 +237,10 @@ export const About = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/30 flex flex-col justify-between p-6">
                     <div className="flex items-center justify-between">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#036C6C]/90 text-white backdrop-blur-md border border-white/15">
+                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#121316]/90 text-white backdrop-blur-md border border-white/15">
                         RK Foundation | Public Charitable Trust
                       </span>
-                      <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-red-600 text-white flex items-center gap-1.5 shadow-md">
+                      <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#121316] text-white flex items-center gap-1.5 shadow-md">
                         <Play className="w-3 h-3 fill-white" />
                         <span>Field Documentary</span>
                       </span>
@@ -248,7 +248,7 @@ export const About = () => {
 
                     {/* Big YouTube Play Button */}
                     <div className="self-center">
-                      <div className="w-16 h-12 sm:w-20 sm:h-14 bg-red-600 group-hover:bg-red-700 rounded-2xl flex items-center justify-center text-white shadow-2xl transition-all transform group-hover:scale-110">
+                      <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#121316] group-hover:bg-[#252830] rounded-2xl flex items-center justify-center text-white shadow-2xl transition-all transform group-hover:scale-110">
                         <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-white ml-1" />
                       </div>
                     </div>
@@ -283,7 +283,7 @@ export const About = () => {
           {actionPillars.map((pillar, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl overflow-hidden border border-[#E3D9CF] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group"
+              className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group"
             >
               <div className="h-48 overflow-hidden relative bg-slate-100">
                 <img
@@ -291,31 +291,31 @@ export const About = () => {
                   alt={pillar.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <span className="absolute top-3 right-3 bg-[#036C6C]/85 backdrop-blur-md text-[#F67708] border border-white/15 text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                <span className="absolute top-3 right-3 bg-[#121316]/85 backdrop-blur-md text-[#121316] border border-white/15 text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
                   {pillar.category}
                 </span>
               </div>
 
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-[#323D3D] group-hover:text-[#036C6C] transition-colors leading-snug">
+                  <h3 className="text-base sm:text-lg font-bold text-[#121316] group-hover:text-[#121316] transition-colors leading-snug">
                     {pillar.title}
                   </h3>
-                  <p className="text-xs text-[#697777] mt-2.5 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
                     {pillar.description}
                   </p>
                 </div>
 
                 <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                  <span className="text-[11px] font-medium text-[#121316] bg-slate-100 px-2 py-0.5 rounded-md">
                     {pillar.highlight}
                   </span>
                   <Link
                     to={`/programs/${pillar.slug}`}
-                    className="text-xs font-bold text-[#036C6C] hover:text-[#E06800] flex items-center gap-1 group/btn"
+                    className="text-xs font-bold text-[#121316] hover:text-[#121316] flex items-center gap-1 group/btn"
                   >
                     <span>Details</span>
-                    <span className="text-[#E06800] font-black group-hover/btn:translate-x-1 transition-transform">→</span>
+                    <span className="text-[#121316] font-black group-hover/btn:translate-x-1 transition-transform">→</span>
                   </Link>
                 </div>
               </div>
@@ -335,42 +335,42 @@ export const About = () => {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          <div className="bg-white p-7 rounded-2xl border border-[#E3D9CF] shadow-xs hover:shadow-card space-y-4 hover:border-[#F67708] transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#036C6C] text-[#F67708] flex items-center justify-center font-black text-sm">
+          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
+            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
               01
             </span>
-            <h3 className="text-base font-bold text-[#323D3D]">Zero Discrimination</h3>
-            <p className="text-xs text-[#697777] leading-relaxed">
+            <h3 className="text-base font-bold text-[#121316]">Zero Discrimination</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Assistance is extended unconditionally regardless of religion, caste, gender, or geographic origin. We serve human beings in their most vulnerable hours.
             </p>
           </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-[#E3D9CF] shadow-xs hover:shadow-card space-y-4 hover:border-[#F67708] transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#036C6C] text-[#F67708] flex items-center justify-center font-black text-sm">
+          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
+            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
               02
             </span>
-            <h3 className="text-base font-bold text-[#323D3D]">Open-Book Accountability</h3>
-            <p className="text-xs text-[#697777] leading-relaxed">
+            <h3 className="text-base font-bold text-[#121316]">Open-Book Accountability</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Every donor receives immediate 80G tax receipts, verified photographic progress proof, and access to audited annual balance sheets.
             </p>
           </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-[#E3D9CF] shadow-xs hover:shadow-card space-y-4 hover:border-[#F67708] transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#036C6C] text-[#F67708] flex items-center justify-center font-black text-sm">
+          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
+            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
               03
             </span>
-            <h3 className="text-base font-bold text-[#323D3D]">Sustainable Self-Reliance</h3>
-            <p className="text-xs text-[#697777] leading-relaxed">
+            <h3 className="text-base font-bold text-[#121316]">Sustainable Self-Reliance</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               We go beyond temporary hand-outs by providing certified vocational tailoring, digital tablets, and academic bridging to permanently break poverty cycles.
             </p>
           </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-[#E3D9CF] shadow-xs hover:shadow-card space-y-4 hover:border-[#F67708] transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#036C6C] text-[#F67708] flex items-center justify-center font-black text-sm">
+          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
+            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
               04
             </span>
-            <h3 className="text-base font-bold text-[#323D3D]">Dignity-First Human Aid</h3>
-            <p className="text-xs text-[#697777] leading-relaxed">
+            <h3 className="text-base font-bold text-[#121316]">Dignity-First Human Aid</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Every child, destitute senior citizen, and mother is treated with utmost reverence, respect, and human dignity during all field interactions.
             </p>
           </div>
@@ -384,7 +384,7 @@ export const About = () => {
           onClick={() => setVideoModalOpen(false)}
         >
           <div
-            className="bg-[#024747] border border-white/20 rounded-3xl p-6 max-w-2xl w-full text-white space-y-4 shadow-2xl"
+            className="bg-[#18191E] border border-white/20 rounded-3xl p-6 max-w-2xl w-full text-white space-y-4 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
@@ -405,7 +405,7 @@ export const About = () => {
                 allowFullScreen
               />
             </div>
-            <p className="text-xs text-[#A0A4AE]">
+            <p className="text-xs text-slate-400">
               Documentary footage of ongoing food distribution drives, non-formal bridge schooling, and medical aid camps conducted across Delhi-NCR bastis.
             </p>
           </div>

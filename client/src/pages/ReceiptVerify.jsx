@@ -98,7 +98,7 @@ export const ReceiptVerify = () => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 rounded-xl font-bold text-xs text-white bg-[#DC2626] hover:bg-red-700 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs"
+              className="px-6 py-2.5 rounded-xl font-bold text-xs text-white bg-[#DC2626] hover:bg-[#252830] transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs"
             >
               <Search className="w-3.5 h-3.5" />
               <span>{loading ? 'Verifying...' : 'Verify Receipt'}</span>
@@ -117,14 +117,14 @@ export const ReceiptVerify = () => {
         {receiptData && (
           <div className="space-y-4">
             <div className="flex items-center justify-between max-w-[780px] mx-auto px-2 print:hidden">
-              <span className="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span className="text-xs font-bold text-[#121316] flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#121316]" />
                 <span>Statutory 80G Record Authenticated</span>
               </span>
 
               <button
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#DC2626] hover:bg-[#252830] shadow-xs transition cursor-pointer"
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span>Print / Save PDF</span>

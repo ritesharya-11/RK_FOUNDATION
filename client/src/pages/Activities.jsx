@@ -183,7 +183,7 @@ export const Activities = () => {
   });
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Standardized Hero */}
       <PageHero
         badge="Field Reports & Ground Action"
@@ -197,28 +197,28 @@ export const Activities = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         {/* Filter and Search Bar */}
-        <div className="bg-white rounded-3xl p-6 border border-[#E3D9CF] shadow-sm mb-10 space-y-4">
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-10 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-sm font-bold text-[#323D3D]">
-              <Filter className="w-4 h-4 text-[#036C6C]" />
+            <div className="flex items-center gap-2 text-sm font-bold text-[#121316]">
+              <Filter className="w-4 h-4 text-[#121316]" />
               <span>Filter by Program Area:</span>
             </div>
 
             {/* Search Input */}
             <div className="relative w-full md:w-72">
-              <Search className="w-4 h-4 text-[#697777] absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search location, drive..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-[#FAF7F2] border border-[#E3D9CF] rounded-full text-xs text-[#323D3D] placeholder-[#A0A4AE] focus:outline-none focus:ring-2 focus:ring-[#036C6C]"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-full text-xs text-[#121316] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#121316]"
               />
             </div>
           </div>
 
           {/* Category Pills */}
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#E3D9CF]/60">
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200/60">
             {CATEGORIES.map((cat) => {
               const count =
                 cat === 'All'
@@ -232,14 +232,14 @@ export const Activities = () => {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                     isActive
-                      ? 'bg-[#036C6C] text-white shadow-md'
-                      : 'bg-[#FAF7F2] text-[#323D3D] hover:bg-[#E3D9CF]/60 border border-[#E3D9CF]'
+                      ? 'bg-[#121316] text-white shadow-md'
+                      : 'bg-white text-[#121316] hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
                   <span>{cat}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                      isActive ? 'bg-[#F67708] text-white' : 'bg-white text-[#697777]'
+                      isActive ? 'bg-[#121316] text-white' : 'bg-white text-slate-600'
                     }`}
                   >
                     {count}
@@ -252,18 +252,18 @@ export const Activities = () => {
 
         {/* Content Section */}
         {loading ? (
-          <div className="py-24 text-center text-[#A0A4AE] font-medium">Loading activity track...</div>
+          <div className="py-24 text-center text-slate-400 font-medium">Loading activity track...</div>
         ) : filteredActivities.length === 0 ? (
-          <div className="py-24 text-center bg-white rounded-3xl border border-[#E3D9CF] p-8">
-            <p className="text-base font-semibold text-[#323D3D] mb-1">No activities found</p>
-            <p className="text-xs text-[#697777]">Try selecting another category or clearing your search filter.</p>
+          <div className="py-24 text-center bg-white rounded-3xl border border-slate-200 p-8">
+            <p className="text-base font-semibold text-[#121316] mb-1">No activities found</p>
+            <p className="text-xs text-slate-600">Try selecting another category or clearing your search filter.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredActivities.map((act) => (
               <div
                 key={act._id}
-                className="bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 border border-[#E3D9CF] flex flex-col group hover:-translate-y-1"
+                className="bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 border border-slate-200 flex flex-col group hover:-translate-y-1"
               >
                 <div className="h-56 overflow-hidden relative">
                   <img
@@ -272,12 +272,12 @@ export const Activities = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                   <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                    <span className="bg-[#036C6C]/90 backdrop-blur-md text-white border border-white/20 text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                    <span className="bg-[#121316]/90 backdrop-blur-md text-white border border-white/20 text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
                       {act.category}
                     </span>
                   </div>
                   {act.category === 'Dalit Upliftment & Rights' && (
-                    <span className="absolute bottom-3 right-3 bg-[#F67708] text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+                    <span className="absolute bottom-3 right-3 bg-[#121316] text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
                       <Award className="w-3 h-3" />
                       Constitutional Rights
                     </span>
@@ -286,9 +286,9 @@ export const Activities = () => {
 
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-xs text-[#697777]">
+                    <div className="flex items-center gap-2 text-xs text-slate-600">
                       <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-[#036C6C]" />
+                        <Calendar className="w-3.5 h-3.5 text-[#121316]" />
                         {new Date(act.date).toLocaleDateString('en-IN', {
                           month: 'short',
                           day: 'numeric',
@@ -297,23 +297,23 @@ export const Activities = () => {
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1 line-clamp-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#036C6C] shrink-0" />
+                        <MapPin className="w-3.5 h-3.5 text-[#121316] shrink-0" />
                         <span className="truncate">{act.location}</span>
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-[#323D3D] group-hover:text-[#036C6C] transition-colors leading-snug">
+                    <h3 className="text-base font-bold text-[#121316] group-hover:text-[#121316] transition-colors leading-snug">
                       {act.title}
                     </h3>
 
-                    <p className="text-xs text-[#697777] leading-relaxed whitespace-pre-line line-clamp-3">
+                    <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-line line-clamp-3">
                       {act.description}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E3D9CF] flex items-center justify-between text-xs">
-                    <span className="text-[#697777]">Direct Beneficiaries:</span>
-                    <strong className="text-[#036C6C] font-bold">
+                  <div className="pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-600">Direct Beneficiaries:</span>
+                    <strong className="text-[#121316] font-bold">
                       {act.beneficiariesCount} Individuals
                     </strong>
                   </div>

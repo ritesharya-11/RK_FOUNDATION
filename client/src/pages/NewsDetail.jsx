@@ -28,7 +28,7 @@ export const NewsDetail = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#FAF7F2] min-h-screen py-36 text-center text-[#A0A4AE] font-medium">
+      <div className="bg-white min-h-screen py-36 text-center text-slate-400 font-medium">
         Loading article...
       </div>
     );
@@ -36,9 +36,9 @@ export const NewsDetail = () => {
 
   if (!article) {
     return (
-      <div className="bg-[#FAF7F2] min-h-screen py-36 text-center space-y-4">
-        <h2 className="text-2xl font-bold text-[#323D3D]">Article Not Found</h2>
-        <Link to="/news" className="text-[#036C6C] font-semibold underline hover:text-[#F67708]">
+      <div className="bg-white min-h-screen py-36 text-center space-y-4">
+        <h2 className="text-2xl font-bold text-[#121316]">Article Not Found</h2>
+        <Link to="/news" className="text-[#121316] font-semibold underline hover:text-[#121316]">
           Back to all articles
         </Link>
       </div>
@@ -46,7 +46,7 @@ export const NewsDetail = () => {
   }
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Standardized Hero */}
       <PageHero
         badge={article.category}
@@ -62,21 +62,21 @@ export const NewsDetail = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 space-y-8">
         <Link
           to="/news"
-          className="inline-flex items-center gap-2 text-xs font-bold text-[#697777] hover:text-[#036C6C] transition"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-[#121316] transition"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to News & Stories</span>
         </Link>
 
         {/* Metadata Bar */}
-        <div className="flex flex-wrap items-center gap-4 text-xs text-[#697777] pb-4 border-b border-[#E3D9CF]">
+        <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600 pb-4 border-b border-slate-200">
           <span className="flex items-center gap-1.5">
-            <User className="w-4 h-4 text-[#036C6C]" />
+            <User className="w-4 h-4 text-[#121316]" />
             <span>By {article.author}</span>
           </span>
           <span>•</span>
           <span className="flex items-center gap-1.5">
-            <Calendar className="w-4 h-4 text-[#036C6C]" />
+            <Calendar className="w-4 h-4 text-[#121316]" />
             <span>
               {new Date(article.publishedAt).toLocaleDateString('en-IN', {
                 month: 'long',
@@ -90,7 +90,7 @@ export const NewsDetail = () => {
         </div>
 
         {/* Cover Image */}
-        <div className="rounded-3xl overflow-hidden shadow-card border border-[#E3D9CF] h-72 sm:h-96">
+        <div className="rounded-3xl overflow-hidden shadow-card border border-slate-200 h-72 sm:h-96">
           <img
             src={article.coverImage}
             alt={article.title}
@@ -99,18 +99,18 @@ export const NewsDetail = () => {
         </div>
 
         {/* Content Body */}
-        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-[#E3D9CF] shadow-card space-y-6 text-[#323D3D] leading-relaxed text-sm sm:text-base whitespace-pre-line">
+        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-card space-y-6 text-[#121316] leading-relaxed text-sm sm:text-base whitespace-pre-line">
           {article.content}
         </div>
 
         {/* Tags */}
         {article.tags?.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 pt-2">
-            <Tag className="w-4 h-4 text-[#A0A4AE]" />
+            <Tag className="w-4 h-4 text-slate-400" />
             {article.tags.map((tag, idx) => (
               <span
                 key={idx}
-                className="bg-white text-[#697777] border border-[#E3D9CF] text-xs font-medium px-3 py-1 rounded-full"
+                className="bg-white text-slate-600 border border-slate-200 text-xs font-medium px-3 py-1 rounded-full"
               >
                 #{tag}
               </span>

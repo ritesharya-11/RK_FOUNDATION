@@ -50,21 +50,21 @@ export const News = () => {
   });
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen text-[#323D3D] py-8 sm:py-12">
+    <div className="bg-white min-h-screen text-[#121316] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* ========================================================
             1. SECTION HEADER (Exact Reference: media_1794819792174_2e13f403.png)
         ======================================================== */}
         <div className="text-center max-w-4xl mx-auto space-y-3 pt-2">
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#FFF4EB] text-[#F67708] border border-[#F67708]/30 shadow-xs">
-            <FileText className="w-3.5 h-3.5 text-[#F67708]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#FFF4EB] text-[#121316] border border-slate-300 shadow-xs">
+            <FileText className="w-3.5 h-3.5 text-[#121316]" />
             <span>Verified Hospital Documentation</span>
           </div>
 
           {/* Heading */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E293B] tracking-tight">
-            Success Stories & <span className="text-[#F67708]">Hospital Letters</span>
+            Success Stories & <span className="text-[#121316]">Hospital Letters</span>
           </h1>
 
           {/* Subtitle */}
@@ -85,7 +85,7 @@ export const News = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search child, hospital, cheque #..."
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#F67708] transition"
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-slate-300 transition"
             />
           </div>
 
@@ -97,7 +97,7 @@ export const News = () => {
             <select
               value={selectedHospital}
               onChange={(e) => setSelectedHospital(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-700 font-medium focus:outline-none focus:border-[#F67708] cursor-pointer"
+              className="bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-700 font-medium focus:outline-none focus:border-slate-300 cursor-pointer"
             >
               <option value="All">All Hospitals ({lettersList.length})</option>
               {uniqueHospitals.map((hosp) => (
@@ -169,17 +169,17 @@ export const News = () => {
                     <div className="w-16 h-16 rounded-full border-2 border-dashed border-blue-700/60 flex flex-col items-center justify-center p-1 text-center rotate-[-12deg] text-blue-900 select-none shadow-2xs">
                       <span className="text-[7px] font-black tracking-tighter uppercase leading-none">HOSPITAL</span>
                       <span className="text-[9px] font-black uppercase text-blue-800 my-0.5">SEAL</span>
-                      <span className="text-[6px] font-bold text-blue-600 uppercase">VERIFIED</span>
+                      <span className="text-[6px] font-bold text-[#121316] uppercase">VERIFIED</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Footer Matching Reference */}
                 <div className="px-5 py-3.5 bg-white flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#F67708] group-hover:underline flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-[#121316] group-hover:underline flex items-center gap-1.5">
                     View Certificate
                   </span>
-                  <Eye className="w-4 h-4 text-[#F67708] group-hover:scale-110 transition-transform" />
+                  <Eye className="w-4 h-4 text-[#121316] group-hover:scale-110 transition-transform" />
                 </div>
               </div>
             ))}
@@ -203,8 +203,8 @@ export const News = () => {
 
               {/* Modal Header */}
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F67708] bg-[#FFF4EB] border border-[#F67708]/30 px-3 py-1 rounded-full">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#F67708]" />
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#121316] bg-[#FFF4EB] border border-slate-300 px-3 py-1 rounded-full">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#121316]" />
                   <span>Verified Medical Grant Certificate</span>
                 </div>
                 <h2 className="text-2xl font-black text-[#1E293B]">
@@ -251,13 +251,13 @@ export const News = () => {
                   <div className="text-xs">
                     <p className="font-bold text-slate-900">{activeModalCert.hospital}</p>
                     <p className="text-slate-500">{activeModalCert.doctorName}</p>
-                    <p className="text-[10px] text-emerald-700 font-bold mt-1">Status: Successfully Cleared & Verified</p>
+                    <p className="text-[10px] text-[#121316] font-bold mt-1">Status: Successfully Cleared & Verified</p>
                   </div>
 
                   <div className="w-20 h-20 rounded-full border-2 border-dashed border-blue-700/60 flex flex-col items-center justify-center p-1 text-center rotate-[-10deg] text-blue-900 select-none">
                     <span className="text-[8px] font-black uppercase">OFFICIAL</span>
                     <span className="text-[10px] font-black uppercase text-blue-800">SEAL</span>
-                    <span className="text-[7px] font-bold text-blue-600 uppercase">VERIFIED</span>
+                    <span className="text-[7px] font-bold text-[#121316] uppercase">VERIFIED</span>
                   </div>
                 </div>
               </div>
@@ -265,7 +265,7 @@ export const News = () => {
               {/* Modal Actions */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <div className="text-xs text-slate-500 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <CheckCircle2 className="w-4 h-4 text-[#121316]" />
                   <span>Cheque #{activeModalCert.chequeNo} verified with authorized bank ledger.</span>
                 </div>
 
@@ -279,7 +279,7 @@ export const News = () => {
                   </button>
                   <button
                     onClick={() => setActiveModalCert(null)}
-                    className="px-5 py-2 rounded-xl bg-[#F67708] hover:bg-[#E06800] text-xs font-bold text-white transition cursor-pointer"
+                    className="px-5 py-2 rounded-xl bg-[#121316] hover:bg-[#252830] text-xs font-bold text-white transition cursor-pointer"
                   >
                     Close
                   </button>
