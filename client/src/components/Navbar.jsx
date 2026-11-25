@@ -47,16 +47,16 @@ export const Navbar = () => {
     { title: 'AGED / ELDERLY CARE', slug: 'aged-elderly-care' },
   ];
 
-  // Helper matching reference: active = dark solid pill (#121316), inactive = text-slate-700
+  // Helper matching reference: active = dark solid pill (#14382C), inactive = text-slate-700
   const getNavLinkClass = (path, exact = false) => {
     const isActive = exact
       ? location.pathname === path
       : location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
 
     if (isActive) {
-      return 'px-5 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-[13px] uppercase tracking-wider bg-[#14382C] text-white shadow-md flex items-center gap-1.5 transition-all';
+      return 'px-3.5 sm:px-4 py-1.5 rounded-full font-bold text-xs sm:text-[12.5px] uppercase tracking-wider bg-[#14382C] text-white shadow-xs flex items-center gap-1.5 transition-all';
     }
-    return 'px-4 sm:px-5 py-2.5 font-bold text-xs sm:text-[13px] uppercase tracking-wider text-slate-700 hover:text-[#14382C] hover:bg-slate-100 rounded-full transition-all flex items-center gap-1.5';
+    return 'px-3 sm:px-3.5 py-1.5 font-bold text-xs sm:text-[12.5px] uppercase tracking-wider text-slate-700 hover:text-[#14382C] hover:bg-slate-100 rounded-full transition-all flex items-center gap-1.5';
   };
 
   const contactPhone = settings?.phone || '+91-9650896859';
@@ -68,16 +68,16 @@ export const Navbar = () => {
       {/* ========================================================
           TIER 1: TOP BLACK ANNOUNCEMENT & COMPLIANCE BAR
       ======================================================== */}
-      <div className="w-full bg-[#121316] text-white py-2 px-4 sm:px-8 lg:px-12 xl:px-16 border-b border-black">
-        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-1.5 text-xs">
+      <div className="w-full bg-[#121316] text-white py-1.5 px-4 sm:px-8 lg:px-12 xl:px-16 border-b border-black">
+        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-1 text-[11px] sm:text-xs">
           {/* Left Compliance Notice */}
-          <div className="font-semibold tracking-wide text-white flex items-center gap-2 text-center md:text-left">
-            <span className="w-2 h-2 rounded-full bg-white shrink-0" />
+          <div className="font-semibold tracking-wide text-white flex items-center gap-1.5 text-center md:text-left">
+            <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
             <span>All Donations Are Exempted Under Section 80 G(5)(IV) Of Income Tax Act 1961.</span>
           </div>
 
           {/* Right Registration & Contact Details */}
-          <div className="flex items-center flex-wrap justify-center md:justify-end gap-2.5 sm:gap-4 text-slate-300 font-medium tracking-wide text-xs">
+          <div className="flex items-center flex-wrap justify-center md:justify-end gap-2 sm:gap-3.5 text-slate-300 font-medium tracking-wide text-[11px] sm:text-xs">
             <span>
               PAN: <strong className="text-white font-mono font-bold">{panNumber}</strong>
             </span>
@@ -100,11 +100,11 @@ export const Navbar = () => {
           TIER 2: MAIN NAVIGATION BAR (Substantial & Spacious)
       ======================================================== */}
       <div className="w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
-        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-4 sm:py-4.5 flex items-center justify-between">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-2.5 sm:py-3 flex items-center justify-between">
           {/* Left Brand Area (Logo + Foundation Title) */}
-          <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-3.5 group shrink-0">
-              <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center p-2 shadow-xs group-hover:scale-105 transition-transform">
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3 group shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center p-1.5 shadow-xs group-hover:scale-105 transition-transform">
                 <img
                   src="/logo-icon.png"
                   alt="RK Foundation Logo"
@@ -116,10 +116,10 @@ export const Navbar = () => {
               </div>
 
               <div className="flex flex-col">
-                <span className="font-black text-lg sm:text-xl tracking-tight text-[#121316] leading-none group-hover:text-[#121316] transition-colors">
+                <span className="font-black text-base sm:text-lg tracking-tight text-[#121316] leading-none group-hover:text-[#121316] transition-colors">
                   RK FOUNDATION
                 </span>
-                <span className="text-[11px] font-medium text-slate-400 italic tracking-wide mt-1">
+                <span className="text-[10px] font-medium text-slate-400 italic tracking-wide mt-0.5">
                   A belief in humanity
                 </span>
               </div>
@@ -127,7 +127,7 @@ export const Navbar = () => {
           </div>
 
           {/* Center Navigation Links: HOME, ABOUT US, OUR WORK, LIVE CASES, GALLERY, OUR SUCCESS, CONTACT US */}
-          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2.5">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {/* HOME */}
             <NavLink to="/" className={getNavLinkClass('/', true)}>
               HOME
@@ -212,12 +212,12 @@ export const Navbar = () => {
           </nav>
 
           {/* Right Action: Clean Forest Green Pill Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <Link
               to="/donate"
-              className="inline-flex items-center gap-2.5 px-7 py-3 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-md hover:shadow-lg transition-all transform hover:scale-105 group cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full font-bold text-xs sm:text-[13px] uppercase tracking-wider text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm hover:shadow-md transition-all transform hover:scale-105 group cursor-pointer"
             >
-              <Heart className="w-4 h-4 fill-white text-white transition-colors" />
+              <Heart className="w-3.5 h-3.5 fill-white text-white transition-colors" />
               <span>DONATE NOW</span>
             </Link>
 
