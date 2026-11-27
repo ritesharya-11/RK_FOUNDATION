@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader, AdminStatCard } from '../../components/admin/AdminUI';
 import {
   Video,
   Plus,
@@ -12,12 +13,7 @@ import {
   Trash2,
   X,
   ExternalLink,
-  ChevronRight,
-  Eye,
   CheckCircle2,
-  Layers,
-  Sparkles,
-  RefreshCw,
   Film,
 } from 'lucide-react';
 
@@ -305,112 +301,78 @@ export const AdminParentsVideo = () => {
   const categoriesCount = uniqueCategories.length || 1;
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Page Header (Executive Proportions) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-            Parents Video Testimonials & CMS
-          </h2>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Upload & manage verified YouTube video reviews of children and families benefited through Rebirth Care Trust.
-          </p>
-        </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Parents Video"
+        badge={`${totalStories} Video Stories`}
+        title="Parents Video Testimonials & CMS"
+        subtitle="Upload & manage verified YouTube video reviews of children and families benefited through RK Foundation."
+        actions={
+          <>
+            <a
+              href="/parents-video"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-[#6B7280]" />
+              <span>Public Page</span>
+            </a>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <a
-            href="/parents-video"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition"
-          >
-            <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
-            <span>Public Page</span>
-          </a>
+            <button
+              onClick={handleOpenAdd}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer active:scale-[0.98]"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+              <span>Upload Video</span>
+            </button>
+          </>
+        }
+      />
 
-          <button
-            onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Upload Video</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ── 4 KPI Metric Cards (Dashboard Compact Hierarchy) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* TOTAL STORIES */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              TOTAL STORIES
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {totalStories}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
-            <Video className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* PUBLISHED LIVE */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              PUBLISHED LIVE
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
-              {publishedLive}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* FEATURED PROOF */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              FEATURED PROOF
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-amber-500 mt-0.5 tracking-tight">
-              {featuredProof}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
-            <Star className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* CATEGORIES */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              CATEGORIES
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-blue-600 mt-0.5 tracking-tight">
-              {categoriesCount}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-            <Film className="w-4 h-4" />
-          </div>
-        </div>
+      {/* ── 4 KPI Metric Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <AdminStatCard
+          label="Total Stories"
+          value={totalStories}
+          subtext="Uploaded Reviews"
+          icon={Video}
+          accent="emerald"
+        />
+        <AdminStatCard
+          label="Published Live"
+          value={publishedLive}
+          subtext="Active on Portal"
+          icon={CheckCircle2}
+          accent="blue"
+        />
+        <AdminStatCard
+          label="Featured Proof"
+          value={featuredProof}
+          subtext="Pinned Testimonials"
+          icon={Star}
+          accent="gold"
+        />
+        <AdminStatCard
+          label="Categories"
+          value={categoriesCount}
+          subtext="Program Tracks"
+          icon={Film}
+          accent="emerald"
+        />
       </div>
 
       {/* ── Search & Filter Controls Bar ── */}
       <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by title, beneficiary, location..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#111827] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </div>
 
@@ -418,7 +380,7 @@ export const AdminParentsVideo = () => {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[160px]"
           >
             <option value="">All Categories</option>
             {uniqueCategories.map((c) => (
@@ -427,49 +389,49 @@ export const AdminParentsVideo = () => {
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         <div className="relative">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[160px]"
           >
             <option value="all">All Statuses ({videos.length})</option>
             <option value="published">Published ({publishedLive})</option>
             <option value="draft">Draft ({videos.length - publishedLive})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Table Layout (Refined Dashboard Typography) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden w-full">
+      {/* ── Table Layout ── */}
+      <div className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden w-full">
         <div className="overflow-x-auto custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[850px]">
-            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs">
+            <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB]">
               <tr>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  VIDEO STORY
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Video Story
                 </th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  BENEFICIARY
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Beneficiary
                 </th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  CATEGORY
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Category
                 </th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  AID PROVIDED
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Aid Provided
                 </th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  LOCATION / DATE
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Location / Date
                 </th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  STATUS
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Status
                 </th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">
-                  ACTIONS
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-right">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -477,8 +439,8 @@ export const AdminParentsVideo = () => {
               {filtered.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center">
-                    <Film className="w-7 h-7 text-slate-200 mx-auto mb-1.5" />
-                    <p className="text-[11px] text-slate-400">No parents video reviews found</p>
+                    <Film className="w-7 h-7 text-slate-300 mx-auto mb-1.5" />
+                    <p className="text-xs text-[#9CA3AF]">No parents video reviews found</p>
                   </td>
                 </tr>
               ) : (
@@ -491,13 +453,12 @@ export const AdminParentsVideo = () => {
                       : 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800');
 
                   return (
-                    <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
-                      {/* VIDEO STORY */}
-                      <td className="px-3.5 py-2.5 align-middle max-w-sm">
-                        <div className="flex items-center gap-2.5">
+                    <tr key={item._id} className="hover:bg-[#F9FAFB]/70 transition-colors">
+                      <td className="px-4 py-3 align-middle max-w-sm">
+                        <div className="flex items-center gap-3">
                           <div
                             onClick={() => setPreviewVideo(item)}
-                            className="relative w-16 h-10 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 shrink-0 group/thumb cursor-pointer shadow-2xs"
+                            className="relative w-16 h-11 rounded-sm overflow-hidden bg-[#0E241C] border border-[#E5E7EB] shrink-0 group/thumb cursor-pointer shadow-sm"
                           >
                             <img
                               src={thumb}
@@ -507,72 +468,66 @@ export const AdminParentsVideo = () => {
                                 e.target.src = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800';
                               }}
                             />
-                            <div className="absolute inset-0 m-auto w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center shadow-md group-hover/thumb:scale-115 transition-transform">
-                              <Play className="w-2.5 h-2.5 fill-white ml-0.5" />
+                            <div className="absolute inset-0 m-auto w-6 h-6 rounded-full bg-[#14382C] text-[#F2D869] flex items-center justify-center shadow-md group-hover/thumb:scale-110 transition-transform">
+                              <Play className="w-3 h-3 fill-[#F2D869] ml-0.5" />
                             </div>
                           </div>
 
                           <div className="min-w-0">
-                            <p className="font-bold text-slate-900 text-xs sm:text-[13px] leading-tight truncate">
+                            <p className="font-bold text-[#111827] text-xs sm:text-sm leading-tight truncate">
                               {item.title}
                             </p>
-                            <p className="text-[10.5px] text-slate-500 truncate mt-0.5">
-                              {item.parentSubtitle || item.parentName || 'Rebirth Care Trust'}
+                            <p className="text-xs text-[#6B7280] truncate mt-0.5">
+                              {item.parentSubtitle || item.parentName || 'RK Foundation'}
                             </p>
-                            <p className="text-[9.5px] text-slate-400 font-mono truncate mt-0.5">
+                            <p className="text-[11px] text-[#9CA3AF] font-mono truncate mt-0.5">
                               ID: {yId || 'N/A'}
                             </p>
                           </div>
                         </div>
                       </td>
 
-                      {/* BENEFICIARY */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap font-bold text-slate-800 text-xs">
-                        {item.beneficiaryName || 'Rebirth Care Trust'}
+                      <td className="px-4 py-3 align-middle whitespace-nowrap font-bold text-[#111827] text-xs">
+                        {item.beneficiaryName || 'RK Foundation'}
                       </td>
 
-                      {/* CATEGORY */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
-                        <span className="bg-slate-100 text-slate-700 px-2 py-0.5 text-[9.5px] font-semibold rounded-md inline-block">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
+                        <span className="bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 px-2.5 py-1 text-[11px] font-semibold rounded-sm inline-block">
                           {item.category || 'Child Healthcare'}
                         </span>
                       </td>
 
-                      {/* AID PROVIDED */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap font-bold text-[#DC2626] text-xs">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap font-bold text-[#14382C] text-xs">
                         {item.aidProvided || 'Direct Medical Care'}
                       </td>
 
-                      {/* LOCATION / DATE */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
-                        <p className="font-semibold text-slate-800 text-xs">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
+                        <p className="font-semibold text-[#111827] text-xs">
                           {item.location || 'Delhi NCR'}
                         </p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">
+                        <p className="text-[11px] text-[#9CA3AF] mt-0.5">
                           {item.dateLabel || 'October 2026'}
                         </p>
                       </td>
 
-                      {/* STATUS */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase border ${
+                          className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase border ${
                             item.status === 'published'
                               ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80'
-                              : 'bg-slate-100 text-slate-500 border border-slate-200'
+                              : 'bg-slate-100 text-[#6B7280] border-[#E5E7EB]'
                           }`}
                         >
                           {item.status === 'published' ? 'PUBLISHED' : 'DRAFT'}
                         </span>
                       </td>
 
-                      {/* ACTIONS */}
-                      <td className="px-3.5 py-2.5 align-middle text-right whitespace-nowrap">
-                        <div className="inline-flex items-center justify-end gap-1">
+                      <td className="px-4 py-3 align-middle text-right whitespace-nowrap">
+                        <div className="inline-flex items-center justify-end gap-1.5">
                           <button
                             type="button"
                             onClick={() => setPreviewVideo(item)}
-                            className="p-1 rounded-md text-slate-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                             title="Play Video"
                           >
                             <Play className="w-3.5 h-3.5" />
@@ -581,10 +536,10 @@ export const AdminParentsVideo = () => {
                           <button
                             type="button"
                             onClick={(e) => handleToggleFeatured(item._id, e)}
-                            className={`p-1 rounded-md transition cursor-pointer ${
+                            className={`p-1.5 rounded-sm transition cursor-pointer ${
                               item.isFeatured
-                                ? 'text-amber-500 hover:bg-amber-50'
-                                : 'text-slate-400 hover:text-amber-500 hover:bg-amber-50'
+                                ? 'text-amber-500 bg-amber-50'
+                                : 'text-[#9CA3AF] hover:text-amber-500 hover:bg-amber-50'
                             }`}
                             title={item.isFeatured ? 'Featured (Click to unmark)' : 'Mark as Featured Proof'}
                           >
@@ -594,7 +549,7 @@ export const AdminParentsVideo = () => {
                           <button
                             type="button"
                             onClick={(e) => handleOpenEdit(item, e)}
-                            className="p-1 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                             title="Edit Video"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -603,7 +558,7 @@ export const AdminParentsVideo = () => {
                           <button
                             type="button"
                             onClick={(e) => handleDelete(item._id, e)}
-                            className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Video"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -620,9 +575,9 @@ export const AdminParentsVideo = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
-            <span className="text-[10.5px] text-slate-400">
-              Showing {filtered.length} of {videos.length} videos
+          <div className="px-4 py-3 border-t border-[#E5E7EB] bg-[#F9FAFB] flex items-center justify-between shrink-0">
+            <span className="text-xs text-[#6B7280]">
+              Showing <strong className="text-[#111827]">{filtered.length}</strong> of <strong className="text-[#111827]">{videos.length}</strong> videos
             </span>
             {(search || filterCategory || filterStatus !== 'all') && (
               <button
@@ -631,7 +586,7 @@ export const AdminParentsVideo = () => {
                   setFilterCategory('');
                   setFilterStatus('all');
                 }}
-                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-xs text-[#14382C] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>
@@ -643,25 +598,25 @@ export const AdminParentsVideo = () => {
       {/* ── Video Player Modal ── */}
       {previewVideo && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#0E241C]/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setPreviewVideo(null)}
         >
           <div
-            className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col"
+            className="bg-white rounded-sm max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col border border-[#E5E7EB]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+            <div className="px-5 py-4 border-b border-[#F1F5F9] flex items-center justify-between bg-[#F9FAFB]">
               <div>
-                <p className="text-xs text-slate-400 font-mono">
+                <p className="text-xs text-[#6B7280] font-mono">
                   YouTube ID: {previewVideo.youtubeId || extractYoutubeId(previewVideo.youtubeUrl)}
                 </p>
-                <h3 className="font-bold text-slate-900 text-sm sm:text-base mt-0.5">
+                <h3 className="font-sans font-semibold text-[#111827] text-base sm:text-lg mt-0.5">
                   {previewVideo.title}
                 </h3>
               </div>
               <button
                 onClick={() => setPreviewVideo(null)}
-                className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-700 shadow-xs cursor-pointer"
+                className="w-8 h-8 rounded-sm bg-white border border-[#E5E7EB] flex items-center justify-center text-[#6B7280] hover:text-[#111827] shadow-sm cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -679,10 +634,10 @@ export const AdminParentsVideo = () => {
               />
             </div>
 
-            <div className="p-4 bg-white flex items-center justify-between text-xs text-slate-600">
+            <div className="p-4 bg-white flex items-center justify-between text-xs text-[#4B5563]">
               <div className="flex items-center gap-3">
-                <span className="font-semibold text-slate-900">{previewVideo.beneficiaryName}</span>
-                <span className="text-slate-400">•</span>
+                <span className="font-semibold text-[#111827]">{previewVideo.beneficiaryName}</span>
+                <span className="text-[#9CA3AF]">•</span>
                 <span>{previewVideo.location || 'Delhi NCR'}</span>
               </div>
               <a
@@ -692,7 +647,7 @@ export const AdminParentsVideo = () => {
                 }
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-red-600 hover:text-red-700"
+                className="inline-flex items-center gap-1 font-semibold text-[#14382C] hover:underline"
               >
                 <span>Watch on YouTube</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -705,37 +660,36 @@ export const AdminParentsVideo = () => {
       {/* ── Add / Edit Video Modal ── */}
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setModalOpen(false)}
         >
           <div
-            className="bg-white rounded-3xl max-w-xl w-full shadow-2xl max-h-[92vh] overflow-y-auto"
+            className="bg-white rounded-sm max-w-xl w-full shadow-2xl max-h-[92vh] overflow-y-auto border border-[#E5E7EB] custom-admin-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-red-50 text-[#DC2626] flex items-center justify-center font-bold">
+            <div className="p-5 sm:p-6 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold">
                   <Video className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">
+                  <h3 className="font-sans font-semibold text-[#111827] text-lg">
                     {editingVideo ? 'Edit Video Review' : 'Upload Video Review'}
                   </h3>
-                  <p className="text-xs text-slate-400">Authenticated parent testimonial & ground proof</p>
+                  <p className="text-xs text-[#6B7280]">Authenticated parent testimonial & ground proof</p>
                 </div>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+                className="text-[#9CA3AF] hover:text-[#111827] p-1.5 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 text-xs">
-              {/* YouTube Link with Live Thumbnail Preview */}
+            <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">
                   YouTube Video URL or Video ID *
                 </label>
                 <input
@@ -744,149 +698,144 @@ export const AdminParentsVideo = () => {
                   value={formData.youtubeUrl}
                   onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
                   placeholder="https://www.youtube.com/watch?v=VV8h_j3XFkk or VV8h_j3XFkk"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-mono"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition font-mono text-xs"
                 />
                 {extractYoutubeId(formData.youtubeUrl) && (
-                  <div className="mt-2 flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-200">
+                  <div className="mt-2 flex items-center gap-3 p-2.5 bg-[#F9FAFB] rounded-sm border border-[#E5E7EB]">
                     <img
                       src={`https://img.youtube.com/vi/${extractYoutubeId(formData.youtubeUrl)}/hqdefault.jpg`}
                       alt="Thumbnail Preview"
-                      className="w-16 h-10 object-cover rounded-lg"
+                      className="w-16 h-10 object-cover rounded-sm"
                     />
-                    <div className="text-[11px]">
-                      <p className="font-bold text-slate-800">YouTube Video Detected</p>
-                      <p className="text-slate-500 font-mono">ID: {extractYoutubeId(formData.youtubeUrl)}</p>
+                    <div className="text-xs">
+                      <p className="font-bold text-[#14382C]">YouTube Video Detected</p>
+                      <p className="text-[#6B7280] font-mono text-[11px]">ID: {extractYoutubeId(formData.youtubeUrl)}</p>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Title & Subtitle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Video Story Title *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Video Story Title *</label>
                   <input
                     type="text"
                     required
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="e.g. Rebirth Care Trust"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    placeholder="e.g. Heart Surgery Recovery Testimonial"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Parent Subtitle / Org</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Parent Subtitle / Org</label>
                   <input
                     type="text"
                     value={formData.parentSubtitle}
                     onChange={(e) => setFormData({ ...formData, parentSubtitle: e.target.value })}
-                    placeholder="e.g. Rebirth Care Trust"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    placeholder="e.g. Parents of Aarav"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
               </div>
 
-              {/* Beneficiary & Aid Provided */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Beneficiary Name</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Beneficiary Name</label>
                   <input
                     type="text"
                     value={formData.beneficiaryName}
                     onChange={(e) => setFormData({ ...formData, beneficiaryName: e.target.value })}
-                    placeholder="e.g. Rebirth Care Trust / Child Name"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    placeholder="e.g. Aarav / Child Name"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Aid Provided</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Aid Provided</label>
                   <input
                     type="text"
                     value={formData.aidProvided}
                     onChange={(e) => setFormData({ ...formData, aidProvided: e.target.value })}
                     placeholder="e.g. Direct Medical Care"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition text-[#DC2626] font-semibold"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#14382C] font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
               </div>
 
-              {/* Category & Location */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Category</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Category</label>
                   <input
                     type="text"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     placeholder="e.g. Child Healthcare"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Location & Date</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Location & Date</label>
                   <div className="grid grid-cols-2 gap-2">
                     <input
                       type="text"
                       value={formData.location}
                       onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                       placeholder="e.g. Delhi NCR"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                      className="w-full px-3 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                     />
                     <input
                       type="text"
                       value={formData.dateLabel}
                       onChange={(e) => setFormData({ ...formData, dateLabel: e.target.value })}
                       placeholder="e.g. October 2026"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                      className="w-full px-3 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Status & Featured Toggle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Status</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Status</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="published">Published</option>
                     <option value="draft">Draft</option>
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2 pt-5">
+                <div className="flex items-center gap-2 pt-4 sm:pt-5">
                   <input
                     type="checkbox"
                     id="featProof"
                     checked={formData.isFeatured}
                     onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                    className="w-4 h-4 text-[#DC2626] rounded border-slate-300 focus:ring-red-400 cursor-pointer"
+                    className="w-4 h-4 accent-[#14382C] rounded cursor-pointer"
                   />
-                  <label htmlFor="featProof" className="font-semibold text-slate-700 cursor-pointer">
+                  <label htmlFor="featProof" className="text-xs font-semibold text-[#374151] cursor-pointer">
                     Mark as Featured Proof
                   </label>
                 </div>
               </div>
 
-              {/* Submit Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] text-white font-bold hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-60"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs shadow-sm transition cursor-pointer disabled:opacity-60"
                 >
                   {saving ? 'Saving...' : editingVideo ? 'Update Video' : 'Save Video'}
                 </button>

@@ -7,7 +7,7 @@ export const ProtectedRoute = ({ superAdminOnly = false }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white font-medium text-sm">
+      <div className="min-h-screen flex items-center justify-center bg-[#F6FAF7] text-[#14382C] font-semibold text-sm">
         Authenticating session...
       </div>
     );

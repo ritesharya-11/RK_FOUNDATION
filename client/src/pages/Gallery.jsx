@@ -204,42 +204,42 @@ export const Gallery = () => {
   });
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Modern Compact Header Section (Replaces the Dark Green Hero) */}
-      <section className="bg-white border-b border-slate-200/70 pt-8 pb-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <div className="bg-white min-h-screen text-[#121316]">
+      {/* Modern NGO Header Section */}
+      <section className="bg-gradient-to-b from-[#F6FAF7] via-[#FAFDFB] to-white border-b border-slate-200/80 pt-8 pb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 mb-6">
-            <Link to="/" className="hover:text-[#121316] transition">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[#121316]">Field Gallery</span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[#121316]">Photo Archives</span>
+          <div className="flex items-center gap-2 text-xs sm:text-[13px] font-medium text-slate-500 mb-6">
+            <Link to="/" className="hover:text-[#14382C] transition">Home</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+            <span className="text-slate-600">Field Gallery</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+            <span className="text-[#14382C] font-semibold">Photo Archives</span>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200/60">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-7 border-b border-slate-200/80">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121316]/10 text-[#121316] text-xs font-bold uppercase tracking-wider">
-                <Camera className="w-3.5 h-3.5 text-[#121316]" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#14382C]/20 text-[#14382C] text-xs sm:text-[13px] font-bold uppercase tracking-wider shadow-sm">
+                <Camera className="w-3.5 h-3.5 text-[#14382C]" />
                 <span>Verified Field Documentation</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#121316] tracking-tight">
-                Field Photo Archives
+              <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-serif font-semibold text-[#121316] tracking-tight leading-[1.15]">
+                Field Photo <span className="italic text-[#14382C]">Archives</span>
               </h1>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              <p className="text-base sm:text-[17px] text-slate-600 leading-[1.65] font-normal">
                 Authentic, ground-level photography from our community bridge schools, emergency medical camps, nutrition distribution points, and vocational skill batches.
               </p>
             </div>
 
-            {/* Quick stats / Trust highlights */}
-            <div className="flex flex-wrap md:flex-col items-start md:items-end gap-2 text-xs">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-[#121316] font-semibold">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#121316]" />
-                100% Genuine Field Drives
+            {/* Quick NGO Trust Highlights */}
+            <div className="flex flex-wrap md:flex-col items-start md:items-end gap-2.5 text-xs sm:text-[13px] shrink-0">
+              <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#14382C]/15 text-[#121316] font-semibold shadow-sm">
+                <CheckCircle2 className="w-4 h-4 text-[#14382C]" />
+                <span>100% Genuine Field Drives</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-[#121316] font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-[#121316]" />
-                Zero Stock / Staged Media
+              <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#14382C]/15 text-[#121316] font-semibold shadow-sm">
+                <Sparkles className="w-4 h-4 text-[#14382C]" />
+                <span>Zero Stock / Staged Media</span>
               </span>
             </div>
           </div>
@@ -247,49 +247,70 @@ export const Gallery = () => {
           {/* Interactive Controls Bar: Search & Counter */}
           <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#14382C]" />
               <input
                 type="text"
                 placeholder="Search photos by title, cause, or location..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm text-[#121316] placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:bg-white transition"
+                className="w-full pl-10 pr-9 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-[#121316] placeholder-slate-400 focus:outline-none focus:border-[#14382C] shadow-sm transition"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#121316]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#14382C] cursor-pointer"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-4 h-4" />
                 </button>
               )}
             </div>
 
-            <div className="text-xs font-semibold text-slate-600 flex items-center justify-between sm:justify-end gap-2">
+            <div className="text-xs sm:text-[13px] font-semibold text-slate-600 flex items-center justify-between sm:justify-end gap-2.5">
               <span>Showing</span>
-              <span className="px-2.5 py-1 rounded-full bg-[#121316] text-[#121316] font-bold">
+              <span className="px-3.5 py-1.5 rounded-full bg-[#14382C] text-[#F2D869] font-bold shadow-sm">
                 {displayedItems.length} Photos
               </span>
             </div>
           </div>
+
+          {/* Cause Category Filter Pills */}
+          <div className="mt-5 flex items-center gap-2 overflow-x-auto pb-1">
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+                    isActive
+                      ? 'bg-[#14382C] text-white shadow-sm'
+                      : 'bg-white border border-slate-200 text-slate-600 hover:border-[#14382C]/40 hover:text-[#14382C]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-12">
         {/* Gallery Grid */}
         {loading ? (
           <div className="py-24 text-center text-slate-400 font-medium">Loading photos...</div>
         ) : displayedItems.length === 0 ? (
-          <div className="py-20 text-center bg-white border border-slate-200 rounded-2xl p-8 max-w-md mx-auto space-y-3">
-            <ImageIcon className="w-10 h-10 text-slate-400 mx-auto" />
-            <h4 className="text-sm font-bold text-[#121316]">No photos match your search</h4>
-            <p className="text-xs text-slate-600">
+          <div className="py-20 text-center bg-[#F6FAF7] border border-[#14382C]/15 rounded-2xl p-8 max-w-md mx-auto space-y-3">
+            <ImageIcon className="w-10 h-10 text-[#14382C]/60 mx-auto" />
+            <h4 className="text-base font-bold text-[#121316]">No photos match your search</h4>
+            <p className="text-sm text-slate-600">
               Try adjusting your search keyword or check back later for newly added field archives.
             </p>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="inline-block mt-2 px-4 py-1.5 rounded-lg bg-[#121316] text-[#121316] text-xs font-bold"
+                className="inline-block mt-2 px-5 py-2 rounded-full bg-[#14382C] hover:bg-[#1B4D3E] text-white text-xs font-bold uppercase tracking-wider cursor-pointer transition"
               >
                 Clear Search
               </button>
@@ -301,7 +322,7 @@ export const Gallery = () => {
               <div
                 key={item._id}
                 onClick={() => setLightboxItem(item)}
-                className="group relative rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 cursor-pointer aspect-4/3 bg-white border border-slate-200"
+                className="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-[4/3] bg-slate-100 border border-slate-200/90 hover:border-[#14382C]/50"
               >
                 <img
                   src={item.imageUrl}
@@ -313,19 +334,19 @@ export const Gallery = () => {
                   }}
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white">
-                  <span className="text-[11px] font-bold text-[#121316] uppercase tracking-wider">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white">
+                  <span className="text-[11px] font-bold text-[#F2D869] uppercase tracking-wider">
                     {item.category}
                   </span>
-                  <h4 className="text-sm font-bold line-clamp-2 mt-1">{item.title}</h4>
+                  <h4 className="text-base font-bold line-clamp-2 mt-1 leading-snug">{item.title}</h4>
                   {item.location && (
-                    <p className="text-[11px] text-slate-300 flex items-center gap-1.5 mt-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#121316]" />
+                    <p className="text-xs text-slate-200 flex items-center gap-1.5 mt-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#F2D869]" />
                       <span>{item.location}</span>
                     </p>
                   )}
-                  <span className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white border border-white/20">
-                    <ZoomIn className="w-4 h-4 text-[#121316]" />
+                  <span className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#14382C]/90 backdrop-blur-md flex items-center justify-center text-[#F2D869] border border-[#F2D869]/30 shadow-md">
+                    <ZoomIn className="w-4 h-4" />
                   </span>
                 </div>
               </div>
@@ -341,14 +362,14 @@ export const Gallery = () => {
           onClick={() => setLightboxItem(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-[#121316] text-white rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+            className="relative max-w-4xl w-full bg-[#0E241C] text-white rounded-2xl overflow-hidden shadow-2xl border border-white/15"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setLightboxItem(null)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition"
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/70 hover:bg-[#14382C] text-white flex items-center justify-center transition cursor-pointer"
             >
-              <X className="w-5 h-5 text-[#121316]" />
+              <X className="w-5 h-5" />
             </button>
 
             <div className="max-h-[70vh] overflow-hidden bg-black flex items-center justify-center">
@@ -359,14 +380,14 @@ export const Gallery = () => {
               />
             </div>
 
-            <div className="p-6 space-y-2 bg-[#121316]">
-              <span className="text-xs font-bold text-[#121316] uppercase tracking-wider">
+            <div className="p-6 space-y-2 bg-[#0E241C]">
+              <span className="text-xs font-bold text-[#F2D869] uppercase tracking-wider">
                 {lightboxItem.category}
               </span>
-              <h3 className="text-lg font-bold text-white">{lightboxItem.title}</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white">{lightboxItem.title}</h3>
               {lightboxItem.location && (
-                <p className="text-xs text-slate-400 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-[#121316]" />
+                <p className="text-xs sm:text-sm text-emerald-100/80 flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-[#F2D869]" />
                   <span>{lightboxItem.location}</span>
                 </p>
               )}

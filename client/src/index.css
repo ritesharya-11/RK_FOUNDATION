@@ -120,3 +120,30 @@
   color: #FFFFFF;
   border-color: #121316;
 }
+
+/* Admin Panel Legacy Scrollbar & Shadows */
+.shadow-soft {
+  box-shadow: 0 2px 12px -2px rgba(20, 56, 44, 0.06), 0 1px 4px -1px rgba(18, 19, 22, 0.04);
+}
+
+.shadow-card {
+  box-shadow: 0 10px 25px -5px rgba(20, 56, 44, 0.08), 0 4px 10px -4px rgba(18, 19, 22, 0.04);
+}
+
+.custom-admin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-admin-scrollbar::-webkit-scrollbar-track {
+  background: #F6FAF7;
+}
+
+.custom-admin-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+.custom-admin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #14382C;
+}

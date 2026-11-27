@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
-import { Plus, Edit2, Trash2, X, Star } from 'lucide-react';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
+import { Plus, Edit2, Trash2, X } from 'lucide-react';
 
 export const AdminTestimonials = () => {
   const { showToast } = useWebsite();
@@ -90,129 +91,142 @@ export const AdminTestimonials = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white">Testimonials Manager</h2>
-          <p className="text-xs text-slate-400">Curate donor reviews, volunteer feedback, and beneficiary quotes</p>
-        </div>
-        <button
-          onClick={() => handleOpenModal()}
-          className="px-4 py-2.5 rounded-xl font-bold text-xs text-white bg-emerald-600 hover:bg-emerald-500 shadow-md transition flex items-center gap-2 cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add Testimonial</span>
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {testimonials.map((t) => (
-          <div
-            key={t._id}
-            className="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between space-y-4 shadow-sm"
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      <AdminPageHeader
+        breadcrumb="Testimonials"
+        badge={`${testimonials.length} Featured Voices`}
+        title="Testimonials Manager"
+        subtitle="Curate donor reviews, volunteer reflections, and verified community feedback."
+        actions={
+          <button
+            onClick={() => handleOpenModal()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-sm font-bold text-xs text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer"
           >
-            <p className="text-xs text-slate-300 leading-relaxed italic">"{t.message}"</p>
+            <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+            <span>Add Testimonial</span>
+          </button>
+        }
+      />
 
-            <div className="flex items-center justify-between pt-4 border-t border-slate-800">
-              <div className="flex items-center gap-3">
-                <img
-                  src={t.avatar}
-                  alt={t.name}
-                  className="w-9 h-9 rounded-full object-cover border border-emerald-500"
-                />
-                <div>
-                  <h4 className="text-xs font-bold text-white">{t.name}</h4>
-                  <p className="text-[10px] text-slate-400">{t.role}</p>
+      {testimonials.length === 0 && !loading ? (
+        <div className="bg-white border border-[#E5E7EB] rounded-sm p-12 text-center text-[#9CA3AF] text-sm shadow-sm">
+          No testimonials added yet.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {testimonials.map((t) => (
+            <div
+              key={t._id}
+              className="bg-white border border-[#E5E7EB] hover:border-[#14382C]/35 rounded-sm p-5 flex flex-col justify-between space-y-4 shadow-sm transition"
+            >
+              <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed italic">"{t.message}"</p>
+
+              <div className="flex items-center justify-between pt-4 border-t border-[#F1F5F9]">
+                <div className="flex items-center gap-3 min-w-0">
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    className="w-10 h-10 rounded-full object-cover border-2 border-[#14382C]/20 shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#111827] truncate">{t.name}</h4>
+                    <p className="text-[11px] text-[#6B7280] truncate">{t.role}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    onClick={() => handleOpenModal(t)}
+                    className="p-2 rounded-sm bg-[#EAF3EE] text-[#14382C] hover:bg-[#14382C] hover:text-white border border-[#14382C]/15 transition cursor-pointer"
+                    title="Edit testimonial"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(t._id)}
+                    className="p-2 rounded-sm bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200/80 transition cursor-pointer"
+                    title="Delete testimonial"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handleOpenModal(t)}
-                  className="p-1 rounded bg-slate-800 text-slate-300 hover:text-white"
-                >
-                  <Edit2 className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => handleDelete(t._id)}
-                  className="p-1 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-800">
-              <h3 className="text-base font-bold text-white">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex justify-between items-center pb-3 border-b border-[#F1F5F9]">
+              <h3 className="text-lg font-sans font-semibold text-[#111827]">
                 {editingTestimonial ? 'Edit Testimonial' : 'Add Testimonial'}
               </h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400">
-                <X className="w-5 h-5" />
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-8 h-8 rounded-sm bg-[#F9FAFB] text-[#6B7280] hover:text-[#111827] flex items-center justify-center cursor-pointer"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Person Name *</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Person Name *</label>
                 <input
                   type="text"
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Role / Designation *</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Role / Designation *</label>
                 <input
                   type="text"
                   required
                   value={form.role}
                   onChange={(e) => setForm({ ...form, role: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Message / Quote *</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Message / Quote *</label>
                 <textarea
                   rows={4}
                   required
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Avatar Image URL</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Avatar Image URL</label>
                 <input
                   type="text"
                   value={form.avatar}
                   onChange={(e) => setForm({ ...form, avatar: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] text-[#374151] hover:bg-slate-200 text-xs font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-500"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs cursor-pointer"
                 >
                   Save Testimonial
                 </button>

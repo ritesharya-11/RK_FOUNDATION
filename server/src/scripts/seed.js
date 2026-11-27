@@ -43,7 +43,7 @@ const seedDatabase = async () => {
 
     console.log('[Seeder] Creating Super Admin user...');
     await User.create({
-      name: process.env.INITIAL_ADMIN_NAME || 'RK Foundation Super Admin',
+      name: process.env.INITIAL_ADMIN_NAME || 'Sahyora Super Admin',
       email: (process.env.INITIAL_ADMIN_EMAIL || 'admin@rkfoundation.org').toLowerCase(),
       password: process.env.INITIAL_ADMIN_PASSWORD || 'Admin@RK2026!',
       role: 'superadmin',

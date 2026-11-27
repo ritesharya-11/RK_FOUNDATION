@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader, AdminStatCard } from '../../components/admin/AdminUI';
 import {
   FileText,
   Plus,
@@ -15,12 +16,8 @@ import {
   Upload,
   Loader2,
   ExternalLink,
-  Download,
   Building2,
-  Calendar,
   ShieldCheck,
-  CheckCircle2,
-  Sparkles,
 } from 'lucide-react';
 
 const INITIAL_CERTIFICATES = [];
@@ -307,145 +304,97 @@ export const AdminAppreciationLetters = () => {
   const totalAidDisbursed = docs.reduce((acc, d) => acc + (Number(d.amount) || 0), 0);
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Page Header (Executive Proportions) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-            Hospital Appreciation Letters & Proofs
-          </h2>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Manage authenticated letters of appreciation, hospital receipts, and PDF relief dossiers verified by doctor signatures.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-            title="Refresh Certificates"
-          >
-            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
-            <span>Refresh</span>
-          </button>
-          {docs.length > 0 && (
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Appreciation Letters"
+        badge={`${totalDocs} Verified Letters`}
+        title="Hospital Appreciation Letters & Proofs"
+        subtitle="Manage authenticated letters of appreciation, hospital receipts, and PDF relief dossiers verified by attending doctors."
+        actions={
+          <>
             <button
-              onClick={handleDeleteAll}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 hover:bg-rose-100 transition cursor-pointer"
-              title="Delete all appreciation letters"
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+              title="Refresh Certificates"
             >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Delete All</span>
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
             </button>
-          )}
-          <button
-            onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Upload Certificates</span>
-          </button>
-        </div>
-      </div>
+            {docs.length > 0 && (
+              <button
+                onClick={handleDeleteAll}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200 hover:bg-rose-100 transition cursor-pointer"
+                title="Delete all appreciation letters"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete All</span>
+              </button>
+            )}
+            <button
+              onClick={handleOpenAdd}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer active:scale-[0.98]"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+              <span>Upload Certificates</span>
+            </button>
+          </>
+        }
+      />
 
-      {/* ── 4 KPI Metric Cards (Dashboard Compact Hierarchy) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* TOTAL DOCUMENTS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              TOTAL DOCUMENTS
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {totalDocs}
-            </p>
-            <p className="text-[10.5px] font-semibold text-emerald-600 mt-0.5 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-              <span>Scanned & Verified</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
-            <FileText className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* PARTNER HOSPITALS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              PARTNER HOSPITALS
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {partnerHospitalsCount}
-            </p>
-            <p className="text-[10.5px] font-normal text-slate-400 mt-0.5">
-              Accredited centers
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-            <ShieldCheck className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* FEATURED ON PORTAL */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              FEATURED ON PORTAL
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-[#DC2626] mt-0.5 tracking-tight">
-              {featuredCount}
-            </p>
-            <p className="text-[10.5px] font-normal text-slate-400 mt-0.5">
-              Highlighted for donors
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
-            <Star className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* AID DISBURSED */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              AID DISBURSED
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              ₹{totalAidDisbursed > 0 ? (totalAidDisbursed).toLocaleString('en-IN') : '0'}
-            </p>
-            <p className="text-[10.5px] font-semibold text-emerald-600 mt-0.5 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-              <span>Verified by Cheques</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <ShieldCheck className="w-4 h-4" />
-          </div>
-        </div>
+      {/* ── 4 KPI Metric Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <AdminStatCard
+          label="Total Documents"
+          value={totalDocs}
+          subtext="Scanned & Verified"
+          icon={FileText}
+          accent="emerald"
+        />
+        <AdminStatCard
+          label="Partner Hospitals"
+          value={partnerHospitalsCount}
+          subtext="Accredited Centers"
+          icon={Building2}
+          accent="blue"
+        />
+        <AdminStatCard
+          label="Featured on Portal"
+          value={featuredCount}
+          subtext="Highlighted for Donors"
+          icon={Star}
+          accent="gold"
+        />
+        <AdminStatCard
+          label="Aid Disbursed"
+          value={`₹${totalAidDisbursed > 0 ? totalAidDisbursed.toLocaleString('en-IN') : '0'}`}
+          subtext="Verified by Cheques"
+          icon={ShieldCheck}
+          accent="emerald"
+        />
       </div>
 
       {/* ── Search & Filter Controls Bar ── */}
       <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by beneficiary name, hospital, cheque #, or doctor..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#111827] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </div>
 
         <div className="relative">
-          <div className="flex items-center bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs font-semibold text-slate-700 shadow-2xs cursor-pointer min-w-[200px]">
-            <Filter className="w-3 h-3 text-slate-400 mr-2 shrink-0" />
+          <div className="flex items-center bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-8 py-2.5 text-xs font-semibold text-[#374151] shadow-sm cursor-pointer min-w-[210px] focus-within:border-[#14382C]">
+            <Filter className="w-3.5 h-3.5 text-[#14382C] mr-2 shrink-0" />
             <select
               value={filterHospital}
               onChange={(e) => setFilterHospital(e.target.value)}
-              className="appearance-none bg-transparent w-full text-slate-700 font-semibold focus:outline-none cursor-pointer text-xs"
+              className="appearance-none bg-transparent w-full text-[#374151] font-semibold focus:outline-none cursor-pointer text-xs"
             >
               <option value="">Hospital: All Hospitals ({docs.length})</option>
               {uniqueHospitals.map((h) => (
@@ -458,52 +407,51 @@ export const AdminAppreciationLetters = () => {
         </div>
       </div>
 
-      {/* ── 3-Column Certificate Cards Grid (Exact Screenshot Layout) ── */}
+      {/* ── 3-Column Certificate Cards Grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.map((item) => (
           <div
             key={item._id}
-            className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden flex flex-col justify-between group hover:shadow-md hover:border-slate-300 transition-all"
+            className="bg-white border border-[#E5E7EB] hover:border-[#14382C]/35 rounded-sm shadow-sm overflow-hidden flex flex-col justify-between group hover:shadow-md transition-all"
           >
             {/* Top Bar with Badges & Gold Star */}
-            <div className="p-3 bg-white flex items-center justify-between border-b border-slate-100">
+            <div className="px-3.5 py-3 bg-[#F9FAFB] flex items-center justify-between border-b border-[#F1F5F9]">
               <div className="flex items-center gap-1.5 min-w-0">
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#475569] text-white uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#14382C] text-white uppercase tracking-wider">
                   {item.fileType || 'IMAGE'}
                 </span>
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#10B981] text-white uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 uppercase tracking-wider">
                   {item.status === 'published' ? 'Published' : 'Draft'}
                 </span>
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider truncate max-w-[130px]">
-                  {item.issueDate || 'APPRECIATION LETTER'}
+                <span className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-wider truncate max-w-[120px]">
+                  {item.issueDate || 'LETTER'}
                 </span>
               </div>
 
-              {/* Star Favorite / Highlight Button */}
               <button
                 type="button"
                 onClick={(e) => handleToggleFeatured(item._id, e)}
                 title={item.isFeatured ? 'Featured on Portal (Click to unfeature)' : 'Mark Featured on Portal'}
-                className={`w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                   item.isFeatured
-                    ? 'bg-[#F59E0B] text-white shadow-xs hover:scale-110'
-                    : 'bg-slate-100 hover:bg-amber-100 text-slate-300 hover:text-amber-500'
+                    ? 'bg-amber-400 text-[#14382C] shadow-sm hover:scale-110'
+                    : 'bg-white border border-[#E5E7EB] text-slate-300 hover:text-amber-500'
                 }`}
               >
-                <Star className={`w-3.5 h-3.5 ${item.isFeatured ? 'fill-white' : ''}`} />
+                <Star className={`w-3.5 h-3.5 ${item.isFeatured ? 'fill-[#14382C]' : ''}`} />
               </button>
             </div>
 
             {/* Document Scanned Preview Area */}
             <div
               onClick={() => setInspectDoc(item)}
-              className="relative aspect-[1.35] bg-slate-50 p-2.5 overflow-hidden flex items-center justify-center cursor-pointer select-none"
+              className="relative aspect-[1.35] bg-[#F9FAFB] p-3 overflow-hidden flex items-center justify-center cursor-pointer select-none"
             >
               {item.fileUrl ? (
                 <img
                   src={item.fileUrl}
                   alt={item.title}
-                  className="w-full h-full object-contain rounded bg-white shadow-2xs border border-slate-200/70"
+                  className="w-full h-full object-contain rounded-sm bg-white shadow-sm border border-[#E5E7EB]/70"
                   onError={(e) => {
                     e.target.style.display = 'none';
                   }}
@@ -512,68 +460,68 @@ export const AdminAppreciationLetters = () => {
 
               {/* Styled Fallback / Clean Scanned Letter Rendering */}
               {(!item.fileUrl || item.fileUrl.includes('placeholder')) && (
-                <div className="w-full h-full bg-white rounded border border-slate-200/90 shadow-2xs p-3 flex flex-col justify-between text-slate-800 font-serif">
+                <div className="w-full h-full bg-white rounded-sm border border-[#E5E7EB] shadow-sm p-3 flex flex-col justify-between text-slate-800 font-sans">
                   <div>
-                    <div className="flex justify-between items-start border-b border-slate-100 pb-1 mb-2">
-                      <span className="text-[10px] font-bold tracking-tight text-slate-900 uppercase">
+                    <div className="flex justify-between items-start border-b border-[#F1F5F9] pb-1 mb-2">
+                      <span className="text-[10px] font-bold tracking-tight text-[#111827] uppercase">
                         {item.hospital?.split(',')[0]}
                       </span>
-                      <span className="text-[9px] text-slate-400 font-mono">
+                      <span className="text-[9px] text-[#9CA3AF] font-mono">
                         Date: {item.issueDate || '13/01/2024'}
                       </span>
                     </div>
-                    <p className="text-[9px] text-slate-500 text-center uppercase tracking-widest font-sans font-bold mb-1">
+                    <p className="text-[9px] text-[#6B7280] text-center uppercase tracking-widest font-sans font-bold mb-1">
                       Appreciation Letter
                     </p>
-                    <p className="text-[8.5px] leading-relaxed text-slate-700">
-                      We are grateful to <strong className="font-semibold text-slate-900">"Rebirth Care Trust"</strong> for providing financial help for parents of{' '}
+                    <p className="text-[8.5px] leading-relaxed text-[#374151]">
+                      We are grateful to <strong className="font-semibold text-[#111827]">"RK Foundation"</strong> for providing financial help for parents of{' '}
                       <strong className="underline decoration-slate-300 font-semibold">{item.beneficiaryName}</strong> admitted under emergency situation for critical treatment.
                     </p>
-                    <p className="text-[8.5px] leading-relaxed text-slate-700 mt-1">
-                      Provided <strong className="text-emerald-700 font-bold">₹{(item.amount || 15000).toLocaleString('en-IN')}/-</strong> by cheque no.{' '}
+                    <p className="text-[8.5px] leading-relaxed text-[#374151] mt-1">
+                      Provided <strong className="text-[#14382C] font-bold">₹{(item.amount || 15000).toLocaleString('en-IN')}/-</strong> by cheque no.{' '}
                       <strong className="font-mono">{item.chequeNo || '528766'}</strong>.
                     </p>
                   </div>
-                  <div className="flex justify-between items-end pt-1 border-t border-slate-100">
-                    <div className="w-8 h-8 rounded-full border border-blue-400 text-blue-600 flex items-center justify-center text-[6px] font-sans font-bold uppercase text-center p-0.5 leading-none">
+                  <div className="flex justify-between items-end pt-1 border-t border-[#F1F5F9]">
+                    <div className="w-8 h-8 rounded-full border border-[#14382C] text-[#14382C] flex items-center justify-center text-[6px] font-sans font-bold uppercase text-center p-0.5 leading-none">
                       Hospital Stamp
                     </div>
                     <div className="text-right">
-                      <p className="text-[8px] font-script italic text-slate-800">
-                        {item.doctorName?.split('(')[0] || 'Dr. M. K. Agrawal'}
+                      <p className="text-[8px] font-sans italic text-[#111827]">
+                        {item.doctorName?.split('(')[0] || 'Authorized Signatory'}
                       </p>
-                      <p className="text-[7px] text-slate-400 font-sans">Authorized Signatory</p>
+                      <p className="text-[7px] text-[#9CA3AF] font-sans">Medical Superintendent</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Hover Overlay with "View Certificate" (Matches Screenshot) */}
-              <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform">
-                  <Eye className="w-3.5 h-3.5 text-slate-700" />
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-[#0E241C]/65 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm bg-white text-[#14382C] font-bold text-xs shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform">
+                  <Eye className="w-3.5 h-3.5" />
                   <span>View Certificate</span>
                 </span>
               </div>
             </div>
 
-            {/* Bottom Actions Bar (Matches Screenshot) */}
-            <div className="px-4 py-2.5 bg-white flex items-center justify-between border-t border-slate-100">
+            {/* Bottom Actions Bar */}
+            <div className="px-4 py-3 bg-white flex items-center justify-between border-t border-[#F1F5F9]">
               <button
                 type="button"
                 onClick={() => setInspectDoc(item)}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#14382C] hover:underline transition cursor-pointer"
               >
-                <Eye className="w-3.5 h-3.5 text-slate-400" />
+                <Eye className="w-3.5 h-3.5" />
                 <span>Inspect</span>
               </button>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={(e) => handleOpenEdit(item, e)}
                   title="Edit Certificate Details"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                  className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                 >
                   <Edit2 className="w-3.5 h-3.5" />
                 </button>
@@ -581,7 +529,7 @@ export const AdminAppreciationLetters = () => {
                   type="button"
                   onClick={(e) => handleDelete(item._id, e)}
                   title="Delete Certificate"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                  className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -592,59 +540,59 @@ export const AdminAppreciationLetters = () => {
       </div>
 
       {filtered.length === 0 && (
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-12 text-center shadow-xs">
+        <div className="bg-white border border-[#E5E7EB] rounded-sm p-12 text-center shadow-sm">
           <FileText className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-          <h3 className="text-sm font-bold text-slate-700">No appreciation letters found</h3>
-          <p className="text-xs text-slate-400 mt-1">Try clearing your search query or hospital filter.</p>
-          <button
-            onClick={() => {
-              setSearch('');
-              setFilterHospital('');
-            }}
-            className="mt-3 text-xs font-bold text-[#DC2626] hover:underline cursor-pointer"
-          >
-            Reset Filters
-          </button>
+          <h3 className="text-sm font-bold text-[#111827]">No appreciation letters found</h3>
+          <p className="text-xs text-[#6B7280] mt-1">Upload scanned hospital relief letters or reset active filters.</p>
+          {(search || filterHospital) && (
+            <button
+              onClick={() => {
+                setSearch('');
+                setFilterHospital('');
+              }}
+              className="mt-3 text-xs font-bold text-[#14382C] hover:underline cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          )}
         </div>
       )}
 
-      {/* ── Inspect Certificate Modal (Full High-Res View) ── */}
+      {/* ── Inspect Certificate Modal ── */}
       {inspectDoc && (
         <div
-          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#0E241C]/75 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setInspectDoc(null)}
         >
           <div
-            className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl max-h-[92vh] overflow-hidden flex flex-col"
+            className="bg-white rounded-sm max-w-3xl w-full shadow-2xl max-h-[92vh] overflow-hidden flex flex-col border border-[#E5E7EB]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+            <div className="px-6 py-4 border-b border-[#F1F5F9] flex items-center justify-between bg-[#F9FAFB]">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#10B981] text-white">
+                  <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#14382C] text-white">
                     VERIFIED CERTIFICATE
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-[#6B7280] font-mono">
                     Cheque #{inspectDoc.chequeNo || 'N/A'}
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 mt-1 truncate">
+                <h3 className="text-base sm:text-lg font-sans font-semibold text-[#111827] mt-1 truncate">
                   {inspectDoc.title || `${inspectDoc.beneficiaryName} Relief Letter`}
                 </h3>
               </div>
               <button
                 onClick={() => setInspectDoc(null)}
-                className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-700 shadow-xs cursor-pointer"
+                className="w-8 h-8 rounded-sm bg-white border border-[#E5E7EB] flex items-center justify-center text-[#6B7280] hover:text-[#111827] shadow-sm cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Modal Body / Image View */}
-            <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-slate-100/60 flex flex-col items-center justify-center">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-[#F9FAFB]/50 flex flex-col items-center justify-center custom-admin-scrollbar">
               {inspectDoc.fileUrl ? (
-                <div className="relative rounded-2xl overflow-hidden bg-white shadow-md border border-slate-200 max-h-[58vh]">
+                <div className="relative rounded-sm overflow-hidden bg-white shadow-md border border-[#E5E7EB] max-h-[58vh]">
                   <img
                     src={inspectDoc.fileUrl}
                     alt={inspectDoc.title}
@@ -652,40 +600,38 @@ export const AdminAppreciationLetters = () => {
                   />
                 </div>
               ) : (
-                <div className="p-8 bg-white rounded-2xl border border-slate-200 text-center max-w-md shadow-xs">
+                <div className="p-8 bg-white rounded-sm border border-[#E5E7EB] text-center max-w-md shadow-sm">
                   <FileText className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-                  <p className="text-sm font-bold text-slate-800">Scanned Document Proof</p>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-sm font-bold text-[#111827]">Scanned Document Proof</p>
+                  <p className="text-xs text-[#6B7280] mt-1">
                     Beneficiary: {inspectDoc.beneficiaryName} | Hospital: {inspectDoc.hospital}
                   </p>
                 </div>
               )}
 
-              {/* Document Key Facts Strip */}
               <div className="w-full mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="p-3 bg-white rounded-xl border border-slate-200 text-center shadow-2xs">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">BENEFICIARY</p>
-                  <p className="text-xs font-bold text-slate-900 mt-0.5 truncate">{inspectDoc.beneficiaryName || 'Child'}</p>
+                <div className="p-3 bg-white rounded-sm border border-[#E5E7EB] text-center shadow-sm">
+                  <p className="text-[10px] font-bold text-[#9CA3AF] uppercase">Beneficiary</p>
+                  <p className="text-xs font-bold text-[#111827] mt-0.5 truncate">{inspectDoc.beneficiaryName || 'Child'}</p>
                 </div>
-                <div className="p-3 bg-white rounded-xl border border-slate-200 text-center shadow-2xs">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">AID AMOUNT</p>
-                  <p className="text-xs font-black text-emerald-600 mt-0.5">₹{(inspectDoc.amount || 15000).toLocaleString('en-IN')}</p>
+                <div className="p-3 bg-white rounded-sm border border-[#E5E7EB] text-center shadow-sm">
+                  <p className="text-[10px] font-bold text-[#9CA3AF] uppercase">Aid Amount</p>
+                  <p className="text-xs font-extrabold text-[#14382C] mt-0.5">₹{(inspectDoc.amount || 15000).toLocaleString('en-IN')}</p>
                 </div>
-                <div className="p-3 bg-white rounded-xl border border-slate-200 text-center shadow-2xs">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">CHEQUE #</p>
-                  <p className="text-xs font-bold text-slate-900 font-mono mt-0.5">{inspectDoc.chequeNo || '528766'}</p>
+                <div className="p-3 bg-white rounded-sm border border-[#E5E7EB] text-center shadow-sm">
+                  <p className="text-[10px] font-bold text-[#9CA3AF] uppercase">Cheque #</p>
+                  <p className="text-xs font-bold text-[#111827] font-mono mt-0.5">{inspectDoc.chequeNo || '528766'}</p>
                 </div>
-                <div className="p-3 bg-white rounded-xl border border-slate-200 text-center shadow-2xs">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">DATE</p>
-                  <p className="text-xs font-bold text-slate-900 mt-0.5">{inspectDoc.issueDate || '2024-01-13'}</p>
+                <div className="p-3 bg-white rounded-sm border border-[#E5E7EB] text-center shadow-sm">
+                  <p className="text-[10px] font-bold text-[#9CA3AF] uppercase">Date</p>
+                  <p className="text-xs font-bold text-[#111827] mt-0.5">{inspectDoc.issueDate || '2024-01-13'}</p>
                 </div>
               </div>
             </div>
 
-            {/* Modal Footer */}
-            <div className="px-6 py-3.5 bg-white border-t border-slate-100 flex items-center justify-between">
-              <span className="text-xs text-slate-500 flex items-center gap-1.5">
-                <Building2 className="w-3.5 h-3.5 text-slate-400" />
+            <div className="px-6 py-3.5 bg-white border-t border-[#F1F5F9] flex items-center justify-between">
+              <span className="text-xs text-[#6B7280] flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-[#14382C]" />
                 <span className="truncate max-w-xs">{inspectDoc.hospital}</span>
               </span>
 
@@ -695,7 +641,7 @@ export const AdminAppreciationLetters = () => {
                     href={inspectDoc.fileUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#14382C] bg-[#EAF3EE] hover:bg-[#E4EFEA] border border-[#14382C]/20 transition"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Open Original</span>
@@ -703,7 +649,7 @@ export const AdminAppreciationLetters = () => {
                 )}
                 <button
                   onClick={() => setInspectDoc(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] transition cursor-pointer"
                 >
                   Close
                 </button>
@@ -716,38 +662,37 @@ export const AdminAppreciationLetters = () => {
       {/* ── Add / Edit Certificate Modal ── */}
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setModalOpen(false)}
         >
           <div
-            className="bg-white rounded-3xl max-w-xl w-full shadow-2xl max-h-[92vh] overflow-y-auto"
+            className="bg-white rounded-sm max-w-xl w-full shadow-2xl max-h-[92vh] overflow-y-auto border border-[#E5E7EB] custom-admin-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-red-50 text-[#DC2626] flex items-center justify-center font-bold">
+            <div className="p-5 sm:p-6 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold">
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">
+                  <h3 className="font-sans font-semibold text-[#111827] text-lg">
                     {editingDoc ? 'Edit Hospital Certificate' : 'Upload Hospital Appreciation Certificate'}
                   </h3>
-                  <p className="text-xs text-slate-400">Authenticated hospital financial relief documentation</p>
+                  <p className="text-xs text-[#6B7280]">Authenticated hospital financial relief documentation</p>
                 </div>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+                className="text-[#9CA3AF] hover:text-[#111827] p-1.5 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 text-xs">
-              {/* Beneficiary Name & Title */}
+            <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 text-xs sm:text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Beneficiary Name *
                   </label>
                   <input
@@ -762,12 +707,12 @@ export const AdminAppreciationLetters = () => {
                       })
                     }
                     placeholder="e.g. Baby of Tayaba"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Cheque # / Reference
                   </label>
                   <input
@@ -775,14 +720,13 @@ export const AdminAppreciationLetters = () => {
                     value={formData.chequeNo}
                     onChange={(e) => setFormData({ ...formData, chequeNo: e.target.value })}
                     placeholder="e.g. 528766"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-mono"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition font-mono"
                   />
                 </div>
               </div>
 
-              {/* Partner Hospital */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">
                   Partner Hospital Name & Branch *
                 </label>
                 <input
@@ -791,14 +735,13 @@ export const AdminAppreciationLetters = () => {
                   value={formData.hospital}
                   onChange={(e) => setFormData({ ...formData, hospital: e.target.value })}
                   placeholder="e.g. Girraj Ji Children Hospital, Sector 12A Gurgaon"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                 />
               </div>
 
-              {/* Doctor Name & Disbursed Amount */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Attending Doctor / Signatory
                   </label>
                   <input
@@ -806,12 +749,12 @@ export const AdminAppreciationLetters = () => {
                     value={formData.doctorName}
                     onChange={(e) => setFormData({ ...formData, doctorName: e.target.value })}
                     placeholder="e.g. Dr. Mohit Kumar Agrawal"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Aid Disbursed (₹)
                   </label>
                   <input
@@ -819,29 +762,28 @@ export const AdminAppreciationLetters = () => {
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) || 0 })}
                     placeholder="15000"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-semibold"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition font-semibold"
                   />
                 </div>
               </div>
 
-              {/* Issue Date & Status */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Letter / Receipt Date</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Letter / Receipt Date</label>
                   <input
                     type="date"
                     value={formData.issueDate}
                     onChange={(e) => setFormData({ ...formData, issueDate: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Publication Status</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Publication Status</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="published">Published (Visible to Donors)</option>
                     <option value="draft">Draft (Internal Only)</option>
@@ -849,13 +791,12 @@ export const AdminAppreciationLetters = () => {
                 </div>
               </div>
 
-              {/* Scanned Document Image / PDF Upload */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">
                   Scanned Letter Image / PDF File
                 </label>
                 {formData.fileUrl && (
-                  <div className="relative rounded-xl overflow-hidden border border-slate-200 aspect-video bg-slate-50 max-h-40 mb-2">
+                  <div className="relative rounded-sm overflow-hidden border border-[#E5E7EB] aspect-video bg-[#F9FAFB] max-h-40 mb-2">
                     <img
                       src={formData.fileUrl}
                       alt="Preview"
@@ -864,7 +805,7 @@ export const AdminAppreciationLetters = () => {
                     <button
                       type="button"
                       onClick={() => setFormData({ ...formData, fileUrl: '' })}
-                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-red-600 transition cursor-pointer"
+                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#0E241C]/75 text-white flex items-center justify-center hover:bg-rose-600 transition cursor-pointer"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
@@ -876,7 +817,7 @@ export const AdminAppreciationLetters = () => {
                     value={formData.fileUrl}
                     onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
                     placeholder="/appreciation/... or image URL"
-                    className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="flex-1 px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition text-xs"
                   />
                   <input
                     type="file"
@@ -889,25 +830,24 @@ export const AdminAppreciationLetters = () => {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploadingImg}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 transition cursor-pointer disabled:opacity-60 shrink-0"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-sm text-xs font-semibold text-white bg-[#14382C] hover:bg-[#1B4D3E] transition cursor-pointer disabled:opacity-60 shrink-0"
                   >
                     {uploadingImg ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#F2D869]" />
                     ) : (
-                      <Upload className="w-3.5 h-3.5" />
+                      <Upload className="w-3.5 h-3.5 text-[#F2D869]" />
                     )}
                     <span>Upload Proof</span>
                   </button>
                 </div>
               </div>
 
-              {/* Featured Toggle */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-amber-50/70 border border-amber-200/80">
-                <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <div className="flex items-center justify-between p-3.5 rounded-sm bg-amber-50/70 border border-amber-200/80">
+                <div className="flex items-center gap-2.5">
+                  <Star className="w-4 h-4 text-amber-500 fill-amber-500 shrink-0" />
                   <div>
-                    <p className="font-bold text-slate-900 text-xs">Featured on Portal</p>
-                    <p className="text-[11px] text-slate-500">Highlight with gold star in donor public gallery</p>
+                    <p className="font-bold text-[#111827] text-xs">Featured on Portal</p>
+                    <p className="text-[11px] text-[#6B7280]">Highlight with gold star in donor public gallery</p>
                   </div>
                 </div>
                 <input
@@ -915,23 +855,22 @@ export const AdminAppreciationLetters = () => {
                   id="featuredToggle"
                   checked={formData.isFeatured}
                   onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                  className="w-4 h-4 text-[#DC2626] rounded border-slate-300 focus:ring-red-400 cursor-pointer"
+                  className="w-4 h-4 accent-[#14382C] rounded cursor-pointer"
                 />
               </div>
 
-              {/* Submit Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] text-white font-bold hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-60"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs shadow-sm transition cursor-pointer disabled:opacity-60"
                 >
                   {saving ? 'Saving...' : editingDoc ? 'Update Certificate' : 'Save Certificate'}
                 </button>

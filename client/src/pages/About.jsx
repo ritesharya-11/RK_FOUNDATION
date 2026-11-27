@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useWebsite } from '../context/WebsiteContext';
-import { SectionHeading } from '../components/SectionHeading';
+import api from '../services/api';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -9,7 +9,6 @@ import {
   Heart,
   FileText,
   Target,
-  Sparkles,
   ArrowRight,
   ChevronRight,
   Clock,
@@ -32,141 +31,180 @@ import {
 export const About = () => {
   const { settings, formatINR } = useWebsite();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [cmsPrograms, setCmsPrograms] = useState([]);
+
+  useEffect(() => {
+    api.get('/programs')
+      .then((res) => {
+        if (Array.isArray(res?.programs)) setCmsPrograms(res.programs);
+      })
+      .catch(() => {});
+  }, []);
+
+  const findCmsCover = (slugs, fallbackImg) => {
+    const found = cmsPrograms.find(
+      (p) => slugs.includes(p.slug) && p.coverImage && !p.coverImage.includes('photo-1542838132-92c53300491e')
+    );
+    return found ? found.coverImage : fallbackImg;
+  };
 
   const darpanUid = settings.compliance?.ngoDarpanUid || 'DL/2021/0298412';
 
-  // 4 Primary Pillars of Action
+  // 4 Primary Pillars of Action (synced with CMS cover images when updated)
   const actionPillars = [
     {
+      number: '01',
       title: 'Children Development & Literacy',
       category: 'Child Welfare',
-      image: '/programs/children-development.jpg',
+      image: findCmsCover(['children-development'], '/programs/children-development.jpg'),
       slug: 'children-development',
       description:
-        'Protecting child rights, fighting infant malnutrition, and providing non-formal bridge schooling, books, uniforms, and hot meals.',
-      highlight: 'Direct government school admissions',
+        'Bridge schooling, nutrition, books, and formal school admissions for underprivileged children.',
     },
     {
+      number: '02',
       title: "Women's Vocational Empowerment",
       category: 'Women Empowerment',
-      image: '/programs/womens-empowerment.jpg',
+      image: findCmsCover(['womens-development-and-empowerment', 'women-empowerment'], '/programs/womens-empowerment.jpg'),
       slug: 'womens-development-and-empowerment',
       description:
-        'Certified tailoring hubs, sewing machine distribution, and micro-business guidance that empower mothers to earn with pride and dignity.',
-      highlight: 'Sustainable household income generation',
+        'Certified tailoring hubs, sewing machines, and livelihood support for single mothers.',
     },
     {
+      number: '03',
       title: 'Aged / Elderly Compassion Care',
       category: 'Elderly Support',
-      image: '/programs/elderly-care.jpg',
+      image: findCmsCover(['aged-elderly-care', 'aged-elderly'], '/programs/elderly-care.jpg'),
       slug: 'aged-elderly-care',
       description:
-        'Providing regular chronic disease medicines, warm winter blankets, adult hygiene kits, and companionship to destitute senior citizens.',
-      highlight: 'Doorstep medical aid and dignity',
+        'Doorstep medicines, winter blankets, hygiene kits, and dignified care for senior citizens.',
     },
     {
+      number: '04',
       title: 'Differently Abled Rehabilitation',
       category: 'Special Needs',
-      image: '/programs/differently-abled.jpg',
+      image: findCmsCover(['differently-abled-support', 'differently-abled'], '/programs/differently-abled.jpg'),
       slug: 'differently-abled-support',
       description:
-        'Ensuring differently-abled citizens receive wheelchairs, assistive devices, UDID linkages, and inclusive vocational opportunities.',
-      highlight: 'Universal accessibility and equal rights',
+        'Wheelchairs, assistive devices, UDID linkages, and inclusive skill support.',
     },
   ];
 
   return (
     <div className="bg-white min-h-screen text-[#121316]">
       {/* ========================================================
-          2. ORIGIN & GRASSROOTS MISSION (Story + Authentic Photos)
+          2. ORIGIN & GRASSROOTS MISSION (Legacy Emerald & Gold Theme)
       ======================================================== */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Text Narrative */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#121316]/20 text-[#121316] border border-slate-300 shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#121316]" />
-                <span>Our Grassroots Journey</span>
-              </span>
+      <section className="bg-gradient-to-b from-[#F6FAF7] via-[#FAFDFB] to-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Left Text Narrative */}
+            <div className="lg:col-span-7 space-y-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-serif font-semibold text-[#121316] tracking-tight leading-[1.15]">
+                Rooted in Compassion, Driven by{' '}
+                <span className="italic text-[#14382C]">Measurable Ground Change</span>
+              </h1>
+
+              <p className="text-slate-600 leading-[1.75] text-[15.5px] sm:text-[17px]">
+                <strong className="text-[#121316] font-semibold">RK FOUNDATION</strong> was established by a collective of passionate educators, healthcare workers, and social advocates who witnessed firsthand the severe neglect of children of daily-wage migrant workers, abandoned elderly citizens, and impoverished mothers in urban clusters.
+              </p>
+
+              <p className="text-slate-600 leading-[1.75] text-[15.5px] sm:text-[17px]">
+                Starting from a single makeshift evening classroom in an East Delhi resettlement colony, our grassroots platform has grown into an accredited public charitable trust delivering 10 operational initiatives. We deliver food directly to malnourished children, provide certified sewing machines to single mothers, supply mobility kits to differently-abled citizens, and deploy mobile medical checkups directly into unserved settlements.
+              </p>
+
+              {/* Checklist of Trust Guarantees */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#14382C]/15 shadow-sm">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-[15px] font-semibold text-[#121316] leading-snug">
+                    Direct Doorstep Relief (Zero Middlemen)
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#14382C]/15 shadow-sm">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-[15px] font-semibold text-[#121316] leading-snug">
+                    NITI Aayog Darpan UID:{' '}
+                    <strong className="font-mono text-[#14382C]">{darpanUid}</strong>
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#14382C]/15 shadow-sm">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-[15px] font-semibold text-[#121316] leading-snug">
+                    50% Tax Deduction Under Section 80G
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#14382C]/15 shadow-sm">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-[15px] font-semibold text-[#121316] leading-snug">
+                    100% Audited Financials &amp; Instant Receipts
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-3 flex flex-wrap items-center gap-4">
+                <Link
+                  to="/programs"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 group"
+                >
+                  <span>Explore Our 10 Programs</span>
+                  <ArrowRight className="w-4 h-4 text-[#F2D869] group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/receipt-verify"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider text-[#14382C] bg-white border border-[#14382C]/25 hover:bg-[#F2F8F5] transition-all shadow-sm"
+                >
+                  <ShieldCheck className="w-4 h-4 text-[#14382C]" />
+                  <span>Verify Trust Registrations</span>
+                </Link>
+              </div>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#121316] tracking-tight leading-tight">
-              Rooted in Compassion, Driven by Measurable Ground Change
-            </h2>
-
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-              <strong>RK FOUNDATION</strong> was established by a collective of passionate educators, healthcare workers, and social advocates who witnessed firsthand the severe neglect of children of daily-wage migrant workers, abandoned elderly citizens, and impoverished mothers in urban clusters.
-            </p>
-
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-              Starting from a single makeshift evening classroom in an East Delhi resettlement colony, our grassroots platform has grown into an accredited public charitable trust delivering 10 operational initiatives. We deliver food directly to malnourished children, provide certified sewing machines to single mothers, supply mobility kits to differently-abled citizens, and deploy mobile medical checkups directly into unserved settlements.
-            </p>
-
-            {/* Checklist of Trust Guarantees */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-              <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
-                  Direct Doorstep Relief (Zero Middlemen)
-                </span>
+            {/* Right Image Showcase */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className="rounded-3xl overflow-hidden border border-[#14382C]/15 bg-white shadow-xl shadow-[#14382C]/10 group">
+                <div className="aspect-[4/3] sm:aspect-[5/4] overflow-hidden relative bg-slate-100">
+                  <img
+                    src="/hero-indian-students.jpg"
+                    alt="RK Foundation child education and ground welfare drives"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.currentTarget.src = '/programs/children-development.jpg';
+                    }}
+                  />
+                  <span className="absolute top-4 left-4 bg-[#14382C]/95 backdrop-blur-md text-[#F2D869] text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-[#F2D869]/30 shadow-md">
+                    Child Welfare &amp; Field Drives
+                  </span>
+                </div>
+                <div className="p-4 sm:p-5 bg-[#F6FAF7] border-t border-[#14382C]/10 flex items-center justify-between gap-3">
+                  <span className="text-sm text-slate-700 font-medium">
+                    Bridge classrooms, nutrition &amp; study kits
+                  </span>
+                  <span className="text-xs font-bold text-[#14382C] bg-white border border-[#14382C]/15 px-3 py-1 rounded-full shrink-0">
+                    Delhi-NCR Bastis
+                  </span>
+                </div>
               </div>
-              <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
-                  NITI Aayog Darpan UID: <strong className="font-mono text-[#121316]">{darpanUid}</strong>
-                </span>
-              </div>
-              <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
-                  50% Tax Deduction Under Section 80G
-                </span>
-              </div>
-              <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-[#121316] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-semibold text-[#121316]">
-                  100% Audited Financials & Instant Receipts
-                </span>
-              </div>
-            </div>
 
-            {/* Action Buttons */}
-            <div className="pt-4 flex flex-wrap items-center gap-4">
-              <Link
-                to="/programs"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-xs sm:text-sm text-white bg-[#121316] hover:bg-[#252830] shadow-md transition transform hover:-translate-y-0.5 group"
-              >
-                <span>Explore Our 10 Programs</span>
-                <ArrowRight className="w-4 h-4 text-[#121316] group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                to="/receipt-verify"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm text-[#121316] bg-white border border-slate-200 hover:bg-slate-50 transition shadow-xs"
-              >
-                <ShieldCheck className="w-4 h-4 text-[#121316]" />
-                <span>Verify Trust Registrations</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Image Showcase with Real On-Ground Photos */}
-          <div className="lg:col-span-5 relative">
-            {/* Primary Real Photo Card */}
-            <div className="rounded-3xl overflow-hidden shadow-card border-4 border-white bg-white group">
-              <div className="h-72 sm:h-80 md:h-96 overflow-hidden relative">
-                <img
-                  src="/programs/children-development.jpg"
-                  alt="RK Foundation child welfare on-ground field distribution"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-3 left-3 bg-[#121316]/85 backdrop-blur-md text-[#121316] text-[11px] font-bold px-3 py-1 rounded-full border border-white/10 shadow-xs">
-                  Child Welfare & Field Drives
-                </span>
-              </div>
-              <div className="p-4 bg-white border-t border-slate-200 flex items-center justify-between text-xs">
-                <span className="text-slate-600 font-medium">Volunteers distributing food & study kits</span>
-                <span className="font-bold text-[#121316]">Delhi-NCR Bastis</span>
+              {/* Legacy Emerald & Gold Quick Highlights */}
+              <div className="grid grid-cols-2 gap-3.5">
+                <div className="bg-[#14382C] text-white rounded-2xl p-4 shadow-sm">
+                  <p className="text-2xl sm:text-3xl font-extrabold text-[#F2D869] leading-none">
+                    10+
+                  </p>
+                  <p className="text-xs sm:text-sm text-emerald-100/90 font-medium mt-1.5">
+                    Active Field Initiatives
+                  </p>
+                </div>
+                <div className="bg-[#F2F8F5] border border-[#14382C]/15 rounded-2xl p-4 shadow-sm">
+                  <p className="text-2xl sm:text-3xl font-extrabold text-[#14382C] leading-none">
+                    80G &amp; 12A
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1.5">
+                    Certified Public Trust
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -175,39 +213,39 @@ export const About = () => {
 
       {/* ========================================================
           3. OUR WORK IN ACTION (VIDEO DOCUMENTARY & FIELD EVIDENCE)
-          Matching Reference Screenshot UI
       ======================================================== */}
-      <section className="bg-white py-16 sm:py-24 border-y border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="bg-[#F6FAF7] py-16 sm:py-24 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Column: Heading & Description */}
             <div className="lg:col-span-5 space-y-5">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-5 bg-[#121316] rounded-full inline-block" />
-                <span className="text-xs font-bold text-[#121316] uppercase tracking-wider">
+              <div className="flex items-center gap-2.5">
+                <span className="w-1.5 h-5 bg-[#14382C] rounded-full inline-block" />
+                <span className="text-xs sm:text-[13px] font-bold text-[#14382C] uppercase tracking-wider">
                   Our Work in Action
                 </span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#121316] tracking-tight leading-tight">
-                Documentary Field Evidence Across Slum Clusters
+              <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#121316] tracking-tight leading-tight">
+                Documentary Field Evidence Across{' '}
+                <span className="italic text-[#14382C]">Slum Clusters</span>
               </h2>
 
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              <p className="text-[15.5px] sm:text-[17px] text-slate-600 leading-[1.75]">
                 Watch our dedicated ground taskforce in motion. From organizing morning remedial bridge classes to distributing cooked nutritious meals and deploying mobile clinics, our impact is 100% visible and verifiable.
               </p>
 
               <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#121316]">
-                  <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
+                <div className="flex items-center gap-3 text-sm sm:text-[15px] font-semibold text-[#121316]">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0" />
                   <span>Real-time photo and video distribution logs</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#121316]">
-                  <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
+                <div className="flex items-center gap-3 text-sm sm:text-[15px] font-semibold text-[#121316]">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0" />
                   <span>Recorded video testimonials from beneficiary mothers</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#121316]">
-                  <CheckCircle2 className="w-4 h-4 text-[#121316] shrink-0" />
+                <div className="flex items-center gap-3 text-sm sm:text-[15px] font-semibold text-[#121316]">
+                  <CheckCircle2 className="w-5 h-5 text-[#14382C] shrink-0" />
                   <span>Zero administrative leakage guarantee</span>
                 </div>
               </div>
@@ -215,10 +253,10 @@ export const About = () => {
               <div className="pt-2">
                 <Link
                   to="/activities"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#121316] hover:text-[#121316] transition group"
+                  className="inline-flex items-center gap-2 text-sm sm:text-[15px] font-bold text-[#14382C] hover:text-[#1B4D3E] transition group"
                 >
                   <span>Watch Parents Video Reviews</span>
-                  <span className="text-[#121316] font-black group-hover:translate-x-1 transition-transform">→</span>
+                  <ArrowRight className="w-4 h-4 text-[#14382C] group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
@@ -227,37 +265,40 @@ export const About = () => {
             <div className="lg:col-span-7">
               <div
                 onClick={() => setVideoModalOpen(true)}
-                className="bg-[#121316] rounded-3xl overflow-hidden border border-slate-200 shadow-2xl relative group cursor-pointer"
+                className="bg-[#14382C] rounded-3xl overflow-hidden border border-[#14382C]/20 shadow-2xl relative group cursor-pointer"
               >
                 <div className="h-72 sm:h-96 w-full relative overflow-hidden">
                   <img
-                    src="/programs/children-development.jpg"
+                    src="/hero-children-hope.jpg"
                     alt="RK Foundation ground relief documentary"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    onError={(e) => {
+                      e.currentTarget.src = '/programs/children-development.jpg';
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/30 flex flex-col justify-between p-6">
-                    <div className="flex items-center justify-between">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#121316]/90 text-white backdrop-blur-md border border-white/15">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/30 flex flex-col justify-between p-6">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-[#14382C]/90 text-white backdrop-blur-md border border-white/15">
                         RK Foundation | Public Charitable Trust
                       </span>
-                      <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#121316] text-white flex items-center gap-1.5 shadow-md">
-                        <Play className="w-3 h-3 fill-white" />
+                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#F2D869] text-[#14382C] flex items-center gap-1.5 shadow-md">
+                        <Play className="w-3 h-3 fill-[#14382C]" />
                         <span>Field Documentary</span>
                       </span>
                     </div>
 
-                    {/* Big YouTube Play Button */}
+                    {/* Play Button */}
                     <div className="self-center">
-                      <div className="w-16 h-12 sm:w-20 sm:h-14 bg-[#121316] group-hover:bg-[#252830] rounded-2xl flex items-center justify-center text-white shadow-2xl transition-all transform group-hover:scale-110">
-                        <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-white ml-1" />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#14382C]/95 group-hover:bg-[#1B4D3E] border-2 border-[#F2D869] rounded-full flex items-center justify-center text-[#F2D869] shadow-2xl transition-all transform group-hover:scale-110">
+                        <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-[#F2D869] ml-1" />
                       </div>
                     </div>
 
                     <div className="text-white">
-                      <h3 className="text-base sm:text-xl font-bold tracking-tight">
-                        On-Ground Food Distribution, Education & Health Relief Drives
+                      <h3 className="text-lg sm:text-xl font-bold tracking-tight">
+                        On-Ground Food Distribution, Education &amp; Health Relief Drives
                       </h3>
-                      <p className="text-xs text-slate-300 mt-1 line-clamp-1">
+                      <p className="text-xs sm:text-sm text-slate-200 mt-1 line-clamp-1">
                         Click to watch full verified documentary film of ongoing Delhi-NCR missions.
                       </p>
                     </div>
@@ -272,54 +313,60 @@ export const About = () => {
       {/* ========================================================
           5. CORE OPERATIONAL PILLARS (Authentic Real Photos)
       ======================================================== */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-        <SectionHeading
-          badge="Operational Focus Areas"
-          title="Four Pillars of Humanitarian Action"
-          description="Addressing foundational challenges with dignity-first interventions that transition vulnerable families into permanent self-reliance."
-        />
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-20">
+        <div className="max-w-2xl mx-auto text-center space-y-3">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F2F8F5] border border-[#14382C]/15 text-[#14382C] text-xs sm:text-[13px] font-bold uppercase tracking-wider">
+            Operational Focus Areas
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#121316] tracking-tight leading-tight">
+            Four Pillars of <span className="italic text-[#14382C]">Humanitarian Action</span>
+          </h2>
+          <p className="text-[15.5px] sm:text-[17px] text-slate-600 leading-[1.65]">
+            Addressing foundational challenges with dignity-first interventions that transition vulnerable families into permanent self-reliance.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          {actionPillars.map((pillar, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          {actionPillars.map((pillar) => (
+            <Link
+              key={pillar.number}
+              to={`/programs/${pillar.slug}`}
+              className="bg-white rounded-lg overflow-hidden border border-slate-200/90 hover:border-[#14382C] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
             >
-              <div className="h-48 overflow-hidden relative bg-slate-100">
-                <img
-                  src={pillar.image}
-                  alt={pillar.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-3 right-3 bg-[#121316]/85 backdrop-blur-md text-[#121316] border border-white/15 text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
-                  {pillar.category}
-                </span>
-              </div>
+              <div>
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={pillar.image}
+                    alt={pillar.title}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                    <span className="w-6 h-6 rounded bg-[#14382C] text-[#F2D869] font-mono font-bold text-[11px] flex items-center justify-center shadow-sm">
+                      {pillar.number}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded bg-white/95 backdrop-blur-sm text-[#14382C] font-semibold text-[11px] shadow-sm border border-slate-200/70 uppercase tracking-wide">
+                      {pillar.category}
+                    </span>
+                  </div>
+                </div>
 
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-[#121316] group-hover:text-[#121316] transition-colors leading-snug">
+                <div className="p-5 space-y-2">
+                  <h3 className="text-[17px] sm:text-lg font-bold text-[#121316] group-hover:text-[#14382C] transition-colors leading-snug tracking-tight">
                     {pillar.title}
                   </h3>
-                  <p className="text-xs text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     {pillar.description}
                   </p>
                 </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-[#121316] bg-slate-100 px-2 py-0.5 rounded-md">
-                    {pillar.highlight}
-                  </span>
-                  <Link
-                    to={`/programs/${pillar.slug}`}
-                    className="text-xs font-bold text-[#121316] hover:text-[#121316] flex items-center gap-1 group/btn"
-                  >
-                    <span>Details</span>
-                    <span className="text-[#121316] font-black group-hover/btn:translate-x-1 transition-transform">→</span>
-                  </Link>
-                </div>
               </div>
-            </div>
+
+              <div className="px-5 pb-5 pt-2">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#14382C] group-hover:text-[#1B4D3E] transition">
+                  <span>Explore Program</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -327,52 +374,60 @@ export const About = () => {
       {/* ========================================================
           9. GUIDING CORE PRINCIPLES (4 Pillars)
       ======================================================== */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-        <SectionHeading
-          badge="Operational Ethics"
-          title="Our Non-Negotiable Core Values"
-          description="Built upon unshakeable ethics, total transparency, and community self-reliance."
-        />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
-              01
+      <section className="bg-[#F6FAF7] border-t border-slate-200/80 py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-2xl mx-auto text-center space-y-3">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#14382C]/15 text-[#14382C] text-xs sm:text-[13px] font-bold uppercase tracking-wider">
+              Operational Ethics
             </span>
-            <h3 className="text-base font-bold text-[#121316]">Zero Discrimination</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Assistance is extended unconditionally regardless of religion, caste, gender, or geographic origin. We serve human beings in their most vulnerable hours.
+            <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#121316] tracking-tight leading-tight">
+              Our Non-Negotiable <span className="italic text-[#14382C]">Core Values</span>
+            </h2>
+            <p className="text-[15.5px] sm:text-[17px] text-slate-600 leading-[1.65]">
+              Built upon unshakeable ethics, total transparency, and community self-reliance.
             </p>
           </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
-              02
-            </span>
-            <h3 className="text-base font-bold text-[#121316]">Open-Book Accountability</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Every donor receives immediate 80G tax receipts, verified photographic progress proof, and access to audited annual balance sheets.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            <div className="bg-white p-7 rounded-2xl border border-[#14382C]/15 shadow-sm hover:shadow-md hover:border-[#14382C]/40 space-y-4 transition-all">
+              <span className="w-12 h-12 rounded-xl bg-[#14382C] text-[#F2D869] flex items-center justify-center font-mono font-bold text-sm shadow-sm">
+                01
+              </span>
+              <h3 className="text-lg sm:text-[19px] font-bold text-[#121316]">Zero Discrimination</h3>
+              <p className="text-sm sm:text-[15px] text-slate-600 leading-[1.7]">
+                Assistance is extended unconditionally regardless of religion, caste, gender, or geographic origin. We serve human beings in their most vulnerable hours.
+              </p>
+            </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
-              03
-            </span>
-            <h3 className="text-base font-bold text-[#121316]">Sustainable Self-Reliance</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              We go beyond temporary hand-outs by providing certified vocational tailoring, digital tablets, and academic bridging to permanently break poverty cycles.
-            </p>
-          </div>
+            <div className="bg-white p-7 rounded-2xl border border-[#14382C]/15 shadow-sm hover:shadow-md hover:border-[#14382C]/40 space-y-4 transition-all">
+              <span className="w-12 h-12 rounded-xl bg-[#14382C] text-[#F2D869] flex items-center justify-center font-mono font-bold text-sm shadow-sm">
+                02
+              </span>
+              <h3 className="text-lg sm:text-[19px] font-bold text-[#121316]">Open-Book Accountability</h3>
+              <p className="text-sm sm:text-[15px] text-slate-600 leading-[1.7]">
+                Every donor receives immediate 80G tax receipts, verified photographic progress proof, and access to audited annual balance sheets.
+              </p>
+            </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-xs hover:shadow-card space-y-4 hover:border-slate-300 transition-colors">
-            <span className="w-12 h-12 rounded-xl bg-[#121316] text-[#121316] flex items-center justify-center font-black text-sm">
-              04
-            </span>
-            <h3 className="text-base font-bold text-[#121316]">Dignity-First Human Aid</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Every child, destitute senior citizen, and mother is treated with utmost reverence, respect, and human dignity during all field interactions.
-            </p>
+            <div className="bg-white p-7 rounded-2xl border border-[#14382C]/15 shadow-sm hover:shadow-md hover:border-[#14382C]/40 space-y-4 transition-all">
+              <span className="w-12 h-12 rounded-xl bg-[#14382C] text-[#F2D869] flex items-center justify-center font-mono font-bold text-sm shadow-sm">
+                03
+              </span>
+              <h3 className="text-lg sm:text-[19px] font-bold text-[#121316]">Sustainable Self-Reliance</h3>
+              <p className="text-sm sm:text-[15px] text-slate-600 leading-[1.7]">
+                We go beyond temporary hand-outs by providing certified vocational tailoring, digital tablets, and academic bridging to permanently break poverty cycles.
+              </p>
+            </div>
+
+            <div className="bg-white p-7 rounded-2xl border border-[#14382C]/15 shadow-sm hover:shadow-md hover:border-[#14382C]/40 space-y-4 transition-all">
+              <span className="w-12 h-12 rounded-xl bg-[#14382C] text-[#F2D869] flex items-center justify-center font-mono font-bold text-sm shadow-sm">
+                04
+              </span>
+              <h3 className="text-lg sm:text-[19px] font-bold text-[#121316]">Dignity-First Human Aid</h3>
+              <p className="text-sm sm:text-[15px] text-slate-600 leading-[1.7]">
+                Every child, destitute senior citizen, and mother is treated with utmost reverence, respect, and human dignity during all field interactions.
+              </p>
+            </div>
           </div>
         </div>
       </section>

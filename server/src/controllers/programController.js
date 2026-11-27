@@ -110,12 +110,27 @@ export const createProgram = async (req, res, next) => {
   }
 };
 
+const isObjectId = (val) => typeof val === 'string' && /^[0-9a-fA-F]{24}$/.test(val);
+
+const findProgramByIdOrSlug = async (idOrSlug, bodySlug) => {
+  if (isObjectId(idOrSlug)) {
+    const byId = await Program.findById(idOrSlug);
+    if (byId) return byId;
+  }
+  const byParamSlug = await Program.findOne({ slug: idOrSlug });
+  if (byParamSlug) return byParamSlug;
+  if (bodySlug) {
+    return Program.findOne({ slug: slugify(bodySlug) });
+  }
+  return null;
+};
+
 // @desc    Update program
 // @route   PUT /api/programs/:id
 // @access  Private (Admin)
 export const updateProgram = async (req, res, next) => {
   try {
-    let program = await Program.findById(req.params.id);
+    let program = await findProgramByIdOrSlug(req.params.id, req.body?.slug);
     if (!program) {
       return res.status(404).json({ success: false, message: 'Program not found.' });
     }
@@ -124,7 +139,7 @@ export const updateProgram = async (req, res, next) => {
       req.body.slug = slugify(req.body.title);
     }
 
-    program = await Program.findByIdAndUpdate(req.params.id, req.body, {
+    program = await Program.findByIdAndUpdate(program._id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -144,12 +159,12 @@ export const updateProgram = async (req, res, next) => {
 // @access  Private (Admin)
 export const deleteProgram = async (req, res, next) => {
   try {
-    const program = await Program.findById(req.params.id);
+    const program = await findProgramByIdOrSlug(req.params.id);
     if (!program) {
       return res.status(404).json({ success: false, message: 'Program not found.' });
     }
 
-    await Program.findByIdAndDelete(req.params.id);
+    await Program.findByIdAndDelete(program._id);
     res.status(200).json({ success: true, message: 'Program deleted successfully.' });
   } catch (err) {
     next(err);

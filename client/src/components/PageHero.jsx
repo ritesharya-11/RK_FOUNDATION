@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export const PageHero = ({
   title,
@@ -10,62 +10,57 @@ export const PageHero = ({
   children,
 }) => {
   return (
-    <section className="relative bg-gradient-to-b from-[#18191E] via-[#15161A] to-[#121316] text-white overflow-hidden py-14 sm:py-20 border-b border-slate-800">
-      {/* Subtle organic pattern overlay */}
-      <div className="absolute inset-0 z-0 opacity-10 bg-[radial-gradient(#FFFFFF_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+    <section className="relative bg-gradient-to-b from-[#F4F9F6] to-white text-[#111827] overflow-hidden py-6 sm:py-8 border-b border-[#E5E7EB]">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Compact Top Row: Breadcrumb + Optional Eyebrow Badge */}
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+          <nav aria-label="Breadcrumb">
+            <ol className="flex items-center flex-wrap gap-1.5 text-[12px] font-medium text-[#6B7280]">
+              {breadcrumbs.map((crumb, idx) => (
+                <li key={idx} className="flex items-center gap-1.5">
+                  {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-[#9CA3AF]" />}
+                  {crumb.path ? (
+                    <Link
+                      to={crumb.path}
+                      className="hover:text-[#14382C] transition-colors"
+                    >
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className="text-[#374151] font-medium">{crumb.label}</span>
+                  )}
+                </li>
+              ))}
+              {title && (
+                <li className="flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#9CA3AF]" />
+                  <span className="text-[#14382C] font-semibold truncate max-w-xs sm:max-w-md">{title}</span>
+                </li>
+              )}
+            </ol>
+          </nav>
 
-      {/* Ambient Subtle Glow */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8">
-        {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb" className="mb-4">
-          <ol className="flex items-center flex-wrap gap-1.5 text-xs font-semibold text-slate-400">
-            {breadcrumbs.map((crumb, idx) => (
-              <li key={idx} className="flex items-center gap-1.5">
-                {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-slate-600" />}
-                {crumb.path ? (
-                  <Link
-                    to={crumb.path}
-                    className="hover:text-white transition-colors"
-                  >
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span className="text-white">{crumb.label}</span>
-                )}
-              </li>
-            ))}
-            {title && (
-              <li className="flex items-center gap-1.5">
-                <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-                <span className="text-white truncate max-w-xs">{title}</span>
-              </li>
-            )}
-          </ol>
-        </nav>
-
-        {/* Optional Pill Badge */}
-        {badge && (
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-bold bg-white/10 text-white border border-white/15 mb-4 backdrop-blur-sm uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-white" />
-            <span>{badge}</span>
-          </div>
-        )}
+          {badge && (
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-sm text-[11px] font-semibold bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#14382C]" />
+              <span>{badge}</span>
+            </div>
+          )}
+        </div>
 
         {/* Title & Subtitle */}
-        <h1 className="text-3xl sm:text-5xl font-black uppercase text-white tracking-tight leading-[1.15] max-w-3xl">
+        <h1 className="text-2xl sm:text-3xl font-sans font-bold text-[#111827] tracking-tight leading-snug max-w-4xl">
           {title}
         </h1>
 
         {subtitle && (
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
+          <p className="mt-1.5 text-sm sm:text-[14.5px] text-[#4B5563] leading-relaxed max-w-3xl font-normal">
             {subtitle}
           </p>
         )}
 
         {/* Optional Interactive Slots */}
-        {children && <div className="mt-8">{children}</div>}
+        {children && <div className="mt-5">{children}</div>}
       </div>
     </section>
   );

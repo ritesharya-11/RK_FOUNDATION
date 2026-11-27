@@ -64,11 +64,11 @@ export const ImageUploader = ({ value, onChange, label = 'Upload Image (ImageKit
 
   return (
     <div className="space-y-2">
-      <label className="block text-slate-300 font-semibold text-xs">{label}</label>
+      <label className="block text-[#374151] font-semibold text-xs">{label}</label>
 
       {/* Preview Box */}
       {value ? (
-        <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-700 h-36 flex items-center justify-center group">
+        <div className="relative rounded-sm overflow-hidden bg-slate-100 border border-[#E5E7EB] h-36 flex items-center justify-center group">
           <img
             src={value}
             alt="Uploaded preview"
@@ -78,14 +78,14 @@ export const ImageUploader = ({ value, onChange, label = 'Upload Image (ImageKit
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500"
+              className="px-3 py-1.5 rounded-sm bg-[#14382C] text-white text-xs font-bold hover:bg-[#1B4D3E] cursor-pointer"
             >
               Replace
             </button>
             <button
               type="button"
               onClick={() => onChange('')}
-              className="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-500"
+              className="px-3 py-1.5 rounded-sm bg-rose-600 text-white text-xs font-bold hover:bg-rose-500 cursor-pointer"
             >
               Remove
             </button>
@@ -100,18 +100,18 @@ export const ImageUploader = ({ value, onChange, label = 'Upload Image (ImageKit
           onDragLeave={() => setIsDragOver(false)}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 ${
+          className={`border-2 border-dashed rounded-sm p-5 text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 ${
             isDragOver
-              ? 'border-emerald-500 bg-emerald-500/10'
-              : 'border-slate-700 bg-slate-950 hover:border-slate-500'
+              ? 'border-[#14382C] bg-[#EAF3EE]'
+              : 'border-slate-300 bg-[#F9FAFB] hover:border-[#14382C]/50'
           }`}
         >
-          <UploadCloud className="w-8 h-8 text-slate-400" />
+          <UploadCloud className="w-8 h-8 text-[#14382C]" />
           <div className="space-y-0.5">
-            <p className="text-xs font-semibold text-white">
+            <p className="text-xs font-semibold text-[#111827]">
               {uploading ? 'Uploading to ImageKit Cloud...' : 'Click to upload or drag & drop'}
             </p>
-            <p className="text-[10px] text-slate-500">PNG, JPG, WEBP or SVG up to 5MB</p>
+            <p className="text-[11px] text-[#6B7280]">PNG, JPG, WEBP or SVG up to 5MB</p>
           </div>
         </div>
       )}
@@ -136,13 +136,13 @@ export const ImageUploader = ({ value, onChange, label = 'Upload Image (ImageKit
           placeholder="Or paste direct ImageKit / image CDN URL..."
           value={value || ''}
           onChange={(e) => onChange(e.target.value)}
-          className="flex-1 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="flex-1 px-3 py-2 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs focus:outline-none focus:border-[#14382C] focus:ring-2 focus:ring-[#14382C]/15"
         />
         {value && (
           <button
             type="button"
             onClick={() => onChange('')}
-            className="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white"
+            className="p-2 rounded-sm bg-slate-100 text-[#6B7280] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -150,7 +150,7 @@ export const ImageUploader = ({ value, onChange, label = 'Upload Image (ImageKit
       </div>
 
       {errorMsg && (
-        <p className="text-[11px] text-rose-400 flex items-center gap-1 mt-1">
+        <p className="text-[11px] text-rose-600 font-medium flex items-center gap-1 mt-1">
           <AlertCircle className="w-3 h-3 shrink-0" />
           <span>{errorMsg}</span>
         </p>

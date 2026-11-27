@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useWebsite } from '../../context/WebsiteContext';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
 import {
   Activity,
   ShieldCheck,
@@ -13,11 +14,7 @@ import {
   Eye,
   ChevronRight,
   ChevronLeft,
-  X,
   CheckCircle2,
-  Clock,
-  Server,
-  Lock,
 } from 'lucide-react';
 
 // ── Realistic Audit Logs matching screenshot ──
@@ -358,61 +355,53 @@ export const AdminAuditTrail = () => {
   };
 
   return (
-    <div className="space-y-4 w-full min-w-0">
+    <div className="space-y-5 w-full min-w-0 font-sans">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-              Security Audit Trail
-            </h1>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
-              {filteredLogs.length} Events
-            </span>
-          </div>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Immutable log of all administrative operations, logins, data edits, and configuration updates.
-          </p>
-        </div>
+      <AdminPageHeader
+        breadcrumb="Audit Trail"
+        badge={`${filteredLogs.length} Security Events`}
+        title="Security Audit Trail"
+        subtitle="Immutable log of all administrative operations, authentication logins, data edits, and trust configuration updates."
+        actions={
+          <>
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#14382C] bg-[#EAF3EE] hover:bg-[#E4EFEA] border border-[#14382C]/20 shadow-sm transition cursor-pointer"
+              title="Export CSV"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
-            title="Export CSV"
-          >
-            <Download className="w-3.5 h-3.5 text-slate-500" />
-            <span>Export CSV</span>
-          </button>
-
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-            title="Refresh Logs"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
-          </button>
-        </div>
-      </div>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+              title="Refresh Logs"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
+          </>
+        }
+      />
 
       {/* ── Filter Tabs Row ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-0.5">
-        <div className="flex flex-wrap items-center gap-1.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div className="flex flex-wrap items-center gap-2">
           {/* All Operations */}
           <button
             onClick={() => {
               setActiveTab('all');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               activeTab === 'all'
-                ? 'bg-[#0F172A] text-white shadow-2xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
-            <Activity className="w-3 h-3" />
+            <Activity className="w-3.5 h-3.5" />
             <span>All Operations</span>
           </button>
 
@@ -422,13 +411,13 @@ export const AdminAuditTrail = () => {
               setActiveTab('auth');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               activeTab === 'auth'
-                ? 'bg-[#0F172A] text-white shadow-2xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
-            <ShieldCheck className="w-3 h-3" />
+            <ShieldCheck className="w-3.5 h-3.5" />
             <span>Auth & Logins</span>
           </button>
 
@@ -438,13 +427,13 @@ export const AdminAuditTrail = () => {
               setActiveTab('update');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               activeTab === 'update'
-                ? 'bg-[#0F172A] text-white shadow-2xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
-            <Edit3 className="w-3 h-3" />
+            <Edit3 className="w-3.5 h-3.5" />
             <span>Data Updates</span>
           </button>
 
@@ -454,13 +443,13 @@ export const AdminAuditTrail = () => {
               setActiveTab('create');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               activeTab === 'create'
-                ? 'bg-[#0F172A] text-white shadow-2xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
-            <PlusCircle className="w-3 h-3" />
+            <PlusCircle className="w-3.5 h-3.5" />
             <span>Creations</span>
           </button>
 
@@ -470,38 +459,38 @@ export const AdminAuditTrail = () => {
               setActiveTab('delete');
               setCurrentPage(1);
             }}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               activeTab === 'delete'
-                ? 'bg-[#0F172A] text-white shadow-2xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
-            <Trash2 className="w-3 h-3" />
+            <Trash2 className="w-3.5 h-3.5" />
             <span>Deletions</span>
           </button>
         </div>
 
-        <div className="text-[11px] text-slate-500 font-medium">
-          Page <span className="font-bold text-slate-700">{currentPage}</span> of{' '}
-          <span className="font-bold text-slate-700">{totalPages}</span> • Total{' '}
-          <span className="font-bold text-slate-700">{filteredLogs.length}</span> records
+        <div className="text-xs text-[#6B7280] font-medium">
+          Page <span className="font-bold text-[#111827]">{currentPage}</span> of{' '}
+          <span className="font-bold text-[#111827]">{totalPages}</span> • Total{' '}
+          <span className="font-bold text-[#111827]">{filteredLogs.length}</span> records
         </div>
       </div>
 
       {/* ── Search Bar ── */}
-      <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 max-w-md">
+      <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 max-w-lg">
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by admin email, action name, entity, or IP..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className="w-full pl-9 pr-18 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs placeholder:text-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full pl-10 pr-20 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-slate-800 text-xs sm:text-sm placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
           <button
             type="submit"
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-[11px] shadow-2xs transition cursor-pointer"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 rounded-sm bg-[#EAF3EE] hover:bg-[#14382C] hover:text-white border border-[#14382C]/15 text-[#14382C] font-semibold text-xs shadow-sm transition cursor-pointer"
           >
             Search
           </button>
@@ -513,7 +502,7 @@ export const AdminAuditTrail = () => {
               setSearch('');
               setSearchInput('');
             }}
-            className="text-[11px] text-slate-500 hover:text-slate-800 underline cursor-pointer"
+            className="text-xs font-semibold text-[#14382C] hover:underline cursor-pointer"
           >
             Clear
           </button>
@@ -521,28 +510,28 @@ export const AdminAuditTrail = () => {
       </form>
 
       {/* ── Table Card ── */}
-      <div className="flex flex-col bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
+      <div className="flex flex-col bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden">
         <div className="overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar">
-          <table className="w-full text-left text-xs border-separate border-spacing-0 min-w-[760px]">
-            <thead className="sticky top-0 z-20 bg-slate-50 shadow-2xs select-none">
+          <table className="w-full text-left text-xs min-w-[760px] border-separate border-spacing-0">
+            <thead className="sticky top-0 z-20 bg-[#F9FAFB] select-none">
               <tr>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
-                  TIMESTAMP
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap bg-[#F9FAFB] border-b border-[#E5E7EB]">
+                  Timestamp
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
-                  ACTION
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap bg-[#F9FAFB] border-b border-[#E5E7EB]">
+                  Action
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
-                  ADMIN / ACTOR
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap bg-[#F9FAFB] border-b border-[#E5E7EB]">
+                  Admin / Actor
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
-                  TARGET ENTITY
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap bg-[#F9FAFB] border-b border-[#E5E7EB]">
+                  Target Entity
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
-                  IP ADDRESS
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap bg-[#F9FAFB] border-b border-[#E5E7EB]">
+                  IP Address
                 </th>
-                <th className="px-3.5 py-2.5 text-right font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap bg-slate-50 border-b border-slate-200/90">
-                  DETAILS
+                <th className="px-4 py-3 text-right font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap bg-[#F9FAFB] border-b border-[#E5E7EB]">
+                  Details
                 </th>
               </tr>
             </thead>
@@ -550,10 +539,10 @@ export const AdminAuditTrail = () => {
             <tbody className="divide-y divide-slate-100 bg-white">
               {paginatedLogs.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={6} className="px-6 py-12 text-center text-[#9CA3AF]">
                     <ShieldCheck className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                    <p className="font-semibold text-xs text-slate-700">No audit events found</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">Try clearing your search query or filters</p>
+                    <p className="font-semibold text-sm text-[#374151]">No audit events found</p>
+                    <p className="text-xs text-[#9CA3AF] mt-0.5">Try clearing your search query or filters</p>
                   </td>
                 </tr>
               ) : (
@@ -561,39 +550,39 @@ export const AdminAuditTrail = () => {
                   const initialLetter = log.adminEmail.charAt(0).toUpperCase();
 
                   return (
-                    <tr key={log._id} className="hover:bg-slate-50/70 transition-colors group">
+                    <tr key={log._id} className="hover:bg-[#F9FAFB]/70 transition-colors group">
                       {/* 1. Timestamp */}
-                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
-                        <span className="block font-semibold text-slate-800 text-xs">
+                      <td className="px-4 py-3 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
+                        <span className="block font-semibold text-[#111827] text-xs">
                           {log.date}
                         </span>
-                        <span className="block font-mono text-[10px] text-slate-400 mt-0.5">
+                        <span className="block font-mono text-[11px] text-[#9CA3AF] mt-0.5">
                           {log.time}
                         </span>
                       </td>
 
                       {/* 2. Action */}
-                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                      <td className="px-4 py-3 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
                         {log.type === 'create' && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-[10px] font-mono font-bold">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-[10px] font-mono font-bold">
                             <PlusCircle className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                         {log.type === 'update' && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/80 text-[10px] font-mono font-bold">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/80 text-[10px] font-mono font-bold">
                             <Edit3 className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                         {log.type === 'auth' && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[10px] font-mono font-bold">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[10px] font-mono font-bold">
                             <ShieldCheck className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
                         )}
                         {log.type === 'delete' && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200/80 text-[10px] font-mono font-bold">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200/80 text-[10px] font-mono font-bold">
                             <Trash2 className="w-3 h-3 shrink-0" />
                             <span>{log.action}</span>
                           </span>
@@ -601,37 +590,37 @@ export const AdminAuditTrail = () => {
                       </td>
 
                       {/* 3. Admin / Actor */}
-                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                      <td className="px-4 py-3 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <div className="w-5.5 h-5.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px] flex items-center justify-center shrink-0 border border-slate-200">
+                          <div className="w-6 h-6 rounded-full bg-[#EAF3EE] text-[#14382C] font-bold text-[11px] flex items-center justify-center shrink-0 border border-[#14382C]/15">
                             {initialLetter}
                           </div>
-                          <span className="text-xs font-medium text-slate-700">
+                          <span className="text-xs font-medium text-[#374151]">
                             {log.adminEmail}
                           </span>
                         </div>
                       </td>
 
                       {/* 4. Target Entity */}
-                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
-                        <span className="inline-block px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200/80 text-slate-700 font-mono text-[11px]">
+                      <td className="px-4 py-3 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
+                        <span className="inline-block px-2.5 py-0.5 rounded-md bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151] font-mono text-[11px]">
                           {log.targetEntity}
                         </span>
                       </td>
 
                       {/* 5. IP Address */}
-                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle whitespace-nowrap text-xs font-mono text-slate-500">
+                      <td className="px-4 py-3 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap text-xs font-mono text-[#6B7280]">
                         {log.ipAddress}
                       </td>
 
                       {/* 6. Details */}
-                      <td className="px-3.5 py-2.5 border-b border-slate-100/90 align-middle text-right whitespace-nowrap">
+                      <td className="px-4 py-3 border-b border-[#F1F5F9]/90 align-middle text-right whitespace-nowrap">
                         <button
                           type="button"
                           onClick={() => setSelectedEvent(log)}
-                          className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-[11px] shadow-2xs transition cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#EAF3EE] hover:bg-[#14382C] text-[#14382C] hover:text-white border border-[#14382C]/15 font-semibold text-xs shadow-sm transition cursor-pointer"
                         >
-                          <Eye className="w-3 h-3 text-slate-400" />
+                          <Eye className="w-3.5 h-3.5" />
                           <span>Inspect</span>
                         </button>
                       </td>
@@ -644,10 +633,10 @@ export const AdminAuditTrail = () => {
         </div>
 
         {/* Table Bottom status footer with Pagination */}
-        <div className="bg-slate-50/90 border-t border-slate-200/80 px-4 py-2.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <div className="bg-[#F9FAFB] border-t border-[#E5E7EB] px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6B7280]">
           <span>
-            Showing <strong className="text-slate-700">{paginatedLogs.length}</strong> of{' '}
-            <strong className="text-slate-700">{filteredLogs.length}</strong> total security events
+            Showing <strong className="text-[#111827]">{paginatedLogs.length}</strong> of{' '}
+            <strong className="text-[#111827]">{filteredLogs.length}</strong> total security events
           </span>
 
           {/* Pagination Controls */}
@@ -655,20 +644,20 @@ export const AdminAuditTrail = () => {
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium hover:bg-slate-100 disabled:opacity-40 transition cursor-pointer disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-sm bg-white border border-[#E5E7EB] text-[#374151] font-medium hover:bg-[#EAF3EE] hover:text-[#14382C] disabled:opacity-40 transition cursor-pointer disabled:cursor-not-allowed"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
               <span>Previous</span>
             </button>
 
-            <span className="px-2.5 py-1 font-semibold text-slate-700">
+            <span className="px-3 py-1.5 font-semibold text-[#111827]">
               Page {currentPage} / {totalPages}
             </span>
 
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium hover:bg-slate-100 disabled:opacity-40 transition cursor-pointer disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-sm bg-white border border-[#E5E7EB] text-[#374151] font-medium hover:bg-[#EAF3EE] hover:text-[#14382C] disabled:opacity-40 transition cursor-pointer disabled:cursor-not-allowed"
             >
               <span>Next</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -679,33 +668,33 @@ export const AdminAuditTrail = () => {
 
       {/* ── Event Inspect Modal ── */}
       {selectedEvent && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl custom-admin-scrollbar">
             {/* Modal Header */}
-            <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-800 border border-slate-200 flex items-center justify-center font-bold text-xs">
+            <div className="flex justify-between items-center pb-3 border-b border-[#F1F5F9]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold text-xs">
                   <ShieldCheck className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-[#0F172A]">Audit Event Inspection</h3>
+                <h3 className="text-lg font-sans font-semibold text-[#111827]">Audit Event Inspection</h3>
               </div>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="text-slate-400 hover:text-slate-700 text-xl font-bold cursor-pointer w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center"
+                className="text-[#9CA3AF] hover:text-[#111827] text-xl font-bold cursor-pointer w-8 h-8 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 flex items-center justify-center"
               >
                 ×
               </button>
             </div>
 
             {/* Event Profile Card */}
-            <div className="space-y-3 text-xs text-slate-700">
-              <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-start justify-between gap-3">
+            <div className="space-y-3 text-xs sm:text-sm text-[#374151]">
+              <div className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                  <span className="text-[10px] uppercase font-bold text-[#9CA3AF] tracking-wider block">
                     Action Identifier
                   </span>
-                  <h4 className="text-sm font-mono font-bold text-[#0F172A]">{selectedEvent.action}</h4>
-                  <p className="text-slate-500 font-mono text-[11px]">
+                  <h4 className="text-sm font-mono font-bold text-[#14382C]">{selectedEvent.action}</h4>
+                  <p className="text-[#6B7280] font-mono text-xs">
                     Event ID: {selectedEvent._id} • {selectedEvent.date} {selectedEvent.time}
                   </p>
                 </div>
@@ -716,39 +705,39 @@ export const AdminAuditTrail = () => {
               </div>
 
               {/* Grid: Admin Actor & Target Entity */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-0.5">
-                  <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-0.5">
+                  <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                     Admin / Actor
                   </span>
-                  <p className="text-slate-800 font-semibold">{selectedEvent.adminEmail}</p>
-                  <p className="text-slate-500 font-mono text-[10.5px]">IP: {selectedEvent.ipAddress}</p>
+                  <p className="text-[#111827] font-semibold text-xs">{selectedEvent.adminEmail}</p>
+                  <p className="text-[#6B7280] font-mono text-[11px]">IP: {selectedEvent.ipAddress}</p>
                 </div>
 
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-0.5">
-                  <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+                <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-0.5">
+                  <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                     Target Entity
                   </span>
-                  <p className="text-slate-800 font-semibold">{selectedEvent.targetEntity}</p>
-                  <p className="text-slate-500 text-[10.5px]">Type: {selectedEvent.entityType}</p>
+                  <p className="text-[#111827] font-semibold text-xs">{selectedEvent.targetEntity}</p>
+                  <p className="text-[#6B7280] text-[11px]">Type: {selectedEvent.entityType}</p>
                 </div>
               </div>
 
               {/* Description */}
-              <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-1">
+                <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                   Operation Description
                 </span>
-                <p className="text-slate-800 leading-relaxed">{selectedEvent.details}</p>
+                <p className="text-slate-800 text-xs sm:text-sm leading-relaxed">{selectedEvent.details}</p>
               </div>
 
               {/* Payload Diff */}
               {selectedEvent.changes && (
-                <div className="p-3.5 bg-slate-900 text-slate-200 rounded-xl space-y-1 font-mono text-[11px] overflow-x-auto">
-                  <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block font-sans">
+                <div className="p-3.5 bg-[#0E241C] text-slate-200 rounded-sm space-y-1 font-mono text-xs overflow-x-auto">
+                  <span className="text-[#F2D869] text-[10px] uppercase font-bold tracking-wider block font-sans">
                     Payload Changes
                   </span>
-                  <pre className="text-emerald-400">
+                  <pre className="text-emerald-300">
                     {JSON.stringify(selectedEvent.changes, null, 2)}
                   </pre>
                 </div>
@@ -756,11 +745,11 @@ export const AdminAuditTrail = () => {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex justify-end pt-3 border-t border-slate-100">
+            <div className="flex justify-end pt-3 border-t border-[#F1F5F9]">
               <button
                 type="button"
                 onClick={() => setSelectedEvent(null)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-semibold text-xs hover:bg-slate-200 transition cursor-pointer"
+                className="px-4 py-2 rounded-sm bg-[#14382C] text-white font-semibold text-xs hover:bg-[#1B4D3E] transition cursor-pointer"
               >
                 Close Inspection
               </button>

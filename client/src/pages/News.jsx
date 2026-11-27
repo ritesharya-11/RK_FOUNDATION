@@ -25,8 +25,8 @@ export const News = () => {
   const lettersList =
     settings?.appreciationLetters && Array.isArray(settings.appreciationLetters)
       ? settings.appreciationLetters.filter(
-          (l) => !l._id?.startsWith?.('cert-') && !l.fileUrl?.includes?.('proof-sheet')
-        )
+        (l) => !l._id?.startsWith?.('cert-') && !l.fileUrl?.includes?.('proof-sheet')
+      )
       : [];
 
   const uniqueHospitals = Array.from(

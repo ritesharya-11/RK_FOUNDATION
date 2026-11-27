@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader, AdminStatCard } from '../../components/admin/AdminUI';
 import {
   Heart,
   Plus,
@@ -229,146 +230,121 @@ export const AdminLiveCases = () => {
   };
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Page Header (Executive Proportions) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-            Live Beneficiary Emergency Cases
-          </h2>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Manage live emergency cases, verified medical dossiers, and transfer completed hospital recoveries directly to Our Impact.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => fetchLiveCases(true)}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-          >
-            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
-            Refresh
-          </button>
-          <button
-            onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            New Beneficiary Case
-          </button>
-        </div>
-      </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Live Emergency Cases"
+        badge={`${activeAppealsCount} Active Appeals`}
+        title="Live Beneficiary Emergency Cases"
+        subtitle="Manage live emergency medical cases, verified dossiers, and transfer completed hospital recoveries directly to Our Impact."
+        actions={
+          <>
+            <button
+              onClick={() => fetchLiveCases(true)}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              Refresh
+            </button>
+            <button
+              onClick={handleOpenAdd}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer active:scale-[0.98]"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+              New Beneficiary Case
+            </button>
+          </>
+        }
+      />
 
-      {/* ── Top 4 Metric KPI Cards (Dashboard Compact Hierarchy) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* ACTIVE APPEALS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ACTIVE APPEALS</p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {activeAppealsCount} <span className="text-[10.5px] font-normal text-slate-400">cases</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
-            <Heart className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* COMPLETED / IN IMPACT */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">COMPLETED / IN IMPACT</p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {curedCount} <span className="text-[10.5px] font-normal text-slate-400">cured</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* TOTAL EMERGENCY TARGET */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL EMERGENCY TARGET</p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {formatINR(totalTarget)}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-            <ShieldCheck className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* VERIFIED RAISED */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">VERIFIED RAISED</p>
-            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
-              {formatINR(totalRaised)}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <Sparkles className="w-4 h-4" />
-          </div>
-        </div>
+      {/* ── Top 4 Metric KPI Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <AdminStatCard
+          label="Active Appeals"
+          value={activeAppealsCount}
+          subtext="Urgent Medical Cases"
+          icon={Heart}
+          accent="rose"
+        />
+        <AdminStatCard
+          label="Completed / In Impact"
+          value={curedCount}
+          subtext="Recovered Beneficiaries"
+          icon={CheckCircle2}
+          accent="emerald"
+        />
+        <AdminStatCard
+          label="Total Emergency Target"
+          value={formatINR(totalTarget)}
+          subtext="Estimated Medical Aid"
+          icon={ShieldCheck}
+          accent="blue"
+        />
+        <AdminStatCard
+          label="Verified Raised"
+          value={formatINR(totalRaised)}
+          subtext="Disbursed & Pledged"
+          icon={Sparkles}
+          accent="gold"
+        />
       </div>
 
       {/* ── Search & Filter Controls ── */}
       <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by beneficiary name, condition, hospital, or slug..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#111827] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </div>
         <div className="relative">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[150px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[170px]"
           >
             <option value="all">All Statuses ({cases.length})</option>
             <option value="active">Active Appeals ({activeAppealsCount})</option>
             <option value="completed">Completed / In Impact ({curedCount})</option>
             <option value="paused">Paused ({cases.filter((c) => c.status === 'paused').length})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Live Cases Table (Refined Dashboard Typography) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
+      {/* ── Live Cases Table ── */}
+      <div className="bg-white border border-[#E5E7EB] rounded-sm overflow-hidden shadow-sm">
+        <div className="overflow-x-auto custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[850px]">
-            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs">
+            <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB]">
               <tr>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">BENEFICIARY</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">CONDITION & HOSPITAL</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">TARGET NEED</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">RAISED</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">STATUS & LIFECYCLE</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">CONSENT</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">ACTIONS</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Beneficiary</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Condition & Hospital</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Target Need</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Raised</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-center">Status & Lifecycle</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-center">Consent</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center">
-                    <Loader2 className="w-5 h-5 text-slate-400 animate-spin mx-auto mb-1.5" />
-                    <p className="text-[11px] text-slate-400">Loading emergency cases...</p>
+                    <Loader2 className="w-5 h-5 text-[#14382C] animate-spin mx-auto mb-1.5" />
+                    <p className="text-xs text-[#9CA3AF]">Loading emergency cases...</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center">
-                    <Heart className="w-7 h-7 text-slate-200 mx-auto mb-1.5" />
-                    <p className="text-[11px] text-slate-400">No emergency cases found</p>
+                    <Heart className="w-7 h-7 text-slate-300 mx-auto mb-1.5" />
+                    <p className="text-xs text-[#9CA3AF]">No emergency cases found</p>
                   </td>
                 </tr>
               ) : (
@@ -383,11 +359,10 @@ export const AdminLiveCases = () => {
                   const hospSubtitle = item.hospital || item.location || 'Delhi-NCR & Western UP';
 
                   return (
-                    <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
-                      {/* BENEFICIARY */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                    <tr key={item._id} className="hover:bg-[#F9FAFB]/70 transition-colors">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-sm overflow-hidden bg-[#F9FAFB] border border-[#E5E7EB] shrink-0">
                             {item.coverImage ? (
                               <img
                                 src={item.coverImage}
@@ -402,72 +377,66 @@ export const AdminLiveCases = () => {
                             )}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900 text-xs sm:text-[13px] leading-snug">
+                            <p className="font-bold text-[#111827] text-xs sm:text-sm leading-snug">
                               {bName}
                             </p>
-                            <p className="text-[10.5px] text-slate-400 mt-0.5">
+                            <p className="text-[11px] text-[#6B7280] mt-0.5">
                               {ageSubtitle}
                             </p>
                           </div>
                         </div>
                       </td>
 
-                      {/* CONDITION & HOSPITAL */}
-                      <td className="px-3.5 py-2.5 align-middle">
+                      <td className="px-4 py-3 align-middle">
                         <div className="max-w-xs sm:max-w-md">
-                          <p className="font-bold text-slate-900 text-xs sm:text-[12.5px] line-clamp-1">
+                          <p className="font-bold text-[#111827] text-xs line-clamp-1">
                             {condTitle}
                           </p>
-                          <p className="text-[10.5px] text-slate-400 line-clamp-1 mt-0.5">
+                          <p className="text-[11px] text-[#6B7280] line-clamp-1 mt-0.5">
                             {hospSubtitle}
                           </p>
                         </div>
                       </td>
 
-                      {/* TARGET NEED */}
-                      <td className="px-3.5 py-2.5 align-middle font-extrabold text-slate-900 text-xs sm:text-[13px] whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle font-bold text-[#111827] text-xs sm:text-sm whitespace-nowrap">
                         {formatINR(item.targetAmount || 0)}
                       </td>
 
-                      {/* RAISED */}
-                      <td className="px-3.5 py-2.5 align-middle font-extrabold text-emerald-600 text-xs sm:text-[13px] whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle font-bold text-[#14382C] text-xs sm:text-sm whitespace-nowrap">
                         {formatINR(item.raisedAmount || 0)}
                       </td>
 
-                      {/* STATUS & LIFECYCLE */}
-                      <td className="px-3.5 py-2.5 align-middle text-center whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle text-center whitespace-nowrap">
                         {item.inImpact || item.status === 'completed' ? (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200/80">
                             IN IMPACT / CURED
                           </span>
                         ) : item.status === 'active' ? (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-blue-50 text-blue-600 border border-blue-200/80">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase bg-sky-50 text-sky-700 border border-sky-200/80">
                             ACTIVE APPEAL
                           </span>
                         ) : (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-slate-100 text-slate-500 border border-slate-200">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase bg-slate-100 text-[#6B7280] border border-[#E5E7EB]">
                             PAUSED
                           </span>
                         )}
                       </td>
 
-                      {/* CONSENT */}
-                      <td className="px-3.5 py-2.5 align-middle text-center whitespace-nowrap">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+                      <td className="px-4 py-3 align-middle text-center whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15">
                           {item.consentStatus || 'CERTIFIED'}
                         </span>
                       </td>
 
-                      {/* ACTIONS */}
-                      <td className="px-3.5 py-2.5 align-middle text-right whitespace-nowrap">
-                        <div className="inline-flex items-center justify-end gap-1">
+                      <td className="px-4 py-3 align-middle text-right whitespace-nowrap">
+                        <div className="inline-flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => handleTransferToImpact(item)}
                             disabled={item.inImpact || transferringId === item._id}
-                            className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10.5px] font-semibold transition cursor-pointer border ${
+                            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-sm text-[11px] font-semibold transition cursor-pointer border ${
                               item.inImpact
-                                ? 'bg-slate-50 text-slate-400 border-slate-200 cursor-default'
-                                : 'bg-emerald-50/70 hover:bg-emerald-100 text-emerald-700 border-emerald-200/80 shadow-2xs'
+                                ? 'bg-slate-50 text-[#9CA3AF] border-[#E5E7EB] cursor-default'
+                                : 'bg-[#EAF3EE] hover:bg-[#14382C] text-[#14382C] hover:text-white border-[#14382C]/20 shadow-sm'
                             }`}
                             title="Transfer completed recovery to Our Impact"
                           >
@@ -483,7 +452,7 @@ export const AdminLiveCases = () => {
                             href={`/projects/${item.slug || item._id}`}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                            className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-[#14382C] hover:bg-[#EAF3EE] transition"
                             title="Public View"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
@@ -491,7 +460,7 @@ export const AdminLiveCases = () => {
 
                           <button
                             onClick={() => handleOpenEdit(item)}
-                            className="p-1 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                             title="Edit Case"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -499,7 +468,7 @@ export const AdminLiveCases = () => {
 
                           <button
                             onClick={() => handleDelete(item._id)}
-                            className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Case"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -516,9 +485,9 @@ export const AdminLiveCases = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
-            <span className="text-[10.5px] text-slate-400">
-              Showing {filtered.length} of {cases.length} emergency cases
+          <div className="px-4 py-3 border-t border-[#E5E7EB] bg-[#F9FAFB] flex items-center justify-between shrink-0">
+            <span className="text-xs text-[#6B7280]">
+              Showing <strong className="text-[#111827]">{filtered.length}</strong> of <strong className="text-[#111827]">{cases.length}</strong> emergency cases
             </span>
             {(search || filterStatus !== 'all') && (
               <button
@@ -526,7 +495,7 @@ export const AdminLiveCases = () => {
                   setSearch('');
                   setFilterStatus('all');
                 }}
-                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-xs text-[#14382C] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>
@@ -537,56 +506,54 @@ export const AdminLiveCases = () => {
 
       {/* ── Add / Edit Beneficiary Modal ── */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl max-h-[92vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-sm max-w-2xl w-full shadow-2xl max-h-[92vh] overflow-y-auto border border-[#E5E7EB] custom-admin-scrollbar">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-lg font-sans font-semibold text-[#111827]">
                   {editingCase ? 'Edit Beneficiary Case' : 'New Beneficiary Case'}
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   {editingCase ? `Editing: ${editingCase.beneficiaryNameOrGroup || editingCase.title}` : 'Launch a verified live emergency appeal'}
                 </p>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+                className="p-1.5 rounded-sm bg-[#F9FAFB] text-[#6B7280] hover:text-[#111827] hover:bg-slate-200 transition cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveSubmit} className="px-6 py-5 space-y-4 text-xs">
-              {/* Beneficiary Name + Age + Gender */}
+            <form onSubmit={handleSaveSubmit} className="px-6 py-5 space-y-4 text-xs sm:text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="sm:col-span-1">
-                  <label className="block font-semibold text-slate-700 mb-1">Beneficiary Name *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Beneficiary Name *</label>
                   <input
                     type="text"
                     required
                     value={formData.beneficiaryName}
                     onChange={(e) => setFormData({ ...formData, beneficiaryName: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                     placeholder="e.g. Gita Kumari"
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Age (e.g. 1 Years, 12 Days)</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Age (e.g. 1 Years, 12 Days)</label>
                   <input
                     type="text"
                     value={formData.beneficiaryAge}
                     onChange={(e) => setFormData({ ...formData, beneficiaryAge: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                     placeholder="e.g. 1 Years"
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Gender</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Gender</label>
                   <select
                     value={formData.beneficiaryGender}
                     onChange={(e) => setFormData({ ...formData, beneficiaryGender: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="Female">Female</option>
                     <option value="Male">Male</option>
@@ -596,66 +563,62 @@ export const AdminLiveCases = () => {
                 </div>
               </div>
 
-              {/* Condition / Diagnosis */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Medical Condition / Diagnosis *</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Medical Condition / Diagnosis *</label>
                 <input
                   type="text"
                   required
                   value={formData.condition}
                   onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   placeholder="e.g. Congenital Heart Defect (Ventricular Septal Defect)"
                 />
               </div>
 
-              {/* Hospital Address / Location */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Hospital & Treatment Location Address *</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Hospital & Treatment Location Address *</label>
                 <input
                   type="text"
                   required
                   value={formData.hospital}
                   onChange={(e) => setFormData({ ...formData, hospital: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   placeholder="e.g. 4/9 Rattan Garden, New Colony Mor, Gurugram, Haryana-122001"
                 />
               </div>
 
-              {/* Target Need + Raised So Far */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Target Need (₹) *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Target Need (₹) *</label>
                   <input
                     type="number"
                     required
                     min="1000"
                     value={formData.targetAmount}
                     onChange={(e) => setFormData({ ...formData, targetAmount: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Raised So Far (₹)</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Raised So Far (₹)</label>
                   <input
                     type="number"
                     min="0"
                     value={formData.raisedAmount}
                     onChange={(e) => setFormData({ ...formData, raisedAmount: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
               </div>
 
-              {/* Status + Consent Status */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Status & Lifecycle</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Status & Lifecycle</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="active">Active Appeal</option>
                     <option value="completed">Target Achieved / Completed</option>
@@ -664,11 +627,11 @@ export const AdminLiveCases = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Guardian Consent Verification</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Guardian Consent Verification</label>
                   <select
                     value={formData.consentStatus}
                     onChange={(e) => setFormData({ ...formData, consentStatus: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="CERTIFIED">CERTIFIED</option>
                     <option value="VERIFIED">VERIFIED</option>
@@ -677,19 +640,18 @@ export const AdminLiveCases = () => {
                 </div>
               </div>
 
-              {/* Cover Photo Upload */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Beneficiary Photo</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Beneficiary Photo</label>
                 <div className="space-y-2">
                   {formData.coverImage && (
-                    <div className="relative rounded-xl overflow-hidden border border-slate-200 aspect-video bg-slate-100 max-h-40">
+                    <div className="relative rounded-sm overflow-hidden border border-[#E5E7EB] aspect-video bg-[#F9FAFB] max-h-40">
                       <img src={formData.coverImage} alt="Cover" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, coverImage: '' })}
-                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-red-600 transition cursor-pointer"
+                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#0E241C]/75 text-white flex items-center justify-center hover:bg-rose-600 transition cursor-pointer"
                       >
-                        <X className="w-3 h-3" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   )}
@@ -698,7 +660,7 @@ export const AdminLiveCases = () => {
                       type="text"
                       value={formData.coverImage}
                       onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                      className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                      className="flex-1 px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition text-xs"
                       placeholder="https://... or choose image file"
                     />
                     <input
@@ -712,40 +674,38 @@ export const AdminLiveCases = () => {
                       type="button"
                       onClick={() => fileRef.current?.click()}
                       disabled={uploadingImg}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 transition cursor-pointer disabled:opacity-60 shrink-0"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-white bg-[#14382C] hover:bg-[#1B4D3E] transition cursor-pointer disabled:opacity-60 shrink-0"
                     >
-                      {uploadingImg ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                      {uploadingImg ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#F2D869]" /> : <Upload className="w-3.5 h-3.5 text-[#F2D869]" />}
                       Upload
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Story / Background */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Case Story & Emergency Details</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Case Story & Emergency Details</label>
                 <textarea
                   rows={3}
                   value={formData.story}
                   onChange={(e) => setFormData({ ...formData, story: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition resize-y"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition resize-y"
                   placeholder="Detailed background regarding surgical timeline, doctor recommendations..."
                 />
               </div>
 
-              {/* Modal Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] text-white font-bold hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-60"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs shadow-sm transition cursor-pointer disabled:opacity-60"
                 >
                   {saving ? 'Saving...' : editingCase ? 'Update Case' : 'Launch Case'}
                 </button>

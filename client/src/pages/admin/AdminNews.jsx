@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
-import { Plus, Edit2, Trash2, X, Newspaper, Calendar } from 'lucide-react';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
+import { Plus, Edit2, Trash2, X } from 'lucide-react';
 
 export const AdminNews = () => {
   const { showToast } = useWebsite();
@@ -101,66 +102,84 @@ export const AdminNews = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white">News & Stories Manager</h2>
-          <p className="text-xs text-slate-400">Publish articles, impact reports, and press updates</p>
-        </div>
-        <button
-          onClick={() => handleOpenModal()}
-          className="px-4 py-2.5 rounded-xl font-bold text-xs text-white bg-emerald-600 hover:bg-emerald-500 shadow-md transition flex items-center gap-2 cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Write New Article</span>
-        </button>
-      </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      <AdminPageHeader
+        breadcrumb="News & Stories"
+        badge={`${articles.length} Articles`}
+        title="News & Stories Manager"
+        subtitle="Publish articles, institutional impact reports, and grassroots community press updates."
+        actions={
+          <button
+            onClick={() => handleOpenModal()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-sm font-bold text-xs text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+            <span>Write New Article</span>
+          </button>
+        }
+      />
 
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950 text-slate-400 border-b border-slate-800">
+      <div className="bg-white border border-[#E5E7EB] rounded-sm overflow-hidden shadow-sm">
+        <div className="overflow-x-auto custom-admin-scrollbar">
+          <table className="w-full text-left text-xs min-w-[760px]">
+            <thead className="bg-[#F9FAFB] text-[#14382C] border-b border-[#E5E7EB]">
               <tr>
-                <th className="p-4 font-semibold">Article</th>
-                <th className="p-4 font-semibold">Category</th>
-                <th className="p-4 font-semibold">Author</th>
-                <th className="p-4 font-semibold">Published Date</th>
-                <th className="p-4 font-semibold text-right">Actions</th>
+                <th className="px-4 py-3 font-bold text-[11px] uppercase tracking-wider">Article</th>
+                <th className="px-4 py-3 font-bold text-[11px] uppercase tracking-wider">Category</th>
+                <th className="px-4 py-3 font-bold text-[11px] uppercase tracking-wider">Author</th>
+                <th className="px-4 py-3 font-bold text-[11px] uppercase tracking-wider">Published Date</th>
+                <th className="px-4 py-3 font-bold text-[11px] uppercase tracking-wider text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
-              {articles.map((item) => (
-                <tr key={item._id} className="hover:bg-slate-800/40">
-                  <td className="p-4 flex items-center gap-3">
-                    <img
-                      src={item.coverImage}
-                      alt={item.title}
-                      className="w-10 h-10 rounded-lg object-cover"
-                    />
-                    <div>
-                      <strong className="text-white block font-semibold">{item.title}</strong>
-                      <span className="text-[11px] text-slate-500 line-clamp-1">{item.summary}</span>
-                    </div>
-                  </td>
-                  <td className="p-4">{item.category}</td>
-                  <td className="p-4">{item.author}</td>
-                  <td className="p-4">{new Date(item.publishedAt).toLocaleDateString('en-IN')}</td>
-                  <td className="p-4 text-right space-x-2">
-                    <button
-                      onClick={() => handleOpenModal(item)}
-                      className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition"
-                    >
-                      <Edit2 className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+            <tbody className="divide-y divide-slate-100">
+              {articles.length === 0 && !loading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-12 text-center text-[#9CA3AF]">
+                    No news articles published yet.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                articles.map((item) => (
+                  <tr key={item._id} className="hover:bg-[#F9FAFB]/70 transition-colors">
+                    <td className="px-4 py-3.5 flex items-center gap-3">
+                      <img
+                        src={item.coverImage}
+                        alt={item.title}
+                        className="w-11 h-11 rounded-sm object-cover border border-[#E5E7EB] shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <strong className="text-[#111827] block font-bold text-xs sm:text-sm">{item.title}</strong>
+                        <span className="text-xs text-[#6B7280] line-clamp-1">{item.summary}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3.5">
+                      <span className="inline-block px-2.5 py-1 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 font-semibold text-[11px]">
+                        {item.category}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3.5 text-[#374151] font-medium">{item.author}</td>
+                    <td className="px-4 py-3.5 text-[#4B5563] font-medium">
+                      {new Date(item.publishedAt).toLocaleDateString('en-IN')}
+                    </td>
+                    <td className="px-4 py-3.5 text-right whitespace-nowrap space-x-2">
+                      <button
+                        onClick={() => handleOpenModal(item)}
+                        className="p-2 rounded-sm bg-[#EAF3EE] text-[#14382C] hover:bg-[#14382C] hover:text-white border border-[#14382C]/15 transition cursor-pointer"
+                        title="Edit article"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="p-2 rounded-sm bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200/80 transition cursor-pointer"
+                        title="Delete article"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -168,36 +187,39 @@ export const AdminNews = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-800">
-              <h3 className="text-base font-bold text-white">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl custom-admin-scrollbar">
+            <div className="flex justify-between items-center pb-3 border-b border-[#F1F5F9]">
+              <h3 className="text-lg font-sans font-semibold text-[#111827]">
                 {editingArticle ? 'Edit Article' : 'Write New Article'}
               </h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400">
-                <X className="w-5 h-5" />
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-8 h-8 rounded-sm bg-[#F9FAFB] text-[#6B7280] hover:text-[#111827] flex items-center justify-center cursor-pointer"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Article Title *</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Article Title *</label>
                 <input
                   type="text"
                   required
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">Category</label>
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">Category</label>
                   <select
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   >
                     <option value="Field Stories">Field Stories</option>
                     <option value="Press Release">Press Release</option>
@@ -208,69 +230,69 @@ export const AdminNews = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">Author</label>
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">Author</label>
                   <input
                     type="text"
                     value={form.author}
                     onChange={(e) => setForm({ ...form, author: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Short Excerpt / Summary *</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Short Excerpt / Summary *</label>
                 <input
                   type="text"
                   required
                   value={form.summary}
                   onChange={(e) => setForm({ ...form, summary: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Full Article Body *</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Full Article Body *</label>
                 <textarea
                   rows={5}
                   required
                   value={form.content}
                   onChange={(e) => setForm({ ...form, content: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Cover Image URL</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Cover Image URL</label>
                 <input
                   type="text"
                   value={form.coverImage}
                   onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Tags (comma separated)</label>
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">Tags (comma separated)</label>
                 <input
                   type="text"
                   value={form.tags}
                   onChange={(e) => setForm({ ...form, tags: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] text-[#374151] hover:bg-slate-200 text-xs font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-500"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs cursor-pointer"
                 >
                   Save Article
                 </button>

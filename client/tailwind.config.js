@@ -96,6 +96,7 @@ export default {
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         heading: ['Plus Jakarta Sans', 'Outfit', 'sans-serif'],
+        serif: ['Lora', 'Georgia', 'serif'],
       },
       boxShadow: {
         'soft': '0 4px 20px -2px rgba(18, 19, 22, 0.05), 0 2px 6px -1px rgba(18, 19, 22, 0.02)',

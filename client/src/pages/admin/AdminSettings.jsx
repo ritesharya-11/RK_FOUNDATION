@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
 import {
   Save,
   Building2,
@@ -12,11 +13,6 @@ import {
   ChevronDown,
   ChevronUp,
   Upload,
-  CheckCircle2,
-  ExternalLink,
-  ChevronRight,
-  Sparkles,
-  Info,
 } from 'lucide-react';
 
 export const AdminSettings = () => {
@@ -211,42 +207,34 @@ export const AdminSettings = () => {
   };
 
   return (
-    <div className="space-y-4 w-full min-w-0 pb-16">
+    <div className="space-y-5 w-full min-w-0 pb-16 font-sans">
       {/* ── Top Header Card ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-4.5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-              Trust Settings & Configuration
-            </h1>
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-50 text-slate-700 border border-slate-200">
-              PAN: {formData.compliance.panNumber || 'AAETR1099J'}
-            </span>
-          </div>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Manage legal registration credentials, banking channels, official contact points, and donation compliance.
-          </p>
-        </div>
-
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-2xs transition cursor-pointer disabled:opacity-50 shrink-0"
-        >
-          <Save className="w-3.5 h-3.5" />
-          <span>{saving ? 'Saving...' : 'Save Trust Settings'}</span>
-        </button>
-      </div>
+      <AdminPageHeader
+        breadcrumb="Trust Settings"
+        badge={`PAN: ${formData.compliance.panNumber || 'AAETR5566K'}`}
+        title="Trust Settings & Configuration"
+        subtitle="Manage legal registration credentials, banking channels, official contact points, and 80G compliance declarations."
+        actions={
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer disabled:opacity-50 shrink-0"
+          >
+            <Save className="w-3.5 h-3.5 text-[#F2D869]" />
+            <span>{saving ? 'Saving...' : 'Save Trust Settings'}</span>
+          </button>
+        }
+      />
 
       {/* ── Quick Navigation & Accordion Control Bar ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl px-5 py-3 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="bg-white border border-[#E5E7EB] rounded-sm px-5 py-3 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2.5">
-          <span className="font-semibold text-slate-500">Jump to Section:</span>
+          <span className="font-semibold text-[#4B5563]">Jump to Section:</span>
           <div className="relative">
             <select
               onChange={handleJumpToSection}
               defaultValue=""
-              className="appearance-none pl-3 pr-8 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs cursor-pointer text-xs"
+              className="appearance-none pl-3.5 pr-9 py-2 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer text-xs"
             >
               <option value="" disabled>
                 Select Section...
@@ -258,57 +246,56 @@ export const AdminSettings = () => {
               <option value="social">5. Official Social Media Profiles</option>
               <option value="compliance">6. 80G & 12A Compliance Clauses</option>
             </select>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-500 font-medium">
+        <div className="flex items-center gap-2.5 text-[#14382C] font-semibold">
           <button
             type="button"
             onClick={() => setAllSections(true)}
-            className="hover:text-slate-900 hover:underline cursor-pointer"
+            className="hover:underline cursor-pointer"
           >
             Expand All
           </button>
-          <span>•</span>
+          <span className="text-slate-300">•</span>
           <button
             type="button"
             onClick={() => setAllSections(false)}
-            className="hover:text-slate-900 hover:underline cursor-pointer"
+            className="hover:underline cursor-pointer"
           >
             Collapse All
           </button>
         </div>
       </div>
 
-      {/* ── Form Body with 5 Primary Sections ── */}
+      {/* ── Form Body ── */}
       <form onSubmit={handleSave} className="space-y-4">
         {/* ── SECTION 1: Legal Registration & Identity ── */}
         <div
           id="section-legal"
-          className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden transition-all"
         >
-          {/* Section Header */}
           <button
             type="button"
             onClick={() => toggleSection('legal')}
-            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/50 transition cursor-pointer select-none"
+            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-[#F9FAFB]/60 transition cursor-pointer select-none"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 border border-red-100 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center shrink-0">
                 <Building2 className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                   1. Legal Registration & Identity
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   Trust legal name, mission motto, PAN number, and NITI Aayog NGO Darpan UID.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-semibold text-[#14382C]">
               <span>{expandedSections.legal ? 'Expanded' : 'Collapsed'}</span>
               {expandedSections.legal ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -318,35 +305,34 @@ export const AdminSettings = () => {
             </div>
           </button>
 
-          {/* Section Content */}
           {expandedSections.legal && (
-            <div className="p-5 sm:p-6 border-t border-slate-100 bg-white space-y-4">
+            <div className="p-5 sm:p-6 border-t border-[#F1F5F9] bg-white space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Trust Name *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Trust Name *</label>
                   <input
                     type="text"
                     required
                     value={formData.siteName}
                     onChange={(e) => setFormData({ ...formData, siteName: e.target.value })}
-                    placeholder="e.g. Rebirth Care Trust"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="e.g. RK Foundation"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Tagline / Mission Motto</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Tagline / Mission Motto</label>
                   <input
                     type="text"
                     value={formData.tagline}
                     onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
                     placeholder="e.g. Education for Underprivileged Children, Women Empowerment & Community Healthcare"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Trust PAN Number *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Trust PAN Number *</label>
                   <input
                     type="text"
                     required
@@ -357,13 +343,13 @@ export const AdminSettings = () => {
                         compliance: { ...formData.compliance, panNumber: e.target.value.toUpperCase() },
                       })
                     }
-                    placeholder="e.g. AAETR1099J"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-mono font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs uppercase"
+                    placeholder="e.g. AAETR5566K"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-mono font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] uppercase"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">NITI Aayog NGO Darpan UID</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">NITI Aayog NGO Darpan UID</label>
                   <input
                     type="text"
                     value={formData.compliance.ngoDarpanUid}
@@ -373,8 +359,8 @@ export const AdminSettings = () => {
                         compliance: { ...formData.compliance, ngoDarpanUid: e.target.value },
                       })
                     }
-                    placeholder="e.g. DL/2020/0262802"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="e.g. DL/2021/0298412"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
@@ -385,29 +371,28 @@ export const AdminSettings = () => {
         {/* ── SECTION 2: Communication & Physical Offices ── */}
         <div
           id="section-communication"
-          className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden transition-all"
         >
-          {/* Section Header */}
           <button
             type="button"
             onClick={() => toggleSection('communication')}
-            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/50 transition cursor-pointer select-none"
+            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-[#F9FAFB]/60 transition cursor-pointer select-none"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-sm bg-sky-50 text-sky-700 border border-sky-200/80 flex items-center justify-center shrink-0">
                 <Phone className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                   2. Communication & Physical Offices
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   Helpline telephone, official emails, registered headquarters, and project centers.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-semibold text-[#14382C]">
               <span>{expandedSections.communication ? 'Expanded' : 'Collapsed'}</span>
               {expandedSections.communication ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -417,13 +402,11 @@ export const AdminSettings = () => {
             </div>
           </button>
 
-          {/* Section Content */}
           {expandedSections.communication && (
-            <div className="p-5 sm:p-6 border-t border-slate-100 bg-white space-y-4">
-              {/* Row 1: 3-column contact grid */}
+            <div className="p-5 sm:p-6 border-t border-[#F1F5F9] bg-white space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Primary Helpline / Phone *
                   </label>
                   <input
@@ -436,13 +419,13 @@ export const AdminSettings = () => {
                         contact: { ...formData.contact, phone: e.target.value },
                       })
                     }
-                    placeholder="e.g. +91-9311878362"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="e.g. +91-9650896859"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Primary Email Address *
                   </label>
                   <input
@@ -455,13 +438,13 @@ export const AdminSettings = () => {
                         contact: { ...formData.contact, email: e.target.value },
                       })
                     }
-                    placeholder="e.g. contact@rebirthcaretrust.org"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="e.g. contact@rkfoundation.org"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Alternate / Info Email
                   </label>
                   <input
@@ -473,16 +456,15 @@ export const AdminSettings = () => {
                         contact: { ...formData.contact, altEmail: e.target.value, donorEmail: e.target.value },
                       })
                     }
-                    placeholder="e.g. info@rebirthcaretrust.org"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="e.g. info@rkfoundation.org"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
 
-              {/* Row 2: 2-column physical addresses */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Registered Headquarters Address (Line 1) *
                   </label>
                   <textarea
@@ -496,12 +478,12 @@ export const AdminSettings = () => {
                       })
                     }
                     placeholder="e.g. E-4/202 Nand Nagri, Delhi - 110093"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Branch / Project Center Address (Line 2)
                   </label>
                   <textarea
@@ -514,7 +496,7 @@ export const AdminSettings = () => {
                       })
                     }
                     placeholder="e.g. 1104, Harsharan Niwas, Shri Ram Nagar, New Delhi - 110032"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] resize-none"
                   />
                 </div>
               </div>
@@ -525,29 +507,28 @@ export const AdminSettings = () => {
         {/* ── SECTION 3: Direct Bank Transfer Accounts (NEFT / RTGS) ── */}
         <div
           id="section-banking"
-          className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden transition-all"
         >
-          {/* Section Header */}
           <button
             type="button"
             onClick={() => toggleSection('banking')}
-            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/50 transition cursor-pointer select-none"
+            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-[#F9FAFB]/60 transition cursor-pointer select-none"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center shrink-0">
                 <Landmark className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                   3. Direct Bank Transfer Accounts (NEFT / RTGS)
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Official trust current accounts with Indian Bank and Axis Bank for direct remittances.
+                <p className="text-xs text-[#6B7280] mt-0.5">
+                  Official trust current accounts for direct NEFT, RTGS, and IMPS remittances.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-semibold text-[#14382C]">
               <span>{expandedSections.banking ? 'Expanded' : 'Collapsed'}</span>
               {expandedSections.banking ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -557,23 +538,22 @@ export const AdminSettings = () => {
             </div>
           </button>
 
-          {/* Section Content: Two side-by-side Bank Cards */}
           {expandedSections.banking && (
-            <div className="p-5 sm:p-6 border-t border-slate-100 bg-white">
+            <div className="p-5 sm:p-6 border-t border-[#F1F5F9] bg-white">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                {/* Bank Card 1: Primary Indian Bank */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-3.5">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                    <span className="font-extrabold text-sm text-slate-800">
+                {/* Bank Card 1 */}
+                <div className="p-4 sm:p-5 rounded-sm bg-[#F9FAFB]/60 border border-[#E5E7EB] shadow-sm space-y-3.5">
+                  <div className="flex items-center justify-between pb-2.5 border-b border-[#E5E7EB]">
+                    <span className="font-bold text-sm text-[#111827]">
                       Primary Account: {formData.donationSettings.bankName || 'Indian Bank'}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       Active
                     </span>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-bold text-[#374151] mb-1">
                       Beneficiary Account Name
                     </label>
                     <input
@@ -588,14 +568,14 @@ export const AdminSettings = () => {
                           },
                         })
                       }
-                      placeholder="e.g. Rebirth Care Trust"
-                      className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                      placeholder="e.g. RK Foundation"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Account Number</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">Account Number</label>
                       <input
                         type="text"
                         value={formData.donationSettings.accountNumber}
@@ -609,12 +589,12 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. 505001234567"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-mono font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-mono font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">IFSC Code</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">IFSC Code</label>
                       <input
                         type="text"
                         value={formData.donationSettings.ifscCode}
@@ -628,14 +608,14 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. IDIB000N123"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-mono font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 uppercase"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-mono font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] uppercase"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Bank Name</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">Bank Name</label>
                       <input
                         type="text"
                         value={formData.donationSettings.bankName}
@@ -649,12 +629,12 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. Indian Bank"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Branch Name</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">Branch Name</label>
                       <input
                         type="text"
                         value={formData.donationSettings.branchName}
@@ -668,26 +648,26 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. Nand Nagri Branch, Delhi"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* Bank Card 2: Secondary Axis Bank */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-3.5">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                    <span className="font-extrabold text-sm text-slate-800">
+                {/* Bank Card 2 */}
+                <div className="p-4 sm:p-5 rounded-sm bg-[#F9FAFB]/60 border border-[#E5E7EB] shadow-sm space-y-3.5">
+                  <div className="flex items-center justify-between pb-2.5 border-b border-[#E5E7EB]">
+                    <span className="font-bold text-sm text-[#111827]">
                       Secondary Account:{' '}
                       {formData.donationSettings.secondaryBank?.bankName || 'Axis Bank'}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
                       Active
                     </span>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-bold text-[#374151] mb-1">
                       Beneficiary Account Name
                     </label>
                     <input
@@ -705,14 +685,14 @@ export const AdminSettings = () => {
                           },
                         })
                       }
-                      placeholder="e.g. Rebirth Care Trust"
-                      className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                      placeholder="e.g. RK Foundation"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Account Number</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">Account Number</label>
                       <input
                         type="text"
                         value={formData.donationSettings.secondaryBank?.accountNumber || ''}
@@ -729,12 +709,12 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. 921020012345678"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-mono font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-mono font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">IFSC Code</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">IFSC Code</label>
                       <input
                         type="text"
                         value={formData.donationSettings.secondaryBank?.ifscCode || ''}
@@ -751,14 +731,14 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. UTIB0001234"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-mono font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 uppercase"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-mono font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] uppercase"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Bank Name</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">Bank Name</label>
                       <input
                         type="text"
                         value={formData.donationSettings.secondaryBank?.bankName || ''}
@@ -775,12 +755,12 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. Axis Bank"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Branch Name</label>
+                      <label className="block text-xs font-bold text-[#374151] mb-1">Branch Name</label>
                       <input
                         type="text"
                         value={formData.donationSettings.secondaryBank?.branchName || ''}
@@ -797,7 +777,7 @@ export const AdminSettings = () => {
                           })
                         }
                         placeholder="e.g. Connaught Place Branch, New Delhi"
-                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        className="w-full px-3.5 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
                   </div>
@@ -810,29 +790,28 @@ export const AdminSettings = () => {
         {/* ── SECTION 4: UPI & Online Donation Gateway ── */}
         <div
           id="section-upi"
-          className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden transition-all"
         >
-          {/* Section Header */}
           <button
             type="button"
             onClick={() => toggleSection('upi')}
-            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/50 transition cursor-pointer select-none"
+            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-[#F9FAFB]/60 transition cursor-pointer select-none"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-sm bg-amber-50 text-amber-700 border border-amber-200/80 flex items-center justify-center shrink-0">
                 <QrCode className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                   4. UPI & Online Donation Gateway
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   Official trust UPI VPA address, QR image upload from local PC, and gateway activation.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-semibold text-[#14382C]">
               <span>{expandedSections.upi ? 'Expanded' : 'Collapsed'}</span>
               {expandedSections.upi ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -842,14 +821,12 @@ export const AdminSettings = () => {
             </div>
           </button>
 
-          {/* Section Content: 2 Columns (Left Form, Right QR Preview) */}
           {expandedSections.upi && (
-            <div className="p-5 sm:p-6 border-t border-slate-100 bg-white">
+            <div className="p-5 sm:p-6 border-t border-[#F1F5F9] bg-white">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                {/* Left 7 Cols: Form Inputs */}
                 <div className="lg:col-span-7 space-y-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label className="block text-xs font-bold text-[#374151] mb-1.5">
                       Official Trust UPI VPA / Handle *
                     </label>
                     <input
@@ -865,18 +842,17 @@ export const AdminSettings = () => {
                           },
                         })
                       }
-                      placeholder="e.g. rebirthcaretrust@indianbk"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                      placeholder="e.g. rkfoundation@indianbk"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                     />
                   </div>
 
-                  {/* QR Image Upload Box */}
-                  <div className="p-4 rounded-xl bg-slate-50/70 border border-slate-200 space-y-2.5">
+                  <div className="p-4 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] space-y-2.5">
                     <div>
-                      <span className="block text-xs font-bold text-slate-800">
+                      <span className="block text-xs font-bold text-[#111827]">
                         Official UPI QR Code Image
                       </span>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
+                      <p className="text-[11px] text-[#6B7280] mt-0.5">
                         Upload your bank's QR code image file directly from your local computer, or provide an image link.
                       </p>
                     </div>
@@ -893,15 +869,15 @@ export const AdminSettings = () => {
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
                         disabled={uploadingQr}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#0F172A] hover:bg-black shadow-xs transition cursor-pointer disabled:opacity-60"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer disabled:opacity-60"
                       >
-                        <Upload className="w-3.5 h-3.5" />
+                        <Upload className="w-3.5 h-3.5 text-[#F2D869]" />
                         <span>{uploadingQr ? 'Uploading QR...' : 'Upload QR from Computer'}</span>
                       </button>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-slate-500 mb-1">
+                      <label className="block text-[11px] font-semibold text-[#6B7280] mb-1">
                         Or enter QR Image URL:
                       </label>
                       <input
@@ -916,14 +892,13 @@ export const AdminSettings = () => {
                             },
                           })
                         }
-                        placeholder="e.g. /uploads/2cd52fa93d56753fdbaa24f072e57ee3.png"
-                        className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                        placeholder="e.g. /uploads/qr-code.png"
+                        className="w-full px-3 py-2 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] text-xs font-mono focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                       />
                     </div>
                   </div>
 
-                  {/* Enable Gateway Checkbox Box */}
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200 flex items-start gap-3">
+                  <div className="p-3.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] flex items-start gap-3">
                     <input
                       type="checkbox"
                       id="enableOnlineGateway"
@@ -937,31 +912,30 @@ export const AdminSettings = () => {
                           },
                         })
                       }
-                      className="mt-0.5 w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500 cursor-pointer"
+                      className="mt-0.5 w-4 h-4 accent-[#14382C] rounded border-slate-300 cursor-pointer"
                     />
                     <label htmlFor="enableOnlineGateway" className="text-xs cursor-pointer select-none">
-                      <span className="font-bold text-slate-800 block">
+                      <span className="font-bold text-[#111827] block">
                         Enable Online Gateway (Razorpay/Cards/NetBanking) on Public Donation Portal
                       </span>
-                      <span className="text-[11px] text-slate-500 block mt-0.5">
+                      <span className="text-[11px] text-[#6B7280] block mt-0.5">
                         When disabled, only direct bank NEFT/RTGS accounts and UPI QR codes are presented to donors.
                       </span>
                     </label>
                   </div>
 
-                  {/* Minimum Donation Amount */}
-                  <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <span className="block text-xs font-bold text-slate-800">
+                      <span className="block text-xs font-bold text-[#111827]">
                         Minimum Donation Amount (INR ₹)
                       </span>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
-                        Sets the minimum permissible donation amount across the homepage donation input and donation portal. Default is ₹100.
+                      <p className="text-[11px] text-[#6B7280] mt-0.5">
+                        Sets the minimum permissible donation amount across the homepage donation input and donation portal.
                       </p>
                     </div>
 
                     <div className="relative w-32 shrink-0">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] font-bold text-xs">
                         ₹
                       </span>
                       <input
@@ -978,19 +952,19 @@ export const AdminSettings = () => {
                             },
                           })
                         }
-                        className="w-full pl-7 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-right"
+                        className="w-full pl-7 pr-3 py-2 rounded-sm bg-white border border-[#E5E7EB] text-[#111827] font-bold text-xs focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] text-right"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Right 5 Cols: QR Code Live Preview Card */}
-                <div className="lg:col-span-5 p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-col items-center justify-center text-center">
-                  <span className="text-[11px] uppercase font-bold text-slate-400 tracking-wider mb-4 block">
-                    QR CODE PREVIEW
+                <div className="lg:col-span-5 p-5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm flex flex-col items-center justify-center text-center">
+                  <span className="text-[11px] uppercase font-bold text-[#14382C] tracking-wider mb-4 block">
+                    QR Code Preview
                   </span>
 
-                  <div className="w-52 h-52 p-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center justify-center overflow-hidden">
+                  <div className="w-52 h-52 p-3 bg-white border border-[#E5E7EB] rounded-sm shadow-sm flex items-center justify-center overflow-hidden">
                     {formData.donationSettings.qrCodeImage ? (
                       <img
                         src={formData.donationSettings.qrCodeImage}
@@ -999,23 +973,23 @@ export const AdminSettings = () => {
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(
-                            formData.donationSettings.upiId || 'rebirthcaretrust@indianbk'
-                          )}&pn=${encodeURIComponent(formData.siteName || 'Rebirth Care Trust')}&cu=INR`;
+                            formData.donationSettings.upiId || 'rkfoundation@indianbk'
+                          )}&pn=${encodeURIComponent(formData.siteName || 'RK Foundation')}&cu=INR`;
                         }}
                       />
                     ) : (
                       <img
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(
-                          formData.donationSettings.upiId || 'rebirthcaretrust@indianbk'
-                        )}&pn=${encodeURIComponent(formData.siteName || 'Rebirth Care Trust')}&cu=INR`}
+                          formData.donationSettings.upiId || 'rkfoundation@indianbk'
+                        )}&pn=${encodeURIComponent(formData.siteName || 'RK Foundation')}&cu=INR`}
                         alt="Generated UPI QR Code"
                         className="w-full h-full object-contain"
                       />
                     )}
                   </div>
 
-                  <p className="mt-3 font-mono text-xs font-semibold text-slate-600 truncate max-w-xs">
-                    {formData.donationSettings.upiId || 'rebirthcaretrust@indianbk'}
+                  <p className="mt-3 font-mono text-xs font-semibold text-[#4B5563] truncate max-w-xs">
+                    {formData.donationSettings.upiId || 'rkfoundation@indianbk'}
                   </p>
                 </div>
               </div>
@@ -1026,29 +1000,28 @@ export const AdminSettings = () => {
         {/* ── SECTION 5: Official Social Media Profiles ── */}
         <div
           id="section-social"
-          className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden transition-all"
         >
-          {/* Section Header */}
           <button
             type="button"
             onClick={() => toggleSection('social')}
-            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/50 transition cursor-pointer select-none"
+            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-[#F9FAFB]/60 transition cursor-pointer select-none"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-pink-50 text-pink-600 border border-pink-100 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-sm bg-rose-50 text-rose-700 border border-rose-200/80 flex items-center justify-center shrink-0">
                 <Share2 className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                   5. Official Social Media Profiles
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   External links to trust community profiles on Facebook, Instagram, Twitter/X, and YouTube.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-semibold text-[#14382C]">
               <span>{expandedSections.social ? 'Expanded' : 'Collapsed'}</span>
               {expandedSections.social ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -1058,12 +1031,11 @@ export const AdminSettings = () => {
             </div>
           </button>
 
-          {/* Section Content: 2x2 Grid matching screenshot */}
           {expandedSections.social && (
-            <div className="p-5 sm:p-6 border-t border-slate-100 bg-white">
+            <div className="p-5 sm:p-6 border-t border-[#F1F5F9] bg-white">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Facebook Page URL
                   </label>
                   <input
@@ -1075,13 +1047,13 @@ export const AdminSettings = () => {
                         socialLinks: { ...formData.socialLinks, facebook: e.target.value },
                       })
                     }
-                    placeholder="https://www.facebook.com/RebirthCareTrust"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="https://www.facebook.com/RKFoundation"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Twitter / X URL
                   </label>
                   <input
@@ -1093,13 +1065,13 @@ export const AdminSettings = () => {
                         socialLinks: { ...formData.socialLinks, twitter: e.target.value },
                       })
                     }
-                    placeholder="https://twitter.com/CareRebirth"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="https://twitter.com/RKFoundation"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Instagram URL
                   </label>
                   <input
@@ -1111,13 +1083,13 @@ export const AdminSettings = () => {
                         socialLinks: { ...formData.socialLinks, instagram: e.target.value },
                       })
                     }
-                    placeholder="https://www.instagram.com/rebirthcaretrust4/"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="https://www.instagram.com/rkfoundation/"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     YouTube Channel URL
                   </label>
                   <input
@@ -1129,8 +1101,8 @@ export const AdminSettings = () => {
                         socialLinks: { ...formData.socialLinks, youtube: e.target.value },
                       })
                     }
-                    placeholder="https://www.youtube.com/channel/UC7Wmeu7CyiH8jvdVpBrmHhA"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    placeholder="https://www.youtube.com/@RKFoundation"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
@@ -1141,29 +1113,28 @@ export const AdminSettings = () => {
         {/* ── SECTION 6: 80G & 12A Compliance Clauses ── */}
         <div
           id="section-compliance"
-          className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden transition-all"
         >
-          {/* Section Header */}
           <button
             type="button"
             onClick={() => toggleSection('compliance')}
-            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/50 transition cursor-pointer select-none"
+            className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-[#F9FAFB]/60 transition cursor-pointer select-none"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                   6. 80G & 12A Tax Exemption Compliance
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   Statutory 80G order number, 12A registration, and donor tax exemption declaration text.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-semibold text-[#14382C]">
               <span>{expandedSections.compliance ? 'Expanded' : 'Collapsed'}</span>
               {expandedSections.compliance ? (
                 <ChevronUp className="w-3.5 h-3.5" />
@@ -1173,12 +1144,11 @@ export const AdminSettings = () => {
             </div>
           </button>
 
-          {/* Section Content */}
           {expandedSections.compliance && (
-            <div className="p-5 sm:p-6 border-t border-slate-100 bg-white space-y-4">
+            <div className="p-5 sm:p-6 border-t border-[#F1F5F9] bg-white space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Section 80G Registration Order No
                   </label>
                   <input
@@ -1191,12 +1161,12 @@ export const AdminSettings = () => {
                       })
                     }
                     placeholder="e.g. CIT(E)/DELHI/80G/2021-22/A/1045"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">
                     Section 12A Registration Order No
                   </label>
                   <input
@@ -1209,13 +1179,13 @@ export const AdminSettings = () => {
                       })
                     }
                     placeholder="e.g. CIT(E)/DELHI/12A/2021-22/A/2088"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">
                   Official 80G Tax Exemption Note
                 </label>
                 <textarea
@@ -1228,25 +1198,25 @@ export const AdminSettings = () => {
                     })
                   }
                   placeholder="All contributions made are eligible for 50% tax exemption under Section 80G..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-2xs resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] resize-none"
                 />
               </div>
             </div>
           )}
         </div>
 
-        {/* ── Sticky Bottom Save Bar (Exact Match with Screenshot) ── */}
-        <div className="sticky bottom-4 z-20 bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className="text-xs sm:text-sm text-slate-600 font-medium">
-            Click <strong className="text-slate-900">Save Trust Settings</strong> to apply your configuration changes across the public website.
+        {/* ── Sticky Bottom Save Bar ── */}
+        <div className="sticky bottom-4 z-20 bg-white border border-[#E5E7EB] rounded-sm p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <p className="text-xs sm:text-sm text-[#4B5563] font-medium">
+            Click <strong className="text-[#111827]">Save Trust Settings</strong> to apply your configuration changes across the public website.
           </p>
 
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-sm transition cursor-pointer disabled:opacity-50 shrink-0"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-sm text-xs sm:text-sm font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer disabled:opacity-50 shrink-0"
           >
-            <Save className="w-4 h-4" />
+            <Save className="w-4 h-4 text-[#F2D869]" />
             <span>{saving ? 'Saving...' : 'Save Trust Settings'}</span>
           </button>
         </div>

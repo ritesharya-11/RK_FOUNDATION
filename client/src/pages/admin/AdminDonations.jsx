@@ -4,9 +4,9 @@ import { useWebsite } from '../../context/WebsiteContext';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import { DonationReceipt } from '../../components/DonationReceipt';
+import { AdminPageHeader, AdminStatCard } from '../../components/admin/AdminUI';
 import {
   FileSpreadsheet,
-  Download,
   FileDown,
   Mail,
   Search,
@@ -18,7 +18,7 @@ import {
   Clock,
   Banknote,
   ChevronDown,
-  ChevronRight,
+  IndianRupee,
 } from 'lucide-react';
 
 export const AdminDonations = () => {
@@ -440,125 +440,87 @@ export const AdminDonations = () => {
   const totalRecordsCount = 47;
 
   return (
-    <div className="space-y-3.5 max-w-7xl mx-auto font-sans">
-      {/* ── Main Page Header & Action Buttons (Dashboard-Aligned Compact Typography) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-            Donations & Receipts
-          </h1>
-          <p className="text-[11px] text-slate-500 font-normal">
-            Audit-verified institutional ledger, instant receipt generator, and bank reconciliation desk.
-          </p>
-        </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Main Page Header & Action Buttons ── */}
+      <AdminPageHeader
+        breadcrumb="Donations & Receipts"
+        badge="80G Ledger & Reconciliation"
+        title="Donations & Receipts"
+        subtitle="Audit-verified institutional ledger, instant 80G tax receipt generator, and direct bank reconciliation desk."
+        actions={
+          <>
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm bg-[#EAF3EE] hover:bg-[#E4EFEA] border border-[#14382C]/20 text-[#14382C] font-semibold text-xs shadow-sm transition cursor-pointer"
+              title="Export full donations list to Excel / CSV"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
 
-        <div className="flex items-center gap-2 flex-wrap shrink-0">
-          {/* Button 1: Export to Excel */}
-          <button
-            onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#059669] hover:bg-emerald-700 text-white font-semibold text-[11px] shadow-xs transition cursor-pointer"
-            title="Export full donations list to Excel / CSV"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5" />
-            <span>Export to Excel</span>
-            <ChevronDown className="w-3 h-3 opacity-80" />
-          </button>
+            <button
+              onClick={fetchDonations}
+              disabled={loading}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151] font-semibold text-xs shadow-sm transition cursor-pointer disabled:opacity-60"
+              title="Refresh donations table"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${loading ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
 
-          {/* Button 2: Refresh */}
-          <button
-            onClick={fetchDonations}
-            disabled={loading}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-semibold text-[11px] shadow-2xs transition cursor-pointer disabled:opacity-60"
-            title="Refresh donations table"
-          >
-            <RefreshCw className={`w-3 h-3 text-slate-500 ${loading ? 'animate-spin text-[#DC2626]' : ''}`} />
-            <span>Refresh</span>
-          </button>
+            <button
+              onClick={() => setShowManualModal(true)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs shadow-sm transition cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+              <span>Generate Manual Receipt</span>
+            </button>
+          </>
+        }
+      />
 
-          {/* Button 3: Generate Manual Receipt (Single Clean Plus) */}
-          <button
-            onClick={() => setShowManualModal(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#DC2626] hover:bg-red-700 text-white font-bold text-[11px] shadow-xs transition cursor-pointer"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Generate Manual Receipt</span>
-          </button>
-        </div>
+      {/* ── Four KPI Stat Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <AdminStatCard
+          label="Total Received"
+          value={formatINR(totalAmount)}
+          subtext="Verified Trust Receipts"
+          icon={IndianRupee}
+          accent="emerald"
+        />
+        <AdminStatCard
+          label="Verified Receipts"
+          value={verifiedReceiptsCount}
+          subtext="Issued & Reconciled"
+          icon={CheckCircle2}
+          accent="blue"
+        />
+        <AdminStatCard
+          label="Manual Vouchers"
+          value={manualVouchersCount}
+          subtext="Offline Portal Vouchers"
+          icon={Banknote}
+          accent="gold"
+        />
+        <AdminStatCard
+          label="Pending Bank"
+          value={pendingBankCount}
+          subtext="Awaiting Reconciliation"
+          icon={Clock}
+          accent="rose"
+        />
       </div>
 
-      {/* ── 3. Four KPI Stat Cards (Dashboard Proportions & Typography) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* Card 1: TOTAL RECEIVED */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              TOTAL RECEIVED
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {formatINR(totalAmount)}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm shrink-0">
-            ₹
-          </div>
-        </div>
-
-        {/* Card 2: VERIFIED RECEIPTS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              VERIFIED RECEIPTS
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {verifiedReceiptsCount} <span className="text-[10.5px] font-normal text-slate-400">records</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Card 3: MANUAL VOUCHERS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              MANUAL VOUCHERS
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-purple-600 mt-0.5 tracking-tight">
-              {manualVouchersCount} <span className="text-[10.5px] font-normal text-slate-400">offline</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-            <Banknote className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Card 4: PENDING BANK */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              PENDING BANK
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-amber-500 mt-0.5 tracking-tight">
-              {pendingBankCount} <span className="text-[10.5px] font-normal text-slate-400">awaiting</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
-            <Clock className="w-4 h-4" />
-          </div>
-        </div>
-      </div>
-
-      {/* ── 4. Search & Filter Bar (Compact & Clean) ── */}
+      {/* ── Search & Filter Bar ── */}
       <div className="flex flex-col sm:flex-row gap-2.5">
         <form onSubmit={handleSearchSubmit} className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             placeholder="Search by donor name, email, donation number, or reference..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </form>
 
@@ -566,50 +528,50 @@ export const AdminDonations = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[155px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[170px]"
           >
             <option value="All">All Records ({totalRecordsCount})</option>
             <option value="captured">Verified Receipts ({verifiedReceiptsCount})</option>
             <option value="manual">Manual Vouchers ({manualVouchersCount})</option>
             <option value="pending">Pending Bank ({pendingBankCount})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── 5. Donations & Receipts Table Card Layout (Fully Visible & Dashboard Proportions) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs w-full flex flex-col overflow-hidden">
-        <div className="w-full overflow-x-auto overflow-y-auto max-h-[calc(100vh-250px)] custom-admin-scrollbar">
+      {/* ── Donations & Receipts Table Card Layout ── */}
+      <div className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm w-full flex flex-col overflow-hidden">
+        <div className="w-full overflow-x-auto overflow-y-auto max-h-[calc(100vh-280px)] custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[840px] border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 bg-slate-50 shadow-xs">
+            <thead className="sticky top-0 z-20 bg-[#F9FAFB]">
               <tr>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  DONATION #
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Donation #
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  DONOR DETAILS
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Donor Details
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  AMOUNT (₹)
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Amount (₹)
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  PAYMENT MODE
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Payment Mode
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  STATUS
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Status
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  DATE
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Date
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right sm:text-left">
-                  OFFICIAL RECEIPT
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-right sm:text-left">
+                  Official Receipt
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredDonations.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-400">
+                  <td colSpan={7} className="py-14 text-center text-[#9CA3AF]">
                     No donation records found.
                   </td>
                 </tr>
@@ -619,40 +581,40 @@ export const AdminDonations = () => {
                   const formattedDate = formatDateDDMMYYYY(d.createdAt);
 
                   return (
-                    <tr key={d._id} className="group hover:bg-slate-50/70 transition-colors">
+                    <tr key={d._id} className="group hover:bg-[#F9FAFB]/70 transition-colors">
                       {/* DONATION # */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
-                        <div className="font-bold text-slate-800 text-[11px] tracking-tight font-mono">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
+                        <div className="font-bold text-[#111827] text-xs tracking-tight font-mono">
                           {d.receiptNumber || d.shortNumber || '0028'}
                         </div>
                         {d.source === 'manual' ? (
-                          <div className="mt-0.5">
-                            <span className="inline-block text-[9px] font-medium px-1.5 py-0.2 rounded bg-purple-50 text-purple-600 border border-purple-200/70">
+                          <div className="mt-1">
+                            <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15">
                               Portal Receipt
                             </span>
                           </div>
                         ) : d.subReceiptNumber ? (
-                          <div className="text-[9.5px] text-slate-400 font-mono mt-0.5">
+                          <div className="text-[11px] text-[#9CA3AF] font-mono mt-0.5">
                             {d.subReceiptNumber}
                           </div>
                         ) : (
-                          <div className="text-[9.5px] text-slate-400 font-mono mt-0.5">
+                          <div className="text-[11px] text-[#9CA3AF] font-mono mt-0.5">
                             #{d._id?.slice(-8)}
                           </div>
                         )}
                       </td>
 
                       {/* DONOR DETAILS */}
-                      <td className="px-3.5 py-2.5 align-middle max-w-[210px]">
-                        <strong className="text-slate-900 block font-bold text-xs leading-tight truncate">
+                      <td className="px-4 py-3 align-middle max-w-[230px]">
+                        <strong className="text-[#111827] block font-bold text-xs sm:text-[13px] leading-tight truncate">
                           {d.donorName || 'Anonymous Donor'}
                         </strong>
-                        <span className="text-[10.5px] text-slate-500 mt-0.5 block truncate">
+                        <span className="text-[11px] text-[#6B7280] mt-0.5 block truncate">
                           {d.donorEmail ? d.donorEmail : 'No Email'}
                           {d.donorPhone ? ` • ${d.donorPhone}` : ''}
                         </span>
                         {(d.city || d.donorPan) && (
-                          <span className="text-[10px] text-slate-400 mt-0.5 block truncate">
+                          <span className="text-[11px] text-[#9CA3AF] mt-0.5 block truncate">
                             {d.city ? `City: ${d.city}` : ''}
                             {d.city && d.donorPan ? ' • ' : ''}
                             {d.donorPan ? `PAN: ${d.donorPan}` : ''}
@@ -661,13 +623,13 @@ export const AdminDonations = () => {
                       </td>
 
                       {/* AMOUNT (₹) */}
-                      <td className="px-3.5 py-2.5 align-middle font-extrabold text-slate-900 text-xs sm:text-[13px] whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle font-extrabold text-[#111827] text-xs sm:text-sm whitespace-nowrap">
                         ₹{Number(d.amount).toLocaleString('en-IN')}
                       </td>
 
                       {/* PAYMENT MODE */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
-                        <span className="inline-block px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-[#F1F5F9] text-slate-600 uppercase tracking-wide">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
+                        <span className="inline-block px-2.5 py-1 rounded-sm text-[10px] font-bold bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151] uppercase tracking-wide">
                           {d.paymentModeFormatted ||
                             (d.paymentGateway === 'razorpay'
                               ? 'WEBSITE / RAZORPAY'
@@ -678,9 +640,9 @@ export const AdminDonations = () => {
                       </td>
 
                       {/* STATUS */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap">
                         <span
-                          className={`inline-block px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider border ${
+                          className={`inline-block px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider border ${
                             isCompleted
                               ? 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
                               : 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]'
@@ -691,23 +653,23 @@ export const AdminDonations = () => {
                       </td>
 
                       {/* DATE */}
-                      <td className="px-3.5 py-2.5 align-middle text-slate-600 font-medium text-[11px] whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle text-[#4B5563] font-medium text-xs whitespace-nowrap">
                         {formattedDate}
                       </td>
 
                       {/* OFFICIAL RECEIPT ACTIONS */}
-                      <td className="px-3.5 py-2.5 align-middle whitespace-nowrap text-right sm:text-left">
+                      <td className="px-4 py-3 align-middle whitespace-nowrap text-right sm:text-left">
                         {d.paymentStatus === 'pending' || d.paymentStatus === 'created' ? (
                           <div className="flex items-center gap-1.5">
                             <button
                               onClick={() => handleReconcile(d)}
-                              className="px-2.5 py-1 rounded-md bg-[#DC2626] hover:bg-red-700 text-white text-[10.5px] font-bold shadow-2xs transition cursor-pointer"
+                              className="px-3 py-1.5 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white text-[11px] font-bold shadow-sm transition cursor-pointer"
                             >
                               Reconcile Bank Payment
                             </button>
                             <button
                               onClick={() => handleDeleteDonation(d._id)}
-                              className="p-1 rounded-md text-slate-300 hover:text-rose-600 hover:bg-slate-100 transition cursor-pointer"
+                              className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                               title="Delete record"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -717,16 +679,16 @@ export const AdminDonations = () => {
                           <div className="flex items-center gap-1.5">
                             <button
                               onClick={() => setPrintReceiptData(d)}
-                              className="px-2 py-1 rounded-md bg-rose-50/70 hover:bg-rose-100 text-[#DC2626] border border-rose-200/80 text-[10.5px] font-semibold inline-flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                              className="px-2.5 py-1.5 rounded-sm bg-[#EAF3EE] hover:bg-[#14382C] text-[#14382C] hover:text-white border border-[#14382C]/20 text-[11px] font-semibold inline-flex items-center gap-1.5 transition cursor-pointer shadow-sm"
                             >
-                              <FileDown className="w-3 h-3" />
+                              <FileDown className="w-3.5 h-3.5" />
                               <span>PDF Receipt</span>
                             </button>
                             <button
                               onClick={() => handleResendEmail(d)}
-                              className="px-2 py-1 rounded-md bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 text-[10.5px] font-semibold inline-flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                              className="px-2.5 py-1.5 rounded-sm bg-white hover:bg-[#F9FAFB] text-[#374151] border border-[#E5E7EB] text-[11px] font-semibold inline-flex items-center gap-1.5 transition cursor-pointer shadow-sm"
                             >
-                              <Mail className="w-3 h-3 text-slate-400" />
+                              <Mail className="w-3.5 h-3.5 text-[#9CA3AF]" />
                               <span>Resend Email</span>
                             </button>
                           </div>
@@ -734,14 +696,14 @@ export const AdminDonations = () => {
                           <div className="flex items-center gap-1.5">
                             <button
                               onClick={() => setPrintReceiptData(d)}
-                              className="px-2 py-1 rounded-md bg-rose-50/70 hover:bg-rose-100 text-[#DC2626] border border-rose-200/80 text-[10.5px] font-semibold inline-flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                              className="px-2.5 py-1.5 rounded-sm bg-[#EAF3EE] hover:bg-[#14382C] text-[#14382C] hover:text-white border border-[#14382C]/20 text-[11px] font-semibold inline-flex items-center gap-1.5 transition cursor-pointer shadow-sm"
                             >
-                              <Printer className="w-3 h-3" />
+                              <Printer className="w-3.5 h-3.5" />
                               <span>Print Receipt</span>
                             </button>
                             <button
                               onClick={() => handleDeleteDonation(d._id)}
-                              className="p-1 rounded-md text-slate-300 hover:text-rose-600 hover:bg-slate-100 transition cursor-pointer"
+                              className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                               title="Delete record"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -759,9 +721,10 @@ export const AdminDonations = () => {
 
         {/* Table Summary Footer */}
         {filteredDonations.length > 0 && (
-          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 rounded-b-2xl flex items-center justify-between shrink-0">
-            <span className="text-[10.5px] text-slate-400">
-              Showing {filteredDonations.length} of {donations.length} donations & receipts
+          <div className="px-4 py-3 border-t border-[#E5E7EB] bg-[#F9FAFB] rounded-b-sm flex items-center justify-between shrink-0">
+            <span className="text-xs text-[#6B7280]">
+              Showing <strong className="text-[#111827]">{filteredDonations.length}</strong> of{' '}
+              <strong className="text-[#111827]">{donations.length}</strong> donations & receipts
             </span>
             {(search || statusFilter !== 'All') && (
               <button
@@ -769,7 +732,7 @@ export const AdminDonations = () => {
                   setSearch('');
                   setStatusFilter('All');
                 }}
-                className="text-[10.5px] font-semibold text-[#DC2626] hover:underline cursor-pointer"
+                className="text-xs font-semibold text-[#14382C] hover:underline cursor-pointer"
               >
                 Clear filters
               </button>
@@ -778,28 +741,28 @@ export const AdminDonations = () => {
         )}
       </div>
 
-      {/* ── 6. Modal: Generate Manual Receipt ── */}
+      {/* ── Modal: Generate Manual Receipt ── */}
       {showManualModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold">
-                  +
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl custom-admin-scrollbar">
+            <div className="flex justify-between items-center pb-3 border-b border-[#F1F5F9]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold">
+                  <Plus className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-[#0F172A]">Generate Manual Receipt</h3>
+                <h3 className="text-lg font-sans font-semibold text-[#111827]">Generate Manual Receipt</h3>
               </div>
               <button
                 onClick={() => setShowManualModal(false)}
-                className="text-slate-400 hover:text-slate-700 text-xl font-bold cursor-pointer"
+                className="w-8 h-8 rounded-sm bg-[#F9FAFB] text-[#6B7280] hover:text-[#111827] text-xl font-bold flex items-center justify-center cursor-pointer"
               >
                 ×
               </button>
             </div>
 
-            <form onSubmit={handleCreateManualDonation} className="space-y-4 text-xs">
+            <form onSubmit={handleCreateManualDonation} className="space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">
                   Donor Full Name *
                 </label>
                 <input
@@ -808,13 +771,13 @@ export const AdminDonations = () => {
                   placeholder="e.g. Rahul Sharma"
                   value={manualForm.donorName}
                   onChange={(e) => setManualForm({ ...manualForm, donorName: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">
                     Donation Amount (₹) *
                   </label>
                   <input
@@ -824,16 +787,16 @@ export const AdminDonations = () => {
                     placeholder="e.g. 500"
                     value={manualForm.amount}
                     onChange={(e) => setManualForm({ ...manualForm, amount: e.target.value })}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">Payment Mode</label>
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">Payment Mode</label>
                   <select
                     value={manualForm.paymentMode}
                     onChange={(e) => setManualForm({ ...manualForm, paymentMode: e.target.value })}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   >
                     <option value="UPI">UPI (GooglePay / PhonePe / Paytm)</option>
                     <option value="CASH">Cash Deposit</option>
@@ -844,33 +807,33 @@ export const AdminDonations = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">Donor Email</label>
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">Donor Email</label>
                   <input
                     type="email"
                     placeholder="donor@example.com"
                     value={manualForm.donorEmail}
                     onChange={(e) => setManualForm({ ...manualForm, donorEmail: e.target.value })}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">Phone Number</label>
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">Phone Number</label>
                   <input
                     type="tel"
                     placeholder="10-digit mobile"
                     value={manualForm.donorPhone}
                     onChange={(e) => setManualForm({ ...manualForm, donorPhone: e.target.value })}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">
                     City / Location
                   </label>
                   <input
@@ -878,12 +841,12 @@ export const AdminDonations = () => {
                     placeholder="e.g. Hyderabad"
                     value={manualForm.city}
                     onChange={(e) => setManualForm({ ...manualForm, city: e.target.value })}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">
+                  <label className="block text-xs text-[#374151] font-bold mb-1.5">
                     Donor PAN (for 80G tax receipt)
                   </label>
                   <input
@@ -893,13 +856,13 @@ export const AdminDonations = () => {
                     onChange={(e) =>
                       setManualForm({ ...manualForm, donorPan: e.target.value.toUpperCase() })
                     }
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-mono uppercase focus:outline-none focus:border-red-400"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] font-mono uppercase focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">
                   Program / Cause Allocation
                 </label>
                 <select
@@ -907,7 +870,7 @@ export const AdminDonations = () => {
                   onChange={(e) =>
                     setManualForm({ ...manualForm, campaignTitle: e.target.value })
                   }
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 >
                   <option value="General Charitable Relief Fund">General Charitable Relief Fund</option>
                   <option value="Medical Case: baby of shivani">Medical Case: baby of shivani</option>
@@ -919,7 +882,7 @@ export const AdminDonations = () => {
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">
                   Notes / Voucher Remarks
                 </label>
                 <textarea
@@ -927,22 +890,22 @@ export const AdminDonations = () => {
                   placeholder="e.g. Offline cash receipt issued at outreach camp"
                   value={manualForm.notes}
                   onChange={(e) => setManualForm({ ...manualForm, notes: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setShowManualModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingManual}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] hover:bg-red-700 text-white font-bold transition shadow-xs cursor-pointer disabled:opacity-60"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs transition shadow-sm cursor-pointer disabled:opacity-60"
                 >
                   {submittingManual ? 'Generating...' : 'Create & Save Receipt'}
                 </button>
@@ -952,13 +915,13 @@ export const AdminDonations = () => {
         </div>
       )}
 
-      {/* ── 7. Modal: Official 80G Tax Receipt Preview & Instant Print ── */}
+      {/* ── Modal: Official 80G Tax Receipt Preview & Instant Print ── */}
       {printReceiptData && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto print:p-0 print:bg-white print:fixed print:inset-0">
-          <div className="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full p-4 sm:p-6 space-y-4 shadow-2xl relative my-6 print:border-none print:shadow-none print:p-0 print:m-0 print:max-w-none">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto print:p-0 print:bg-white print:fixed print:inset-0">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-3xl w-full p-4 sm:p-6 space-y-4 shadow-2xl relative my-6 print:border-none print:shadow-none print:p-0 print:m-0 print:max-w-none">
             <button
               onClick={() => setPrintReceiptData(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer print:hidden"
+              className="absolute top-4 right-4 w-8 h-8 rounded-sm bg-[#F9FAFB] text-[#6B7280] hover:text-[#111827] text-xl font-bold flex items-center justify-center cursor-pointer print:hidden"
             >
               ×
             </button>
@@ -969,11 +932,11 @@ export const AdminDonations = () => {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex justify-between items-center pt-2 border-t border-slate-100 print:hidden">
+            <div className="flex justify-between items-center pt-2 border-t border-[#F1F5F9] print:hidden">
               <Link
                 to={`/receipt/verify?receiptNumber=${printReceiptData.receiptNumber}`}
                 target="_blank"
-                className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+                className="text-xs font-semibold text-[#14382C] hover:underline"
               >
                 Open Public Verification Link ↗
               </Link>
@@ -981,15 +944,15 @@ export const AdminDonations = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => setPrintReceiptData(null)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Close
                 </button>
                 <button
                   onClick={() => window.print()}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm cursor-pointer"
                 >
-                  <Printer className="w-4 h-4" />
+                  <Printer className="w-4 h-4 text-[#F2D869]" />
                   <span>Print Receipt / PDF</span>
                 </button>
               </div>

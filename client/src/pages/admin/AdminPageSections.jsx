@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
 import {
   FileText,
   Plus,
   RefreshCw,
   Search,
   ChevronDown,
-  ChevronRight,
   ExternalLink,
   Edit2,
   Trash2,
   Copy,
   Check,
   CheckCircle2,
-  AlertCircle,
   X,
-  Globe,
-  Sparkles,
-  ShieldCheck,
-  Clock,
 } from 'lucide-react';
 
 const INITIAL_PAGES = [
@@ -269,48 +264,45 @@ export const AdminPageSections = () => {
   const publishedCount = pages.filter((p) => p.status === 'published').length;
 
   return (
-    <div className="space-y-4 w-full min-w-0">
+    <div className="space-y-5 w-full min-w-0 font-sans">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight leading-snug">
-            Page Content & SEO CMS
-          </h1>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Manage structured static pages, legal declarations, and search engine metadata tags.
-          </p>
-        </div>
+      <AdminPageHeader
+        breadcrumb="Page Content & SEO"
+        badge={`${publishedCount} Published Pages`}
+        title="Page Content & SEO CMS"
+        subtitle="Manage structured static pages, legal declarations, and search engine metadata tags across the public website."
+        actions={
+          <>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="px-3.5 py-2 rounded-sm border border-[#E5E7EB] bg-white hover:bg-[#F9FAFB] text-[#374151] shadow-sm transition cursor-pointer font-semibold text-xs flex items-center gap-1.5 disabled:opacity-60"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-2xs transition cursor-pointer font-semibold text-[11px] flex items-center gap-1.5 disabled:opacity-60"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
-          </button>
-
-          <button
-            onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-[11px] font-bold text-white bg-[#DC2626] hover:bg-red-700 shadow-2xs transition cursor-pointer"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>New Page</span>
-          </button>
-        </div>
-      </div>
+            <button
+              onClick={handleOpenAdd}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+              <span>New Page</span>
+            </button>
+          </>
+        }
+      />
 
       {/* ── Search & Filter Controls Bar ── */}
       <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search pages by title, slug, summary..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#111827] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </div>
 
@@ -318,96 +310,93 @@ export const AdminPageSections = () => {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[160px]"
           >
             <option value="all">All Statuses ({pages.length})</option>
             <option value="published">Published ({publishedCount})</option>
             <option value="draft">Draft ({pages.length - publishedCount})</option>
           </select>
-          <ChevronDown className="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
       {/* ── Table Card Layout ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden w-full flex flex-col">
+      <div className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden w-full flex flex-col">
         <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[840px] border-separate border-spacing-0">
-            <thead className="sticky top-0 z-20 shadow-2xs select-none">
+            <thead className="sticky top-0 z-20 select-none bg-[#F9FAFB]">
               <tr>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  PAGE TITLE & DETAILS
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Page Title & Details
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  URL SLUG
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  URL Slug
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  STATUS
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Status
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  SEO READINESS
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  SEO Readiness
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  UPDATED AT
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                  Updated At
                 </th>
-                <th className="bg-slate-50 border-b border-slate-200/90 px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">
-                  ACTIONS
+                <th className="bg-[#F9FAFB] border-b border-[#E5E7EB] px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-right">
+                  Actions
                 </th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center border-b border-slate-100">
-                    <FileText className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                    <p className="text-xs text-slate-400">No structured pages found</p>
+                  <td colSpan={6} className="py-12 text-center border-b border-[#F1F5F9]">
+                    <FileText className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                    <p className="text-xs text-[#9CA3AF]">No structured pages found</p>
                   </td>
                 </tr>
               ) : (
                 filtered.map((item) => (
-                  <tr key={item._id} className="group hover:bg-slate-50/70 transition-colors">
-                    {/* PAGE TITLE & DETAILS */}
-                    <td className="px-3.5 py-2.5 max-w-sm border-b border-slate-100">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-red-50 text-[#DC2626] border border-red-100 flex items-center justify-center shrink-0">
-                          <FileText className="w-3.5 h-3.5" />
+                  <tr key={item._id} className="group hover:bg-[#F9FAFB]/70 transition-colors">
+                    <td className="px-4 py-3 max-w-sm border-b border-[#F1F5F9]">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center shrink-0">
+                          <FileText className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-bold text-slate-900 text-xs truncate">
+                          <p className="font-bold text-[#111827] text-xs sm:text-sm truncate">
                             {item.title}
                           </p>
-                          <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                          <p className="text-xs text-[#6B7280] truncate mt-0.5">
                             {item.summary}
                           </p>
                         </div>
                       </div>
                     </td>
 
-                    {/* URL SLUG with Copy Button */}
-                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100">
-                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100/90 border border-slate-200 text-[10.5px] font-mono text-slate-700">
+                    <td className="px-4 py-3 whitespace-nowrap border-b border-[#F1F5F9]">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-mono text-[#14382C]">
                         <span>{item.slug}</span>
                         <button
                           type="button"
                           onClick={(e) => handleCopySlug(item.slug, item._id, e)}
-                          className="text-slate-400 hover:text-slate-700 transition cursor-pointer"
+                          className="text-[#9CA3AF] hover:text-[#14382C] transition cursor-pointer"
                           title="Copy Slug"
                         >
                           {copiedId === item._id ? (
-                            <Check className="w-3 h-3 text-emerald-600" />
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
                           ) : (
-                            <Copy className="w-3 h-3" />
+                            <Copy className="w-3.5 h-3.5" />
                           )}
                         </button>
                       </div>
                     </td>
 
-                    {/* STATUS: Green Dot Badge */}
-                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-4 py-3 whitespace-nowrap border-b border-[#F1F5F9]">
                       <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9.5px] font-bold tracking-wider uppercase ${
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase ${
                           item.status === 'published'
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-slate-100 text-slate-500 border border-slate-200'
+                            : 'bg-slate-100 text-[#6B7280] border border-[#E5E7EB]'
                         }`}
                       >
                         <span
@@ -419,10 +408,9 @@ export const AdminPageSections = () => {
                       </span>
                     </td>
 
-                    {/* SEO READINESS */}
-                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100">
+                    <td className="px-4 py-3 whitespace-nowrap border-b border-[#F1F5F9]">
                       <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9.5px] font-bold ${
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold ${
                           item.seoReadiness === 'Meta Ready'
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -433,19 +421,17 @@ export const AdminPageSections = () => {
                       </span>
                     </td>
 
-                    {/* UPDATED AT */}
-                    <td className="px-3.5 py-2.5 whitespace-nowrap border-b border-slate-100 font-medium text-slate-600 text-[11px]">
+                    <td className="px-4 py-3 whitespace-nowrap border-b border-[#F1F5F9] font-medium text-[#4B5563] text-xs">
                       {item.updatedAt || '21 Oct 2026'}
                     </td>
 
-                    {/* ACTIONS */}
-                    <td className="px-3.5 py-2.5 text-right whitespace-nowrap border-b border-slate-100">
-                      <div className="inline-flex items-center justify-end gap-1">
+                    <td className="px-4 py-3 text-right whitespace-nowrap border-b border-[#F1F5F9]">
+                      <div className="inline-flex items-center justify-end gap-1.5">
                         <a
                           href={item.slug === '/terms-and-conditions' ? '/terms-conditions' : item.slug}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                          className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-[#14382C] hover:bg-[#EAF3EE] transition"
                           title="Open Public Page"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -454,7 +440,7 @@ export const AdminPageSections = () => {
                         <button
                           type="button"
                           onClick={(e) => handleOpenEdit(item, e)}
-                          className="p-1 rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                          className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                           title="Edit Page & SEO"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -463,7 +449,7 @@ export const AdminPageSections = () => {
                         <button
                           type="button"
                           onClick={(e) => handleDelete(item._id, e)}
-                          className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                          className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                           title="Delete Page"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -479,9 +465,9 @@ export const AdminPageSections = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-4 py-2 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
-            <span className="text-[10.5px] text-slate-400">
-              Showing {filtered.length} of {pages.length} structured pages
+          <div className="px-4 py-3 border-t border-[#E5E7EB] bg-[#F9FAFB] flex items-center justify-between shrink-0">
+            <span className="text-xs text-[#6B7280]">
+              Showing <strong className="text-[#111827]">{filtered.length}</strong> of <strong className="text-[#111827]">{pages.length}</strong> structured pages
             </span>
             {(search || filterStatus !== 'all') && (
               <button
@@ -489,7 +475,7 @@ export const AdminPageSections = () => {
                   setSearch('');
                   setFilterStatus('all');
                 }}
-                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-xs text-[#14382C] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>
@@ -501,38 +487,37 @@ export const AdminPageSections = () => {
       {/* ── Add / Edit Page Modal ── */}
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setModalOpen(false)}
         >
           <div
-            className="bg-white rounded-3xl max-w-xl w-full shadow-2xl max-h-[92vh] overflow-y-auto"
+            className="bg-white rounded-sm max-w-xl w-full shadow-2xl max-h-[92vh] overflow-y-auto border border-[#E5E7EB] custom-admin-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-red-50 text-[#DC2626] flex items-center justify-center font-bold">
+            <div className="p-5 sm:p-6 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold">
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">
+                  <h3 className="font-sans font-semibold text-[#111827] text-lg">
                     {editingPage ? 'Edit Page Content & SEO' : 'Create New Structured Page'}
                   </h3>
-                  <p className="text-xs text-slate-400">Manage route metadata, declarations, and SEO</p>
+                  <p className="text-xs text-[#6B7280]">Manage route metadata, declarations, and SEO</p>
                 </div>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg cursor-pointer"
+                className="text-[#9CA3AF] hover:text-[#111827] p-1.5 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 text-xs">
-              {/* Page Title & URL Slug */}
+            <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 text-xs sm:text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Page Title *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Page Title *</label>
                   <input
                     type="text"
                     required
@@ -547,40 +532,38 @@ export const AdminPageSections = () => {
                       })
                     }
                     placeholder="e.g. Terms and Conditions"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">URL Slug *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">URL Slug *</label>
                   <input
                     type="text"
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                     placeholder="/terms-and-conditions"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition font-mono"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition font-mono"
                   />
                 </div>
               </div>
 
-              {/* Summary / Subtitle */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Page Summary / Tagline</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Page Summary / Tagline</label>
                 <input
                   type="text"
                   value={formData.summary}
                   onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
                   placeholder="Short explanation displayed in tables and site index..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                 />
               </div>
 
-              {/* SEO Meta Title */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                <label className="block text-xs font-bold text-[#374151] mb-1.5 flex items-center justify-between">
                   <span>SEO Meta Title</span>
-                  <span className="text-[11px] text-slate-400 font-normal">
+                  <span className="text-[11px] text-[#9CA3AF] font-normal">
                     {formData.metaTitle.length}/60 chars
                   </span>
                 </label>
@@ -588,16 +571,15 @@ export const AdminPageSections = () => {
                   type="text"
                   value={formData.metaTitle}
                   onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
-                  placeholder="e.g. Terms and Conditions | Rebirth Care Trust"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  placeholder="e.g. Terms and Conditions | RK Foundation"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                 />
               </div>
 
-              {/* SEO Meta Description */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                <label className="block text-xs font-bold text-[#374151] mb-1.5 flex items-center justify-between">
                   <span>SEO Meta Description</span>
-                  <span className="text-[11px] text-slate-400 font-normal">
+                  <span className="text-[11px] text-[#9CA3AF] font-normal">
                     {formData.metaDescription.length}/160 chars
                   </span>
                 </label>
@@ -606,36 +588,34 @@ export const AdminPageSections = () => {
                   value={formData.metaDescription}
                   onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
                   placeholder="Concise snippet shown on Google search engine result pages..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition resize-y"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition resize-y"
                 />
               </div>
 
-              {/* Status */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Publication Status</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Publication Status</label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                 >
                   <option value="published">Published</option>
                   <option value="draft">Draft</option>
                 </select>
               </div>
 
-              {/* Submit Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] text-white font-bold hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-60"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs shadow-sm transition cursor-pointer disabled:opacity-60"
                 >
                   {saving ? 'Saving...' : editingPage ? 'Update Page' : 'Publish Page'}
                 </button>

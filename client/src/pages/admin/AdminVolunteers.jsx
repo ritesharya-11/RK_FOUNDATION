@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
 import {
   Search,
   Download,
@@ -18,7 +19,6 @@ import {
   Trash2,
   X,
   ChevronDown,
-  ChevronRight,
   Check,
   Mail,
   UserCheck,
@@ -596,69 +596,54 @@ export const AdminVolunteers = () => {
   }, [volunteers, statusFilter, search, sortBy]);
 
   return (
-    <div className="space-y-4 w-full min-w-0">
-      {/* ── Breadcrumb ── */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-        <span>Admin</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <span className="font-semibold text-slate-800">Volunteers</span>
-      </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Volunteers"
+        badge={`${totalCount} Total Applicants`}
+        title="Volunteer Applications"
+        subtitle="Review community applicants, track skills and areas of interest, and coordinate on-ground orientation."
+        actions={
+          <>
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#14382C] bg-[#EAF3EE] hover:bg-[#E4EFEA] border border-[#14382C]/20 shadow-sm transition cursor-pointer"
+              title="Export CSV"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
 
-      {/* ── Page Header (Executive Proportions) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-              Volunteer Applications
-            </h1>
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200/80">
-              {totalCount} Total
-            </span>
-          </div>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Review community applicants, track skills and areas of interest, and coordinate on-ground orientation.
-          </p>
-        </div>
+            <button
+              onClick={() => fetchVolunteers(true)}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+              title="Refresh Volunteers"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
+          </>
+        }
+      />
 
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
-            title="Export CSV"
-          >
-            <Download className="w-3.5 h-3.5 text-slate-500" />
-            <span>Export CSV</span>
-          </button>
-
-          <button
-            onClick={() => fetchVolunteers(true)}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-            title="Refresh Volunteers"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
-            <span>Refresh</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ── Status Tabs Row (Exact format, executive dark/neutral active state) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+      {/* ── Status Tabs Row ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           {/* All */}
           <button
             onClick={() => setStatusFilter('All')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'All'
-                ? 'bg-[#0F172A] text-white shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <Users className="w-3.5 h-3.5" />
             <span>All</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'All' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'All' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {totalCount}
@@ -668,17 +653,17 @@ export const AdminVolunteers = () => {
           {/* Pending */}
           <button
             onClick={() => setStatusFilter('pending')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'pending'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
             <span>Pending</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'pending' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'pending' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {pendingCount}
@@ -688,17 +673,17 @@ export const AdminVolunteers = () => {
           {/* Contacted */}
           <button
             onClick={() => setStatusFilter('contacted')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'contacted'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <Phone className="w-3.5 h-3.5" />
             <span>Contacted</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'contacted' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'contacted' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {contactedCount}
@@ -708,17 +693,17 @@ export const AdminVolunteers = () => {
           {/* Approved */}
           <button
             onClick={() => setStatusFilter('approved')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'approved'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Approved</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'approved' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'approved' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {approvedCount}
@@ -728,17 +713,17 @@ export const AdminVolunteers = () => {
           {/* Rejected */}
           <button
             onClick={() => setStatusFilter('rejected')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'rejected'
-                ? 'bg-[#0F172A] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <XCircle className="w-3.5 h-3.5" />
             <span>Rejected</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'rejected' ? 'bg-slate-700 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'rejected' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {rejectedCount}
@@ -746,27 +731,27 @@ export const AdminVolunteers = () => {
           </button>
         </div>
 
-        <div className="text-xs text-slate-500 font-medium">
-          Showing <span className="font-bold text-slate-700">{filteredVolunteers.length}</span> of{' '}
-          <span className="font-bold text-slate-700">{totalCount}</span> applications
+        <div className="text-xs text-[#6B7280] font-medium">
+          Showing <span className="font-bold text-[#111827]">{filteredVolunteers.length}</span> of{' '}
+          <span className="font-bold text-[#111827]">{totalCount}</span> applications
         </div>
       </div>
 
-      {/* ── Search & Sort Row (Exact format, clean neutral styling) ── */}
+      {/* ── Search & Sort Row ── */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by name, email, phone, city, skills..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400 shadow-xs"
+            className="w-full pl-10 pr-4 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-slate-800 text-xs sm:text-sm placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#4B5563] text-xs cursor-pointer"
             >
               ✕
             </button>
@@ -777,43 +762,43 @@ export const AdminVolunteers = () => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full sm:w-auto appearance-none pl-3.5 pr-8 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400 shadow-xs cursor-pointer"
+            className="w-full sm:w-auto appearance-none pl-3.5 pr-9 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#374151] text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer"
           >
             <option value="Newest Applied">Newest Applied</option>
             <option value="Oldest Applied">Oldest Applied</option>
             <option value="Name (A - Z)">Name (A - Z)</option>
             <option value="Name (Z - A)">Name (Z - A)</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Table Card (Dashboard Compact Hierarchy) ── */}
-      <div className="flex flex-col bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* ── Table Card ── */}
+      <div className="flex flex-col bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden">
+        <div className="overflow-x-auto custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[850px]">
-            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs select-none">
+            <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB] select-none">
               <tr>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  APPLICANT PROFILE
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Applicant Profile
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  CITY / OCCUPATION
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  City / Occupation
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  AREAS OF INTEREST
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Areas of Interest
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  AVAILABILITY
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Availability
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  STATUS
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Status
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  APPLIED DATE
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Applied Date
                 </th>
-                <th className="px-3.5 py-2.5 text-right font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  ACTIONS
+                <th className="px-4 py-3 text-right font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -821,10 +806,10 @@ export const AdminVolunteers = () => {
             <tbody className="divide-y divide-slate-100 bg-white">
               {filteredVolunteers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={7} className="px-6 py-12 text-center text-[#9CA3AF]">
                     <Users className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                    <p className="font-semibold text-sm text-slate-700">No volunteer applications found</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Try clearing your search query or filters</p>
+                    <p className="font-semibold text-sm text-[#374151]">No volunteer applications found</p>
+                    <p className="text-xs text-[#9CA3AF] mt-0.5">Try clearing your search query or filters</p>
                   </td>
                 </tr>
               ) : (
@@ -833,25 +818,25 @@ export const AdminVolunteers = () => {
                   const isBookmarked = bookmarkedIds.includes(v._id);
 
                   return (
-                    <tr key={v._id} className="hover:bg-slate-50/70 transition-colors group">
+                    <tr key={v._id} className="hover:bg-[#F9FAFB]/70 transition-colors group">
                       {/* 1. Applicant Profile */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200 shadow-2xs">
+                          <div className="w-9 h-9 rounded-full bg-[#EAF3EE] text-[#14382C] font-bold text-xs flex items-center justify-center shrink-0 border border-[#14382C]/15 shadow-sm">
                             {initialLetter}
                           </div>
                           <div className="min-w-0">
-                            <span className="block font-bold text-xs sm:text-sm text-slate-900 leading-snug truncate max-w-xs sm:max-w-md">
+                            <span className="block font-bold text-xs sm:text-sm text-[#111827] leading-snug truncate max-w-xs sm:max-w-md">
                               {v.fullName}
                             </span>
-                            <div className="flex items-center gap-2 text-slate-500 text-[11px] mt-0.5 whitespace-nowrap">
+                            <div className="flex items-center gap-2 text-[#6B7280] text-[11px] mt-0.5 whitespace-nowrap">
                               <span className="inline-flex items-center gap-1 truncate max-w-[180px]">
-                                <Mail className="w-3 h-3 text-slate-400 shrink-0" />
+                                <Mail className="w-3 h-3 text-[#9CA3AF] shrink-0" />
                                 {v.email}
                               </span>
                               <span>•</span>
                               <span className="inline-flex items-center gap-1">
-                                <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                                <Phone className="w-3 h-3 text-[#9CA3AF] shrink-0" />
                                 {v.phone}
                               </span>
                             </div>
@@ -860,22 +845,22 @@ export const AdminVolunteers = () => {
                       </td>
 
                       {/* 2. City / Occupation */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle">
                         <div className="space-y-0.5 min-w-[150px]">
-                          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-                            <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                          <div className="flex items-center gap-1.5 text-xs font-semibold text-[#111827]">
+                            <MapPin className="w-3.5 h-3.5 text-[#14382C] shrink-0" />
                             <span className="truncate max-w-[200px]">{v.city}</span>
                           </div>
-                          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
-                            <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
+                          <div className="flex items-center gap-1.5 text-[11px] text-[#6B7280]">
+                            <Building2 className="w-3 h-3 text-[#9CA3AF] shrink-0" />
                             <span className="truncate max-w-[200px]">{v.occupation || 'N/A'}</span>
                           </div>
                         </div>
                       </td>
 
                       {/* 3. Areas of Interest */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
-                        <span className="text-xs text-slate-600 font-medium">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle">
+                        <span className="text-xs text-[#4B5563] font-medium">
                           {Array.isArray(v.areasOfInterest) && v.areasOfInterest.length > 0
                             ? v.areasOfInterest.join(', ')
                             : 'General Community'}
@@ -883,15 +868,15 @@ export const AdminVolunteers = () => {
                       </td>
 
                       {/* 4. Availability */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-xs font-medium text-slate-700">
-                          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-medium text-[#374151]">
+                          <Calendar className="w-3.5 h-3.5 text-[#14382C]" />
                           <span>{v.availableHoursPerWeek || 'Weekends'}</span>
                         </div>
                       </td>
 
                       {/* 5. Status Badge */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
                         {v.status === 'pending' && (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200/90 text-[10px] font-extrabold uppercase tracking-wide text-amber-700">
                             <Clock className="w-3 h-3" />
@@ -919,42 +904,39 @@ export const AdminVolunteers = () => {
                       </td>
 
                       {/* 6. Applied Date */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap text-xs font-medium text-slate-600">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap text-xs font-medium text-[#4B5563]">
                         {v.appliedDate || '13 Nov 2026'}
                       </td>
 
                       {/* 7. Actions */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle text-right whitespace-nowrap">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle text-right whitespace-nowrap">
                         <div className="inline-flex items-center gap-2 justify-end">
-                          {/* Bookmark Toggle */}
                           <button
                             type="button"
                             onClick={(e) => toggleBookmark(v._id, e)}
-                            className={`p-1.5 rounded-lg transition cursor-pointer hover:bg-slate-100 ${
+                            className={`p-1.5 rounded-sm transition cursor-pointer hover:bg-[#EAF3EE] ${
                               isBookmarked
-                                ? 'text-emerald-600 fill-emerald-600'
-                                : 'text-emerald-600 hover:text-emerald-700'
+                                ? 'text-[#14382C]'
+                                : 'text-[#9CA3AF] hover:text-[#14382C]'
                             }`}
                             title={isBookmarked ? 'Remove Bookmark' : 'Bookmark Application'}
                           >
-                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-emerald-600' : ''}`} />
+                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-[#14382C]' : ''}`} />
                           </button>
 
-                          {/* Review Button */}
                           <button
                             type="button"
                             onClick={() => setSelectedVolunteer(v)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0F172A] hover:bg-black text-white text-xs font-semibold shadow-xs transition cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white text-xs font-semibold shadow-sm transition cursor-pointer"
                           >
                             <Edit2 className="w-3 h-3" />
                             <span>Review</span>
                           </button>
 
-                          {/* Delete Button */}
                           <button
                             type="button"
                             onClick={() => handleDelete(v._id, v.fullName)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Application"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -970,50 +952,50 @@ export const AdminVolunteers = () => {
         </div>
 
         {/* Table Bottom status footer */}
-        <div className="bg-slate-50/90 border-t border-slate-200/80 px-4 py-2.5 flex items-center justify-between text-xs text-slate-500">
+        <div className="bg-[#F9FAFB] border-t border-[#E5E7EB] px-4 py-3 flex items-center justify-between text-xs text-[#6B7280]">
           <span>
-            Displaying <strong className="text-slate-700">{filteredVolunteers.length}</strong> active applications
+            Displaying <strong className="text-[#111827]">{filteredVolunteers.length}</strong> active applications
           </span>
-          <span className="text-[11px] text-slate-400">
-            RK Foundation Volunteer Orientation CMS • 2026
+          <span className="text-xs text-[#9CA3AF]">
+            RK Foundation Volunteer Orientation CMS
           </span>
         </div>
       </div>
 
       {/* ── Review Application Modal ── */}
       {selectedVolunteer && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl custom-admin-scrollbar">
             {/* Modal Header */}
-            <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-800 border border-slate-200 flex items-center justify-center font-bold text-xs">
+            <div className="flex justify-between items-center pb-3 border-b border-[#F1F5F9]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold text-xs">
                   <UserCheck className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-[#0F172A]">Volunteer Application Profile</h3>
+                <h3 className="text-lg font-sans font-semibold text-[#111827]">Volunteer Application Profile</h3>
               </div>
               <button
                 onClick={() => setSelectedVolunteer(null)}
-                className="text-slate-400 hover:text-slate-700 text-xl font-bold cursor-pointer w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center"
+                className="text-[#9CA3AF] hover:text-[#111827] text-xl font-bold cursor-pointer w-8 h-8 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 flex items-center justify-center"
               >
                 ×
               </button>
             </div>
 
             {/* Profile Info */}
-            <div className="space-y-3 text-xs text-slate-700">
-              <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-start justify-between gap-3">
+            <div className="space-y-3 text-xs sm:text-sm text-[#374151]">
+              <div className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <h4 className="text-sm font-black text-[#0F172A]">{selectedVolunteer.fullName}</h4>
-                  <p className="text-slate-600 flex items-center gap-1.5">
-                    <Mail className="w-3.5 h-3.5 text-slate-400" />
+                  <h4 className="text-sm font-bold text-[#111827]">{selectedVolunteer.fullName}</h4>
+                  <p className="text-[#4B5563] text-xs flex flex-wrap items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5 text-[#9CA3AF]" />
                     <span>{selectedVolunteer.email}</span>
                     <span className="text-slate-300">|</span>
-                    <Phone className="w-3.5 h-3.5 text-slate-400" />
+                    <Phone className="w-3.5 h-3.5 text-[#9CA3AF]" />
                     <span>{selectedVolunteer.phone}</span>
                   </p>
-                  <p className="text-slate-500 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                  <p className="text-[#6B7280] text-xs flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-[#14382C]" />
                     <span>
                       {selectedVolunteer.city}, {selectedVolunteer.state || 'Delhi NCR'}
                     </span>
@@ -1045,33 +1027,33 @@ export const AdminVolunteers = () => {
               </div>
 
               {/* Occupation & Availability Grid */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                  <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm">
+                  <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                     Occupation
                   </span>
-                  <p className="text-slate-800 font-semibold mt-0.5">{selectedVolunteer.occupation || 'N/A'}</p>
+                  <p className="text-[#111827] font-semibold text-xs mt-0.5">{selectedVolunteer.occupation || 'N/A'}</p>
                 </div>
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                  <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+                <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm">
+                  <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                     Availability
                   </span>
-                  <p className="text-emerald-700 font-bold mt-0.5">
+                  <p className="text-[#14382C] font-bold text-xs mt-0.5">
                     {selectedVolunteer.availableHoursPerWeek || 'Weekends'}
                   </p>
                 </div>
               </div>
 
               {/* Areas of Interest */}
-              <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl space-y-1.5">
-                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-1.5">
+                <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                   Areas of Interest
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {(selectedVolunteer.areasOfInterest || ['General Community']).map((interest, idx) => (
                     <span
                       key={idx}
-                      className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium text-[11px]"
+                      className="px-2.5 py-1 rounded-sm bg-white border border-[#E5E7EB] text-[#374151] font-medium text-xs"
                     >
                       {interest}
                     </span>
@@ -1080,29 +1062,29 @@ export const AdminVolunteers = () => {
               </div>
 
               {/* Motivation */}
-              <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-1">
+                <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                   Applicant Motivation
                 </span>
-                <p className="text-slate-700 leading-relaxed italic">
+                <p className="text-[#374151] text-xs leading-relaxed italic">
                   "{selectedVolunteer.motivation || 'Committed to humanitarian and community support.'}"
                 </p>
               </div>
 
               {/* Previous Experience */}
               {selectedVolunteer.previousExperience && (
-                <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                  <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+                <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-1">
+                  <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                     Prior Experience
                   </span>
-                  <p className="text-slate-700 leading-relaxed">{selectedVolunteer.previousExperience}</p>
+                  <p className="text-[#374151] text-xs leading-relaxed">{selectedVolunteer.previousExperience}</p>
                 </div>
               )}
 
               {/* Coordinator Notes */}
-              <div className="pt-2">
-                <label className="block text-slate-700 font-bold mb-1">
-                  Coordinator Notes & Onboarding Log:
+              <div className="pt-1">
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">
+                  Coordinator Notes & Onboarding Log
                 </label>
                 <input
                   type="text"
@@ -1113,26 +1095,26 @@ export const AdminVolunteers = () => {
                     setSelectedVolunteer((prev) => ({ ...prev, adminNotes: notes }));
                   }}
                   onBlur={(e) => handleStatusChange(selectedVolunteer._id, selectedVolunteer.status, e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-slate-400/20 focus:border-slate-400"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C]"
                 />
               </div>
             </div>
 
             {/* Modal Actions */}
-            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 justify-end">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-[#F1F5F9] justify-end">
               <button
                 type="button"
                 onClick={() => handleStatusChange(selectedVolunteer._id, 'approved', selectedVolunteer.adminNotes)}
-                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-xs transition cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-sm bg-[#14382C] text-white font-bold text-xs hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer inline-flex items-center gap-1.5"
               >
-                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <Check className="w-3.5 h-3.5 stroke-[3] text-[#F2D869]" />
                 <span>Approve Application</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleStatusChange(selectedVolunteer._id, 'contacted', selectedVolunteer.adminNotes)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-white font-bold text-xs hover:bg-black transition cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/20 font-bold text-xs hover:bg-[#E4EFEA] transition cursor-pointer inline-flex items-center gap-1.5"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>Mark Contacted</span>
@@ -1141,7 +1123,7 @@ export const AdminVolunteers = () => {
               <button
                 type="button"
                 onClick={() => handleStatusChange(selectedVolunteer._id, 'rejected', selectedVolunteer.adminNotes)}
-                className="px-4 py-2 rounded-xl bg-rose-50 text-rose-700 font-bold text-xs hover:bg-rose-100 border border-rose-200 transition cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-sm bg-rose-50 text-rose-700 font-bold text-xs hover:bg-rose-100 border border-rose-200 transition cursor-pointer inline-flex items-center gap-1.5"
               >
                 <X className="w-3.5 h-3.5" />
                 <span>Reject</span>
@@ -1150,7 +1132,7 @@ export const AdminVolunteers = () => {
               <button
                 type="button"
                 onClick={() => setSelectedVolunteer(null)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold text-xs hover:bg-slate-200 transition cursor-pointer"
+                className="px-4 py-2 rounded-sm bg-slate-100 text-[#374151] font-semibold text-xs hover:bg-slate-200 transition cursor-pointer"
               >
                 Close
               </button>

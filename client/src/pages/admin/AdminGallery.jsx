@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader, AdminStatCard } from '../../components/admin/AdminUI';
 import {
   Image as ImageIcon,
   Heart,
@@ -11,15 +12,12 @@ import {
   Upload,
   Search,
   ChevronDown,
-  ChevronRight,
-  Filter,
   Eye,
   Trash2,
   Copy,
   Check,
   MapPin,
   ExternalLink,
-  Download,
   Loader2,
   Grid,
   List,
@@ -495,139 +493,103 @@ export const AdminGallery = () => {
   const distinctCategoriesCount = categoriesList.length; // 15 categories matching screenshot
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Page Header (Executive Proportions) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-            Media & Gallery Library
-          </h2>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Central repository for outreach photography. Files are automatically mirrored to the public directory and linked to campaigns or programs.
-          </p>
-        </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Media & Gallery"
+        badge={`${totalAssetsCount} Assets`}
+        title="Media & Gallery Library"
+        subtitle="Central repository for outreach photography. Files are automatically mirrored to the public directory and linked to campaigns or programs."
+        actions={
+          <>
+            <button
+              onClick={fetchGallery}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={fetchGallery}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-          >
-            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
-            <span>Refresh</span>
-          </button>
+            <button
+              onClick={() => setShowUpload(!showUpload)}
+              className="bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs px-4 py-2 rounded-sm shadow-sm transition flex items-center gap-1.5 cursor-pointer active:scale-[0.98]"
+            >
+              {showUpload ? (
+                <>
+                  <X className="w-3.5 h-3.5 text-[#F2D869]" />
+                  <span>Hide Upload</span>
+                </>
+              ) : (
+                <>
+                  <Upload className="w-3.5 h-3.5 text-[#F2D869]" />
+                  <span>Upload Media</span>
+                </>
+              )}
+            </button>
+          </>
+        }
+      />
 
-          <button
-            onClick={() => setShowUpload(!showUpload)}
-            className="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-[11px] px-3 py-1.5 rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer active:scale-[0.98]"
-          >
-            {showUpload ? (
-              <>
-                <X className="w-3.5 h-3.5" />
-                <span>Hide Upload</span>
-              </>
-            ) : (
-              <>
-                <Upload className="w-3.5 h-3.5" />
-                <span>Upload Media</span>
-              </>
-            )}
-          </button>
-        </div>
+      {/* ── 4 KPI Metric Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <AdminStatCard
+          label="Total Media Assets"
+          value={totalAssetsCount}
+          subtext="105.1 MB Stored"
+          icon={ImageIcon}
+          accent="emerald"
+        />
+        <AdminStatCard
+          label="Campaign Linked"
+          value={campaignLinkedCount}
+          subtext="Active Appeals"
+          icon={Heart}
+          accent="rose"
+        />
+        <AdminStatCard
+          label="Program Linked"
+          value={programLinkedCount}
+          subtext="Core Pillars"
+          icon={Folder}
+          accent="blue"
+        />
+        <AdminStatCard
+          label="Field Categories"
+          value={distinctCategoriesCount}
+          subtext="Outreach Tracks"
+          icon={Sparkles}
+          accent="gold"
+        />
       </div>
 
-      {/* ── 4 KPI Metric Cards (Dashboard Compact Hierarchy) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* TOTAL MEDIA ASSETS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              TOTAL MEDIA ASSETS
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {totalAssetsCount} <span className="text-[10.5px] font-normal text-slate-400">(105.1 MB)</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
-            <ImageIcon className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* CAMPAIGN LINKED */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              CAMPAIGN LINKED
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {campaignLinkedCount} <span className="text-[10.5px] font-normal text-slate-400">appeals</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <Heart className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* PROGRAM LINKED */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              PROGRAM LINKED
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {programLinkedCount} <span className="text-[10.5px] font-normal text-slate-400">core pillars</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-            <Folder className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* FIELD CATEGORIES */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex items-center justify-between hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              FIELD CATEGORIES
-            </p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {distinctCategoriesCount} <span className="text-[10.5px] font-normal text-slate-400">tracks</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-            <Sparkles className="w-4 h-4" />
-          </div>
-        </div>
-      </div>
-
-      {/* ── Collapsible Upload Panel (Matches Exact Screenshot Format) ── */}
+      {/* ── Collapsible Upload Panel ── */}
       {showUpload && (
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
-          {/* Header Strip inside Upload Card */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+        <div className="bg-white border border-[#E5E7EB] rounded-sm p-5 sm:p-6 shadow-sm space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#F1F5F9] gap-2">
             <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-md bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
-                <Upload className="w-3.5 h-3.5" />
+              <div className="w-8 h-8 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center shrink-0">
+                <Upload className="w-4 h-4" />
               </div>
               <div className="leading-tight">
-                <span className="font-extrabold text-xs text-slate-900 uppercase tracking-wider">
-                  UPLOAD ACTIVITY PHOTOS TO PUBLIC DIRECTORY
+                <span className="font-bold text-xs text-[#111827] uppercase tracking-wider">
+                  Upload Activity Photos to Public Directory
                 </span>
-                <p className="text-[11px] text-slate-500 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   Select single or multiple photos from local files. They will be stored in{' '}
-                  <code className="bg-slate-100 text-slate-700 font-mono text-[10px] px-1.5 py-0.5 rounded border border-slate-200">
+                  <code className="bg-[#F9FAFB] text-[#14382C] font-mono text-[11px] px-1.5 py-0.5 rounded border border-[#E5E7EB]">
                     /public/uploads
                   </code>{' '}
                   and published to the gallery.
                 </p>
               </div>
             </div>
-            <span className="text-[11px] text-slate-400 font-medium shrink-0">
+            <span className="text-xs text-[#9CA3AF] font-medium shrink-0">
               Multiple JPG, PNG, WEBP • Max 10MB each
             </span>
           </div>
 
           <form onSubmit={handleUploadSubmit} className="space-y-4">
-            {/* 2-Column Upload Form Body */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
               {/* Left Column: Dropzone (5 cols) */}
               <div
@@ -642,10 +604,10 @@ export const AdminGallery = () => {
                   handleFilesSelected(e.dataTransfer.files);
                 }}
                 onClick={() => fileInputRef.current?.click()}
-                className={`lg:col-span-5 border-2 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] transition-all ${
+                className={`lg:col-span-5 border-2 border-dashed rounded-sm p-6 flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] transition-all ${
                   isDragOver
-                    ? 'border-red-400 bg-red-50/50'
-                    : 'border-red-200 bg-red-50/20 hover:bg-red-50/40 hover:border-red-300'
+                    ? 'border-[#14382C] bg-[#EAF3EE]'
+                    : 'border-[#14382C]/25 bg-[#F9FAFB]/70 hover:bg-[#EAF3EE] hover:border-[#14382C]/50'
                 }`}
               >
                 <input
@@ -657,13 +619,13 @@ export const AdminGallery = () => {
                   className="hidden"
                 />
 
-                <div className="w-10 h-10 rounded-xl bg-red-100/70 text-[#DC2626] flex items-center justify-center mb-2.5">
+                <div className="w-11 h-11 rounded-sm bg-white text-[#14382C] border border-[#14382C]/15 shadow-sm flex items-center justify-center mb-3">
                   <Upload className="w-5 h-5" />
                 </div>
-                <p className="text-xs font-bold text-slate-800 mb-0.5">
+                <p className="text-xs font-bold text-[#111827] mb-1">
                   Click to choose or drag multiple photos here
                 </p>
-                <p className="text-[11px] text-slate-400 mb-3">
+                <p className="text-[11px] text-[#6B7280] mb-3">
                   Supports single or batch upload (JPG, PNG, WEBP, GIF up to 10MB each)
                 </p>
                 <button
@@ -672,7 +634,7 @@ export const AdminGallery = () => {
                     e.stopPropagation();
                     fileInputRef.current?.click();
                   }}
-                  className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-xs shadow-2xs hover:bg-slate-50 transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-white border border-[#E5E7EB] text-[#14382C] font-semibold text-xs shadow-sm hover:bg-[#EAF3EE] transition cursor-pointer"
                 >
                   Browse Files (Multiple Allowed)
                 </button>
@@ -682,7 +644,7 @@ export const AdminGallery = () => {
                     {form.files.map((f, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white border border-slate-200 text-[10px] font-semibold text-slate-700 shadow-2xs"
+                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-white border border-[#E5E7EB] text-[11px] font-semibold text-[#111827] shadow-sm"
                       >
                         <span className="truncate max-w-[120px]">{f.name}</span>
                         <button
@@ -691,7 +653,7 @@ export const AdminGallery = () => {
                             ev.stopPropagation();
                             handleRemoveFile(idx);
                           }}
-                          className="text-slate-400 hover:text-rose-500"
+                          className="text-[#9CA3AF] hover:text-rose-500"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -703,17 +665,16 @@ export const AdminGallery = () => {
 
               {/* Right Column: Metadata Inputs (7 cols) */}
               <div className="lg:col-span-7 space-y-3 text-xs">
-                {/* Row 1: Category & Photo Title */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-[#374151] mb-1.5">
                       Activity Track / Category *
                     </label>
                     <div className="relative">
                       <select
                         value={form.category}
                         onChange={(e) => setForm({ ...form, category: e.target.value })}
-                        className="w-full appearance-none px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold focus:outline-none focus:border-red-400 transition cursor-pointer pr-8"
+                        className="w-full appearance-none px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition cursor-pointer pr-8"
                       >
                         {categoriesList.map((cat) => (
                           <option key={cat} value={cat}>
@@ -721,12 +682,12 @@ export const AdminGallery = () => {
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-[#374151] mb-1.5">
                       Photo Title / Alt Text *
                     </label>
                     <input
@@ -734,23 +695,22 @@ export const AdminGallery = () => {
                       value={form.title}
                       onChange={(e) => setForm({ ...form, title: e.target.value })}
                       placeholder="e.g. Free Ration & Blanket Drive in Nand Nagri"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                     />
                   </div>
                 </div>
 
-                {/* Row 2: Link Campaign, Link Program, Field Location */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1 flex items-center gap-1">
-                      <Heart className="w-3 h-3 text-red-500" />
+                    <label className="block font-bold text-[#374151] mb-1.5 flex items-center gap-1">
+                      <Heart className="w-3 h-3 text-rose-500" />
                       <span>Link Campaign (Opt)</span>
                     </label>
                     <div className="relative">
                       <select
                         value={form.campaign}
                         onChange={(e) => setForm({ ...form, campaign: e.target.value })}
-                        className="w-full appearance-none px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-red-400 transition cursor-pointer pr-7"
+                        className="w-full appearance-none px-3 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition cursor-pointer pr-7"
                       >
                         <option value="">-- No Campaign --</option>
                         <option value="Elderly Winter Relief & Nutritional Care">Elderly Winter Relief</option>
@@ -758,20 +718,20 @@ export const AdminGallery = () => {
                         <option value="Underprivileged Children Education 2026">Children Education 2026</option>
                         <option value="Emergency Infant NICU Relief Appeal">NICU Emergency Care</option>
                       </select>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1 flex items-center gap-1">
-                      <Folder className="w-3 h-3 text-blue-500" />
+                    <label className="block font-bold text-[#374151] mb-1.5 flex items-center gap-1">
+                      <Folder className="w-3 h-3 text-sky-600" />
                       <span>Link Program (Opt)</span>
                     </label>
                     <div className="relative">
                       <select
                         value={form.program}
                         onChange={(e) => setForm({ ...form, program: e.target.value })}
-                        className="w-full appearance-none px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-red-400 transition cursor-pointer pr-7"
+                        className="w-full appearance-none px-3 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition cursor-pointer pr-7"
                       >
                         <option value="">-- No Program --</option>
                         <option value="Dalit Upliftment & Rights Advocacy">Dalit Upliftment & Rights</option>
@@ -780,13 +740,13 @@ export const AdminGallery = () => {
                         <option value="Hunger Alleviation & Food Distribution">Hunger Alleviation</option>
                         <option value="Women Skill Centers & Vocational Stems">Women Vocational</option>
                       </select>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1 flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-emerald-500" />
+                    <label className="block font-bold text-[#374151] mb-1.5 flex items-center gap-1">
+                      <MapPin className="w-3 h-3 text-[#14382C]" />
                       <span>Field Location</span>
                     </label>
                     <input
@@ -794,14 +754,13 @@ export const AdminGallery = () => {
                       value={form.location}
                       onChange={(e) => setForm({ ...form, location: e.target.value })}
                       placeholder="e.g. Nand Nagri, Seemapuri"
-                      className="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                      className="w-full px-3 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                     />
                   </div>
                 </div>
 
-                {/* Row 3: Caption / Story Description */}
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-bold text-[#374151] mb-1.5">
                     Caption / Story Description (Optional)
                   </label>
                   <input
@@ -809,18 +768,17 @@ export const AdminGallery = () => {
                     value={form.caption}
                     onChange={(e) => setForm({ ...form, caption: e.target.value })}
                     placeholder="e.g. Distributed hot nutritious meals and winter jackets to 200+ vulnerable children and mothers."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Bottom Form Actions Strip matching screenshot */}
-            <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+            <div className="flex items-center justify-between pt-3 border-t border-[#F1F5F9]">
               <button
                 type="button"
                 onClick={handleClearForm}
-                className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition cursor-pointer"
+                className="text-xs font-semibold text-[#6B7280] hover:text-[#111827] transition cursor-pointer"
               >
                 Clear Form
               </button>
@@ -828,12 +786,12 @@ export const AdminGallery = () => {
               <button
                 type="submit"
                 disabled={uploading}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-bold text-xs text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer disabled:opacity-60"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-sm font-bold text-xs text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer disabled:opacity-60"
               >
                 {uploading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin text-[#F2D869]" />
                 ) : (
-                  <Upload className="w-4 h-4" />
+                  <Upload className="w-4 h-4 text-[#F2D869]" />
                 )}
                 <span>{uploading ? 'Uploading...' : 'Upload & Publish to Gallery'}</span>
               </button>
@@ -845,13 +803,13 @@ export const AdminGallery = () => {
       {/* ── Search & Filter Controls Bar ── */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search media by title, category, location, or caption..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#111827] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </div>
 
@@ -859,7 +817,7 @@ export const AdminGallery = () => {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3.5 pr-9 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-xs cursor-pointer transition min-w-[180px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[190px]"
           >
             <option value="">All Categories ({categoriesList.length})</option>
             {categoriesList.map((c) => (
@@ -868,15 +826,15 @@ export const AdminGallery = () => {
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         {/* View mode toggle */}
-        <div className="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-xs">
+        <div className="flex items-center bg-white border border-[#E5E7EB] rounded-sm p-1 shadow-sm">
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg transition cursor-pointer ${
-              viewMode === 'grid' ? 'bg-slate-100 text-slate-900' : 'text-slate-400 hover:text-slate-700'
+            className={`p-1.5 rounded-sm transition cursor-pointer ${
+              viewMode === 'grid' ? 'bg-[#14382C] text-white' : 'text-[#9CA3AF] hover:text-[#14382C]'
             }`}
             title="Grid View"
           >
@@ -884,8 +842,8 @@ export const AdminGallery = () => {
           </button>
           <button
             onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded-lg transition cursor-pointer ${
-              viewMode === 'list' ? 'bg-slate-100 text-slate-900' : 'text-slate-400 hover:text-slate-700'
+            className={`p-1.5 rounded-sm transition cursor-pointer ${
+              viewMode === 'list' ? 'bg-[#14382C] text-white' : 'text-[#9CA3AF] hover:text-[#14382C]'
             }`}
             title="List View"
           >
@@ -896,7 +854,7 @@ export const AdminGallery = () => {
         {items.some((i) => i.imageUrl?.includes('photo-1593113598332-cd288d649433')) && (
           <button
             onClick={handleRemoveRepeatedPlaceholder}
-            className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold inline-flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+            className="px-3 py-2 rounded-sm bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold inline-flex items-center gap-1.5 transition cursor-pointer shadow-sm"
             title="Remove all items with repeated placeholder image"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -912,10 +870,9 @@ export const AdminGallery = () => {
             <div
               key={item._id}
               onClick={() => setInspectItem(item)}
-              className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between cursor-pointer"
+              className="bg-white border border-[#E5E7EB] hover:border-[#14382C]/35 rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col justify-between cursor-pointer"
             >
-              {/* Image Frame */}
-              <div className="relative aspect-video bg-slate-100 overflow-hidden">
+              <div className="relative aspect-video bg-[#F9FAFB] overflow-hidden">
                 <img
                   src={item.imageUrl}
                   alt={item.title}
@@ -925,7 +882,7 @@ export const AdminGallery = () => {
                     e.target.src = getCategoryFallbackImage(item.category);
                   }}
                 />
-                <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-black/60 backdrop-blur-xs text-white">
+                <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#0E241C]/80 backdrop-blur-sm text-white">
                   {item.category?.split('&')[0]}
                 </span>
 
@@ -933,15 +890,15 @@ export const AdminGallery = () => {
                   <button
                     type="button"
                     onClick={(e) => handleCopyUrl(item.imageUrl, item._id, e)}
-                    className="p-1.5 rounded-lg bg-black/60 text-white hover:bg-black/90 transition shadow-xs"
+                    className="p-1.5 rounded-sm bg-[#0E241C]/75 text-white hover:bg-[#14382C] transition shadow-sm"
                     title="Copy Photo URL"
                   >
-                    {copiedId === item._id ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedId === item._id ? <Check className="w-3.5 h-3.5 text-[#F2D869]" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                   <button
                     type="button"
                     onClick={(e) => handleDeleteItem(item._id, e)}
-                    className="p-1.5 rounded-lg bg-black/60 text-white hover:bg-rose-600 transition shadow-xs"
+                    className="p-1.5 rounded-sm bg-[#0E241C]/75 text-white hover:bg-rose-600 transition shadow-sm"
                     title="Delete Photo"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -949,24 +906,23 @@ export const AdminGallery = () => {
                 </div>
               </div>
 
-              {/* Photo Card Body */}
               <div className="p-3.5 space-y-1.5">
-                <h4 className="font-bold text-slate-900 text-xs line-clamp-1">
+                <h4 className="font-bold text-[#111827] text-xs sm:text-sm line-clamp-1">
                   {item.title}
                 </h4>
                 {item.location && (
-                  <p className="text-[11px] text-slate-400 flex items-center gap-1 truncate">
-                    <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                  <p className="text-xs text-[#6B7280] flex items-center gap-1 truncate">
+                    <MapPin className="w-3 h-3 text-[#14382C] shrink-0" />
                     <span>{item.location}</span>
                   </p>
                 )}
                 {item.caption && (
-                  <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-[#6B7280] line-clamp-2 leading-relaxed">
                     {item.caption}
                   </p>
                 )}
 
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+                <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-[11px] text-[#9CA3AF]">
                   <span>{item.fileSize || '1.2 MB'}</span>
                   <span>{item.createdAt || 'Recent'}</span>
                 </div>
@@ -975,41 +931,41 @@ export const AdminGallery = () => {
           ))}
         </div>
       ) : (
-        /* List / Table View with Sticky Card Container */
-        <div className="bg-white border border-slate-200/90 rounded-2xl shadow-sm w-full sticky top-[64px] z-10 flex flex-col max-h-[calc(100vh-84px)]">
-          <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-t-2xl">
+        /* List / Table View */
+        <div className="bg-white border border-[#E5E7EB] rounded-sm shadow-sm w-full flex flex-col max-h-[calc(100vh-220px)]">
+          <div className="w-full overflow-x-auto overflow-y-auto flex-1 custom-admin-scrollbar rounded-sm">
             <table className="w-full text-left text-xs min-w-[800px] border-separate border-spacing-0">
-              <thead className="sticky top-0 z-20 shadow-xs">
+              <thead className="sticky top-0 z-20 bg-[#F9FAFB]">
                 <tr>
-                  <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider rounded-tl-2xl">
-                    MEDIA ASSET
+                  <th className="sticky top-0 z-20 bg-[#F9FAFB] border-b border-[#E5E7EB] px-5 py-3 text-[11.5px] font-medium text-[#6B7280] rounded-tl-sm">
+                    Media Asset
                   </th>
-                  <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    CATEGORY
+                  <th className="sticky top-0 z-20 bg-[#F9FAFB] border-b border-[#E5E7EB] px-5 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                    Category
                   </th>
-                  <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    LINKED ENTITY
+                  <th className="sticky top-0 z-20 bg-[#F9FAFB] border-b border-[#E5E7EB] px-5 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                    Linked Entity
                   </th>
-                  <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    LOCATION
+                  <th className="sticky top-0 z-20 bg-[#F9FAFB] border-b border-[#E5E7EB] px-5 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                    Location
                   </th>
-                  <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    FILE SIZE
+                  <th className="sticky top-0 z-20 bg-[#F9FAFB] border-b border-[#E5E7EB] px-5 py-3 text-[11.5px] font-medium text-[#6B7280]">
+                    File Size
                   </th>
-                  <th className="sticky top-0 z-20 bg-slate-50 border-b border-slate-200/90 px-5 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right rounded-tr-2xl">
-                    ACTIONS
+                  <th className="sticky top-0 z-20 bg-[#F9FAFB] border-b border-[#E5E7EB] px-5 py-3 text-[11.5px] font-medium text-[#6B7280] text-right rounded-tr-sm">
+                    Actions
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((item) => (
-                  <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="px-5 py-3 border-b border-slate-100 max-w-xs">
+                  <tr key={item._id} className="hover:bg-[#F9FAFB]/70 transition-colors">
+                    <td className="px-5 py-3 border-b border-[#F1F5F9] max-w-xs">
                       <div className="flex items-center gap-3">
                         <img
                           src={item.imageUrl}
                           alt={item.title}
-                          className="w-14 h-10 object-cover rounded-lg border border-slate-200 shrink-0 cursor-pointer"
+                          className="w-14 h-10 object-cover rounded-sm border border-[#E5E7EB] shrink-0 cursor-pointer"
                           onClick={() => setInspectItem(item)}
                           onError={(e) => {
                             e.target.onerror = null;
@@ -1017,38 +973,38 @@ export const AdminGallery = () => {
                           }}
                         />
                         <div className="min-w-0">
-                          <p className="font-bold text-slate-900 text-xs truncate">{item.title}</p>
-                          <p className="text-[11px] text-slate-400 font-mono truncate">{item.dimensions || '1920x1080'}</p>
+                          <p className="font-bold text-[#111827] text-xs truncate">{item.title}</p>
+                          <p className="text-[11px] text-[#9CA3AF] font-mono truncate">{item.dimensions || '1920x1080'}</p>
                         </div>
                       </div>
                     </td>
 
-                    <td className="px-5 py-3 border-b border-slate-100 whitespace-nowrap">
-                      <span className="bg-slate-100 text-slate-700 px-2.5 py-1 text-[11px] font-semibold rounded-lg inline-block">
+                    <td className="px-5 py-3 border-b border-[#F1F5F9] whitespace-nowrap">
+                      <span className="bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 px-2.5 py-1 text-[11px] font-semibold rounded-sm inline-block">
                         {item.category}
                       </span>
                     </td>
 
-                    <td className="px-5 py-3 border-b border-slate-100 whitespace-nowrap">
-                      <p className="text-xs font-semibold text-slate-800">
+                    <td className="px-5 py-3 border-b border-[#F1F5F9] whitespace-nowrap">
+                      <p className="text-xs font-semibold text-[#111827]">
                         {item.campaign || item.program || 'General Library'}
                       </p>
                     </td>
 
-                    <td className="px-5 py-3 border-b border-slate-100 whitespace-nowrap text-xs text-slate-600">
+                    <td className="px-5 py-3 border-b border-[#F1F5F9] whitespace-nowrap text-xs text-[#4B5563]">
                       {item.location || 'Delhi-NCR'}
                     </td>
 
-                    <td className="px-5 py-3 border-b border-slate-100 whitespace-nowrap text-xs text-slate-500 font-mono">
+                    <td className="px-5 py-3 border-b border-[#F1F5F9] whitespace-nowrap text-xs text-[#6B7280] font-mono">
                       {item.fileSize || '1.2 MB'}
                     </td>
 
-                    <td className="px-5 py-3 border-b border-slate-100 text-right whitespace-nowrap">
+                    <td className="px-5 py-3 border-b border-[#F1F5F9] text-right whitespace-nowrap">
                       <div className="inline-flex items-center gap-1">
                         <button
                           type="button"
                           onClick={(e) => handleCopyUrl(item.imageUrl, item._id, e)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                          className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                           title="Copy Link"
                         >
                           {copiedId === item._id ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1056,7 +1012,7 @@ export const AdminGallery = () => {
                         <button
                           type="button"
                           onClick={() => setInspectItem(item)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition"
+                          className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                           title="Inspect Photo"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -1064,7 +1020,7 @@ export const AdminGallery = () => {
                         <button
                           type="button"
                           onClick={(e) => handleDeleteItem(item._id, e)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
+                          className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                           title="Delete Photo"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -1082,47 +1038,47 @@ export const AdminGallery = () => {
       {/* ── Photo Lightbox / Inspect Modal ── */}
       {inspectItem && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#0E241C]/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setInspectItem(null)}
         >
           <div
-            className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
+            className="bg-white rounded-sm max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-[#E5E7EB]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+            <div className="px-5 py-4 border-b border-[#F1F5F9] flex items-center justify-between bg-[#F9FAFB]">
               <div className="min-w-0">
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-800 text-white">
+                <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#14382C] text-white">
                   {inspectItem.category}
                 </span>
-                <h3 className="font-bold text-slate-900 text-sm sm:text-base mt-1 truncate">
+                <h3 className="font-sans font-semibold text-[#111827] text-base sm:text-lg mt-1 truncate">
                   {inspectItem.title}
                 </h3>
               </div>
               <button
                 onClick={() => setInspectItem(null)}
-                className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-700 shadow-xs cursor-pointer"
+                className="w-8 h-8 rounded-sm bg-white border border-[#E5E7EB] flex items-center justify-center text-[#6B7280] hover:text-[#111827] shadow-sm cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="p-4 bg-slate-950 flex items-center justify-center overflow-hidden max-h-[60vh]">
+            <div className="p-4 bg-[#0E241C] flex items-center justify-center overflow-hidden max-h-[60vh]">
               <img
                 src={inspectItem.imageUrl}
                 alt={inspectItem.title}
-                className="max-h-[58vh] w-auto object-contain rounded-lg"
+                className="max-h-[58vh] w-auto object-contain rounded-sm"
               />
             </div>
 
             <div className="p-4 sm:p-5 bg-white space-y-3">
               {inspectItem.caption && (
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#374151] leading-relaxed">
                   {inspectItem.caption}
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100 text-xs">
-                <div className="flex items-center gap-3 text-slate-500 text-[11px]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#F1F5F9] text-xs">
+                <div className="flex items-center gap-3 text-[#6B7280]">
                   <span>{inspectItem.fileSize || '1.2 MB'}</span>
                   <span>•</span>
                   <span>{inspectItem.dimensions || '1920x1080'}</span>
@@ -1134,7 +1090,7 @@ export const AdminGallery = () => {
                   <button
                     type="button"
                     onClick={(e) => handleDeleteItem(inspectItem._id, e)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold border border-rose-200 transition cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold border border-rose-200 transition cursor-pointer"
                     title="Delete Photo"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -1143,7 +1099,7 @@ export const AdminGallery = () => {
 
                   <button
                     onClick={(e) => handleCopyUrl(inspectItem.imageUrl, inspectItem._id, e)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 transition cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-[#E5E7EB] text-[#374151] font-semibold hover:bg-[#F9FAFB] transition cursor-pointer"
                   >
                     {copiedId === inspectItem._id ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>Copy URL</span>
@@ -1153,9 +1109,9 @@ export const AdminGallery = () => {
                     href={inspectItem.imageUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#DC2626] text-white font-semibold hover:bg-red-700 transition"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-semibold transition"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ExternalLink className="w-3.5 h-3.5 text-[#F2D869]" />
                     <span>Open High-Res</span>
                   </a>
                 </div>

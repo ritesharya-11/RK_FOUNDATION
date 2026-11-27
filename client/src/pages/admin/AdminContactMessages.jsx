@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader } from '../../components/admin/AdminUI';
 import {
   Search,
   Download,
@@ -10,15 +11,10 @@ import {
   CheckCircle2,
   FolderOpen,
   Trash2,
-  X,
   ChevronDown,
-  ChevronRight,
   Bookmark,
   Edit2,
   Phone,
-  Send,
-  MessageSquare,
-  User,
   Check,
 } from 'lucide-react';
 
@@ -475,62 +471,54 @@ export const AdminContactMessages = () => {
   }, [messages, statusFilter, search, sortBy]);
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Page Header (Executive Proportions) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">
-              Inquiries Inbox
-            </h1>
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-50 text-red-600 border border-red-100">
-              {totalCount} Total
-            </span>
-          </div>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Review community questions, partnership requests, and public inquiries submitted via contact forms.
-          </p>
-        </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Contact Messages"
+        badge={`${totalCount} Total Inquiries`}
+        title="Inquiries Inbox"
+        subtitle="Review community questions, institutional partnership requests, and public inquiries submitted via contact forms."
+        actions={
+          <>
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#14382C] bg-[#EAF3EE] hover:bg-[#E4EFEA] border border-[#14382C]/20 shadow-sm transition cursor-pointer"
+              title="Export CSV"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
-            title="Export CSV"
-          >
-            <Download className="w-3.5 h-3.5 text-slate-500" />
-            <span>Export CSV</span>
-          </button>
+            <button
+              onClick={() => fetchMessages(true)}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+              title="Refresh Inquiries"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
+          </>
+        }
+      />
 
-          <button
-            onClick={() => fetchMessages(true)}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-            title="Refresh Inquiries"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
-            <span>Refresh</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ── Status Tabs Row (Matches screenshot pills) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+      {/* ── Status Tabs Row ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           {/* All Inquiries */}
           <button
             onClick={() => setStatusFilter('All')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'All'
-                ? 'bg-[#DC2626] text-white shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <Mail className="w-3.5 h-3.5" />
             <span>All Inquiries</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'All' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'All' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {totalCount}
@@ -540,17 +528,17 @@ export const AdminContactMessages = () => {
           {/* New */}
           <button
             onClick={() => setStatusFilter('new')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'new'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
             <span>New</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'new' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'new' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {newCount}
@@ -560,17 +548,17 @@ export const AdminContactMessages = () => {
           {/* In Review */}
           <button
             onClick={() => setStatusFilter('in_review')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'in_review'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <FolderOpen className="w-3.5 h-3.5" />
             <span>In Review</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'in_review' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'in_review' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {inReviewCount}
@@ -580,17 +568,17 @@ export const AdminContactMessages = () => {
           {/* Resolved */}
           <button
             onClick={() => setStatusFilter('resolved')}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs transition cursor-pointer select-none ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-semibold transition cursor-pointer select-none ${
               statusFilter === 'resolved'
-                ? 'bg-[#DC2626] text-white font-bold shadow-xs'
-                : 'bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold'
+                ? 'bg-[#14382C] text-white shadow-sm'
+                : 'bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] text-[#374151]'
             }`}
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Resolved</span>
             <span
-              className={`px-1.5 py-0.2 rounded text-[11px] font-bold ${
-                statusFilter === 'resolved' ? 'bg-red-700/80 text-white' : 'bg-slate-100 text-slate-600'
+              className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
+                statusFilter === 'resolved' ? 'bg-white/15 text-[#F2D869]' : 'bg-[#EAF3EE] text-[#14382C]'
               }`}
             >
               {resolvedCount}
@@ -598,27 +586,27 @@ export const AdminContactMessages = () => {
           </button>
         </div>
 
-        <div className="text-xs text-slate-500 font-medium">
-          Showing <span className="font-bold text-slate-700">{filteredMessages.length}</span> of{' '}
-          <span className="font-bold text-slate-700">{totalCount}</span> messages
+        <div className="text-xs text-[#6B7280] font-medium">
+          Showing <span className="font-bold text-[#111827]">{filteredMessages.length}</span> of{' '}
+          <span className="font-bold text-[#111827]">{totalCount}</span> messages
         </div>
       </div>
 
       {/* ── Search & Sort Row ── */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by sender name, email, phone, subject, or message..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-xs"
+            className="w-full pl-10 pr-4 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-slate-800 text-xs sm:text-sm placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#4B5563] text-xs cursor-pointer"
             >
               ✕
             </button>
@@ -626,46 +614,46 @@ export const AdminContactMessages = () => {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs text-slate-400 font-semibold">Sort:</span>
+          <span className="text-xs text-[#6B7280] font-semibold">Sort:</span>
           <div className="relative">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none pl-3.5 pr-8 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-xs cursor-pointer"
+              className="appearance-none pl-3.5 pr-9 py-2.5 rounded-sm bg-white border border-[#E5E7EB] text-[#374151] text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer"
             >
               <option value="Newest Received">Newest Received</option>
               <option value="Oldest Received">Oldest Received</option>
               <option value="Sender (A - Z)">Sender (A - Z)</option>
               <option value="Sender (Z - A)">Sender (Z - A)</option>
             </select>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
       </div>
 
-      {/* ── Table Card (Dashboard Compact Hierarchy) ── */}
-      <div className="flex flex-col bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* ── Table Card ── */}
+      <div className="flex flex-col bg-white border border-[#E5E7EB] rounded-sm shadow-sm overflow-hidden">
+        <div className="overflow-x-auto custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[850px]">
-            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs select-none">
+            <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB] select-none">
               <tr>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  SENDER
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Sender
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  SUBJECT
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Subject
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  MESSAGE CONTENT
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Message Content
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  STATUS
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Status
                 </th>
-                <th className="px-3.5 py-2.5 text-left font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  RECEIVED DATE
+                <th className="px-4 py-3 text-left font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Received Date
                 </th>
-                <th className="px-3.5 py-2.5 text-right font-bold text-[10px] uppercase tracking-wider text-slate-500 whitespace-nowrap">
-                  ACTIONS
+                <th className="px-4 py-3 text-right font-medium text-[11.5px] text-[#6B7280] whitespace-nowrap">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -673,10 +661,10 @@ export const AdminContactMessages = () => {
             <tbody className="divide-y divide-slate-100 bg-white">
               {filteredMessages.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={6} className="px-6 py-12 text-center text-[#9CA3AF]">
                     <Mail className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                    <p className="font-semibold text-sm text-slate-700">No contact messages found</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Try clearing your search query or filters</p>
+                    <p className="font-semibold text-sm text-[#374151]">No contact messages found</p>
+                    <p className="text-xs text-[#9CA3AF] mt-0.5">Try clearing your search query or filters</p>
                   </td>
                 </tr>
               ) : (
@@ -685,27 +673,27 @@ export const AdminContactMessages = () => {
                   const isBookmarked = bookmarkedIds.includes(m._id);
 
                   return (
-                    <tr key={m._id} className="hover:bg-slate-50/70 transition-colors group">
+                    <tr key={m._id} className="hover:bg-[#F9FAFB]/70 transition-colors group">
                       {/* 1. Sender Profile */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 font-bold text-xs flex items-center justify-center shrink-0 border border-red-100 shadow-2xs">
+                          <div className="w-9 h-9 rounded-full bg-[#EAF3EE] text-[#14382C] font-bold text-xs flex items-center justify-center shrink-0 border border-[#14382C]/15 shadow-sm">
                             {initialLetter}
                           </div>
                           <div className="min-w-0">
-                            <span className="block font-bold text-xs sm:text-sm text-slate-900 leading-snug truncate max-w-xs sm:max-w-md">
+                            <span className="block font-bold text-xs sm:text-sm text-[#111827] leading-snug truncate max-w-xs sm:max-w-md">
                               {m.name}
                             </span>
-                            <div className="flex items-center gap-2 text-slate-500 text-[11px] mt-0.5 whitespace-nowrap">
+                            <div className="flex items-center gap-2 text-[#6B7280] text-[11px] mt-0.5 whitespace-nowrap">
                               <span className="inline-flex items-center gap-1 truncate max-w-[180px]">
-                                <Mail className="w-3 h-3 text-slate-400 shrink-0" />
+                                <Mail className="w-3 h-3 text-[#9CA3AF] shrink-0" />
                                 {m.email}
                               </span>
                               {m.phone && (
                                 <>
                                   <span>•</span>
                                   <span className="inline-flex items-center gap-1">
-                                    <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                                    <Phone className="w-3 h-3 text-[#9CA3AF] shrink-0" />
                                     {m.phone}
                                   </span>
                                 </>
@@ -716,21 +704,21 @@ export const AdminContactMessages = () => {
                       </td>
 
                       {/* 2. Subject */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle">
-                        <span className="inline-block px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-xs font-medium text-slate-700 max-w-[200px] truncate">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle">
+                        <span className="inline-block px-2.5 py-1 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-xs font-medium text-[#374151] max-w-[200px] truncate">
                           {m.subject || 'General Inquiry'}
                         </span>
                       </td>
 
                       {/* 3. Message Content */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle max-w-xs">
-                        <p className="text-xs text-slate-600 font-medium truncate max-w-[240px]">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle max-w-xs">
+                        <p className="text-xs text-[#4B5563] font-medium truncate max-w-[240px]">
                           {m.message || 'No message content.'}
                         </p>
                       </td>
 
                       {/* 4. Status Badge */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap">
                         {(m.status === 'new' || m.status === 'unread') && (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200/90 text-[10px] font-extrabold uppercase tracking-wide text-amber-700">
                             <Clock className="w-3 h-3" />
@@ -752,42 +740,39 @@ export const AdminContactMessages = () => {
                       </td>
 
                       {/* 5. Received Date */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle whitespace-nowrap text-xs font-medium text-slate-600">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle whitespace-nowrap text-xs font-medium text-[#4B5563]">
                         {m.receivedDate || '13 Nov 2026'}
                       </td>
 
                       {/* 6. Actions */}
-                      <td className="px-4 py-3.5 border-b border-slate-100/90 align-middle text-right whitespace-nowrap">
+                      <td className="px-4 py-3.5 border-b border-[#F1F5F9]/90 align-middle text-right whitespace-nowrap">
                         <div className="inline-flex items-center gap-2 justify-end">
-                          {/* Bookmark Toggle */}
                           <button
                             type="button"
                             onClick={(e) => toggleBookmark(m._id, e)}
-                            className={`p-1.5 rounded-lg transition cursor-pointer hover:bg-slate-100 ${
+                            className={`p-1.5 rounded-sm transition cursor-pointer hover:bg-[#EAF3EE] ${
                               isBookmarked
-                                ? 'text-emerald-600 fill-emerald-600'
-                                : 'text-emerald-600 hover:text-emerald-700'
+                                ? 'text-[#14382C]'
+                                : 'text-[#9CA3AF] hover:text-[#14382C]'
                             }`}
                             title={isBookmarked ? 'Remove Bookmark' : 'Bookmark Inquiry'}
                           >
-                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-emerald-600' : ''}`} />
+                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-[#14382C]' : ''}`} />
                           </button>
 
-                          {/* Respond Button */}
                           <button
                             type="button"
                             onClick={() => setSelectedMessage(m)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0F172A] hover:bg-black text-white text-xs font-semibold shadow-xs transition cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white text-xs font-semibold shadow-sm transition cursor-pointer"
                           >
                             <Edit2 className="w-3 h-3" />
                             <span>Respond</span>
                           </button>
 
-                          {/* Delete Button */}
                           <button
                             type="button"
                             onClick={() => handleDelete(m._id, m.name)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Message"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -803,54 +788,54 @@ export const AdminContactMessages = () => {
         </div>
 
         {/* Table Bottom status footer */}
-        <div className="bg-slate-50/90 border-t border-slate-200/80 px-4 py-2.5 flex items-center justify-between text-xs text-slate-500">
+        <div className="bg-[#F9FAFB] border-t border-[#E5E7EB] px-4 py-3 flex items-center justify-between text-xs text-[#6B7280]">
           <span>
-            Displaying <strong className="text-slate-700">{filteredMessages.length}</strong> active messages
+            Displaying <strong className="text-[#111827]">{filteredMessages.length}</strong> active messages
           </span>
-          <span className="text-[11px] text-slate-400">
-            RK Foundation Public Communications CMS • 2026
+          <span className="text-xs text-[#9CA3AF]">
+            RK Foundation Public Communications CMS
           </span>
         </div>
       </div>
 
       {/* ── Respond / View Message Modal ── */}
       {selectedMessage && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-sm max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl custom-admin-scrollbar">
             {/* Modal Header */}
-            <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-red-50 text-red-600 border border-red-100 flex items-center justify-center font-bold text-xs">
+            <div className="flex justify-between items-center pb-3 border-b border-[#F1F5F9]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/15 flex items-center justify-center font-bold text-xs">
                   <Mail className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-[#0F172A]">Inquiry Message Details</h3>
+                <h3 className="text-lg font-sans font-semibold text-[#111827]">Inquiry Message Details</h3>
               </div>
               <button
                 onClick={() => setSelectedMessage(null)}
-                className="text-slate-400 hover:text-slate-700 text-xl font-bold cursor-pointer w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center"
+                className="text-[#9CA3AF] hover:text-[#111827] text-xl font-bold cursor-pointer w-8 h-8 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 flex items-center justify-center"
               >
                 ×
               </button>
             </div>
 
             {/* Profile Info */}
-            <div className="space-y-3 text-xs text-slate-700">
-              <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-start justify-between gap-3">
+            <div className="space-y-3 text-xs sm:text-sm text-[#374151]">
+              <div className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <h4 className="text-sm font-black text-[#0F172A]">{selectedMessage.name}</h4>
-                  <p className="text-slate-600 flex items-center gap-1.5">
-                    <Mail className="w-3.5 h-3.5 text-slate-400" />
+                  <h4 className="text-sm font-bold text-[#111827]">{selectedMessage.name}</h4>
+                  <p className="text-[#4B5563] text-xs flex flex-wrap items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5 text-[#9CA3AF]" />
                     <span>{selectedMessage.email}</span>
                     {selectedMessage.phone && (
                       <>
                         <span className="text-slate-300">|</span>
-                        <Phone className="w-3.5 h-3.5 text-slate-400" />
+                        <Phone className="w-3.5 h-3.5 text-[#9CA3AF]" />
                         <span>{selectedMessage.phone}</span>
                       </>
                     )}
                   </p>
-                  <p className="text-slate-500 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  <p className="text-[#6B7280] text-xs flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-[#9CA3AF]" />
                     <span>Received on {selectedMessage.receivedDate || '13 Nov 2026'}</span>
                   </p>
                 </div>
@@ -875,27 +860,27 @@ export const AdminContactMessages = () => {
               </div>
 
               {/* Subject */}
-              <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm">
+                <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                   Subject
                 </span>
-                <p className="text-slate-900 font-bold mt-0.5 text-sm">{selectedMessage.subject}</p>
+                <p className="text-[#111827] font-bold mt-0.5 text-sm">{selectedMessage.subject}</p>
               </div>
 
               {/* Full Message Body */}
-              <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">
+              <div className="p-3.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-sm space-y-1">
+                <span className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-wider block">
                   Message Content
                 </span>
-                <p className="text-slate-800 leading-relaxed whitespace-pre-wrap font-normal">
+                <p className="text-slate-800 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal">
                   {selectedMessage.message}
                 </p>
               </div>
 
               {/* Coordinator Notes / Response Log */}
-              <div className="pt-2">
-                <label className="block text-slate-700 font-bold mb-1">
-                  Coordinator Follow-Up & Response Notes:
+              <div className="pt-1">
+                <label className="block text-xs text-[#374151] font-bold mb-1.5">
+                  Coordinator Follow-Up & Response Notes
                 </label>
                 <textarea
                   rows={3}
@@ -906,26 +891,26 @@ export const AdminContactMessages = () => {
                     setSelectedMessage((prev) => ({ ...prev, adminNotes: notes }));
                   }}
                   onBlur={(e) => handleStatusUpdate(selectedMessage._id, selectedMessage.status, e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] resize-none"
                 />
               </div>
             </div>
 
             {/* Modal Actions */}
-            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 justify-end">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-[#F1F5F9] justify-end">
               <button
                 type="button"
                 onClick={() => handleStatusUpdate(selectedMessage._id, 'resolved', selectedMessage.adminNotes)}
-                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-xs transition cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-sm bg-[#14382C] text-white font-bold text-xs hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer inline-flex items-center gap-1.5"
               >
-                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <Check className="w-3.5 h-3.5 stroke-[3] text-[#F2D869]" />
                 <span>Mark Resolved</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleStatusUpdate(selectedMessage._id, 'in_review', selectedMessage.adminNotes)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-white font-bold text-xs hover:bg-black transition cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-sm bg-[#EAF3EE] text-[#14382C] border border-[#14382C]/20 font-bold text-xs hover:bg-[#E4EFEA] transition cursor-pointer inline-flex items-center gap-1.5"
               >
                 <FolderOpen className="w-3.5 h-3.5" />
                 <span>Mark In Review</span>
@@ -934,7 +919,7 @@ export const AdminContactMessages = () => {
               <button
                 type="button"
                 onClick={() => handleStatusUpdate(selectedMessage._id, 'new', selectedMessage.adminNotes)}
-                className="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 font-bold text-xs hover:bg-amber-100 border border-amber-200 transition cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-sm bg-amber-50 text-amber-700 font-bold text-xs hover:bg-amber-100 border border-amber-200 transition cursor-pointer inline-flex items-center gap-1.5"
               >
                 <Clock className="w-3.5 h-3.5" />
                 <span>Mark New</span>
@@ -943,7 +928,7 @@ export const AdminContactMessages = () => {
               <button
                 type="button"
                 onClick={() => setSelectedMessage(null)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold text-xs hover:bg-slate-200 transition cursor-pointer"
+                className="px-4 py-2 rounded-sm bg-slate-100 text-[#374151] font-semibold text-xs hover:bg-slate-200 transition cursor-pointer"
               >
                 Close
               </button>

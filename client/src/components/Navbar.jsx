@@ -101,13 +101,13 @@ export const Navbar = () => {
       ======================================================== */}
       <div className="w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-2.5 sm:py-3 flex items-center justify-between">
-          {/* Left Brand Area (Logo + Foundation Title) */}
+          {/* Left Brand Area (Logo + Wordmark) */}
           <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-3 group shrink-0">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center p-1.5 shadow-xs group-hover:scale-105 transition-transform">
+            <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                 <img
                   src="/logo-icon.png"
-                  alt="RK Foundation Logo"
+                  alt={settings?.siteName ? `${settings.siteName} Logo` : 'Sahyora Logo'}
                   className="w-full h-full object-contain"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
@@ -115,11 +115,16 @@ export const Navbar = () => {
                 />
               </div>
 
-              <div className="flex flex-col">
-                <span className="font-black text-base sm:text-lg tracking-tight text-[#121316] leading-none group-hover:text-[#121316] transition-colors">
-                  RK FOUNDATION
-                </span>
-                <span className="text-[10px] font-medium text-slate-400 italic tracking-wide mt-0.5">
+              <div className="flex flex-col justify-center">
+                <img
+                  src="/logo-wordmark.png"
+                  alt="SAHYORA"
+                  className="h-4 sm:h-[18px] w-auto object-contain object-left"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                <span className="text-[10px] font-medium text-slate-400 italic tracking-wide mt-0.5 leading-none">
                   A belief in humanity
                 </span>
               </div>

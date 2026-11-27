@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWebsite } from '../../context/WebsiteContext';
 import api from '../../services/api';
+import { AdminPageHeader, AdminStatCard } from '../../components/admin/AdminUI';
 import {
   Plus,
   Edit2,
@@ -220,130 +221,113 @@ export const AdminProjects = () => {
   };
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Page Header (Exact match with Programs CMS scale) ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight">Campaigns</h2>
-          <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-            Manage public fundraising goals and track verified amounts received.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => fetchProjects(true)}
-            disabled={refreshing}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer disabled:opacity-60"
-          >
-            <RefreshCw className={`w-3 h-3 text-slate-500 ${refreshing ? 'animate-spin text-[#DC2626]' : ''}`} />
-            <span>Refresh</span>
-          </button>
-          <button
-            onClick={() => handleOpenModal()}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-[#DC2626] hover:bg-red-700 shadow-xs transition cursor-pointer active:scale-[0.98]"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>New Campaign</span>
-          </button>
-        </div>
+    <div className="space-y-5 w-full min-w-0 font-sans">
+      {/* ── Page Header ── */}
+      <AdminPageHeader
+        breadcrumb="Campaigns"
+        badge={`${activeCount} Active Appeals`}
+        title="Campaigns & Appeals"
+        subtitle="Manage public fundraising goals, verified donation progress, and urgent relief appeals."
+        actions={
+          <>
+            <button
+              onClick={() => fetchProjects(true)}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-[#374151] bg-white hover:bg-[#F9FAFB] border border-[#E5E7EB] shadow-sm transition cursor-pointer disabled:opacity-60"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#6B7280] ${refreshing ? 'animate-spin text-[#14382C]' : ''}`} />
+              <span>Refresh</span>
+            </button>
+            <button
+              onClick={() => handleOpenModal()}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold text-white bg-[#14382C] hover:bg-[#1B4D3E] shadow-sm transition cursor-pointer active:scale-[0.98]"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F2D869]" />
+              <span>New Campaign</span>
+            </button>
+          </>
+        }
+      />
+
+      {/* ── 3 Metric / KPI Summary Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        <AdminStatCard
+          label="Total Target Goals"
+          value={formatINR(totalTarget)}
+          subtext="Combined Funding Goals"
+          icon={Target}
+          accent="gold"
+        />
+        <AdminStatCard
+          label="Verified Raised"
+          value={formatINR(totalRaised)}
+          subtext="Allocated Donor Funds"
+          icon={TrendingUp}
+          accent="emerald"
+        />
+        <AdminStatCard
+          label="Active Campaigns"
+          value={activeCount}
+          subtext={`of ${projects.length} total campaigns`}
+          icon={CheckCircle2}
+          accent="blue"
+        />
       </div>
 
-      {/* ── 3 Metric / KPI Summary Cards (Exact match with Programs CMS scale) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {/* Card 1: TOTAL TARGET GOALS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL TARGET GOALS</p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {formatINR(totalTarget)}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-red-50 text-[#DC2626] flex items-center justify-center shrink-0">
-            <Target className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Card 2: VERIFIED RAISED */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">VERIFIED RAISED</p>
-            <p className="text-lg sm:text-xl font-extrabold text-emerald-600 mt-0.5 tracking-tight">
-              {formatINR(totalRaised)}
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <TrendingUp className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Card 3: ACTIVE CAMPAIGNS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between shadow-xs hover:border-slate-300 transition">
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ACTIVE CAMPAIGNS</p>
-            <p className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5 tracking-tight">
-              {activeCount} <span className="text-[10.5px] font-normal text-slate-400">of {projects.length} total</span>
-            </p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-4 h-4" />
-          </div>
-        </div>
-      </div>
-
-      {/* ── Search & Filter Controls (Exact match with Programs CMS scale) ── */}
+      {/* ── Search & Filter Controls ── */}
       <div className="flex flex-col sm:flex-row gap-2.5">
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search campaigns by title, tagline, or slug..."
-            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-400 shadow-2xs transition"
+            className="w-full bg-white border border-[#E5E7EB] rounded-sm pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#111827] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm transition"
           />
         </div>
         <div className="relative">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 rounded-xl pl-3 pr-8 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-red-400 shadow-2xs cursor-pointer transition min-w-[140px]"
+            className="appearance-none bg-white border border-[#E5E7EB] rounded-sm pl-3.5 pr-9 py-2.5 text-xs text-[#374151] font-semibold focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] shadow-sm cursor-pointer transition min-w-[160px]"
           >
             <option value="all">All Statuses ({projects.length})</option>
             <option value="active">Active ({projects.filter((p) => p.status === 'active').length})</option>
             <option value="completed">Completed ({projects.filter((p) => p.status === 'completed').length})</option>
             <option value="paused">Paused ({projects.filter((p) => p.status === 'paused').length})</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
-      {/* ── Table Layout (Exact match with Programs CMS scale) ── */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
+      {/* ── Table Layout ── */}
+      <div className="bg-white border border-[#E5E7EB] rounded-sm overflow-hidden shadow-sm">
+        <div className="overflow-x-auto custom-admin-scrollbar">
           <table className="w-full text-left text-xs min-w-[780px]">
-            <thead className="bg-slate-50 border-b border-slate-200/90 shadow-2xs select-none">
+            <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB] select-none">
               <tr>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">CAMPAIGN TITLE</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">GOAL TARGET</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">RAISED & PROGRESS</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">DONORS</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">STATUS</th>
-                <th className="px-3.5 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">ACTIONS</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Campaign Title</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Goal Target</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280]">Raised & Progress</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-center">Donors</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-center">Status</th>
+                <th className="px-4 py-3 text-[11.5px] font-medium text-[#6B7280] text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center">
-                    <Loader2 className="w-5 h-5 text-slate-400 animate-spin mx-auto mb-1.5" />
-                    <p className="text-[11px] text-slate-400">Loading campaigns...</p>
+                    <Loader2 className="w-5 h-5 text-[#14382C] animate-spin mx-auto mb-1.5" />
+                    <p className="text-xs text-[#9CA3AF]">Loading campaigns...</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center">
-                    <Target className="w-7 h-7 text-slate-200 mx-auto mb-1.5" />
-                    <p className="text-[11px] text-slate-400">No campaigns found</p>
+                    <Target className="w-7 h-7 text-slate-300 mx-auto mb-1.5" />
+                    <p className="text-xs text-[#9CA3AF]">No campaigns found</p>
                   </td>
                 </tr>
               ) : (
@@ -354,11 +338,10 @@ export const AdminProjects = () => {
                   );
 
                   return (
-                    <tr key={proj._id} className="hover:bg-slate-50/70 transition-colors">
-                      {/* CAMPAIGN TITLE */}
-                      <td className="px-3.5 py-2.5 align-middle">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                    <tr key={proj._id} className="hover:bg-[#F9FAFB]/70 transition-colors">
+                      <td className="px-4 py-3 align-middle">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-sm overflow-hidden bg-[#F9FAFB] border border-[#E5E7EB] shrink-0">
                             {proj.coverImage ? (
                               <img
                                 src={proj.coverImage}
@@ -373,55 +356,51 @@ export const AdminProjects = () => {
                             )}
                           </div>
                           <div className="min-w-0">
-                            <p className="font-bold text-slate-900 text-xs sm:text-[13px] leading-tight truncate max-w-[280px]">
+                            <p className="font-bold text-[#111827] text-xs sm:text-sm leading-tight truncate max-w-[280px]">
                               {proj.title}
                             </p>
-                            <p className="text-[10.5px] text-slate-400 truncate max-w-[280px] mt-0.5">
+                            <p className="text-xs text-[#6B7280] truncate max-w-[280px] mt-0.5">
                               {proj.summary}
                             </p>
                           </div>
                         </div>
                       </td>
 
-                      {/* GOAL TARGET */}
-                      <td className="px-3.5 py-2.5 align-middle font-bold text-slate-900 text-xs sm:text-[13px] whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle font-bold text-[#111827] text-xs sm:text-sm whitespace-nowrap">
                         {formatINR(proj.targetAmount)}
                       </td>
 
-                      {/* RAISED & PROGRESS */}
-                      <td className="px-3.5 py-2.5 align-middle min-w-[150px]">
-                        <div className="space-y-1">
+                      <td className="px-4 py-3 align-middle min-w-[160px]">
+                        <div className="space-y-1.5">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="font-bold text-emerald-600 text-xs">
+                            <span className="font-bold text-[#14382C]">
                               {formatINR(proj.raisedAmount || 0)}
                             </span>
-                            <span className="text-[10px] font-bold text-slate-400">
+                            <span className="text-[11px] font-bold text-[#6B7280]">
                               {percent}%
                             </span>
                           </div>
-                          <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div className="w-full h-2 bg-[#EAF3EE] rounded-full overflow-hidden border border-[#E5E7EB]/70">
                             <div
-                              className="h-full bg-emerald-500 rounded-full transition-all duration-300"
+                              className="h-full bg-[#14382C] rounded-full transition-all duration-300"
                               style={{ width: `${percent}%` }}
                             />
                           </div>
                         </div>
                       </td>
 
-                      {/* DONORS COUNT */}
-                      <td className="px-3.5 py-2.5 align-middle text-center font-bold text-slate-700 text-xs">
+                      <td className="px-4 py-3 align-middle text-center font-bold text-[#111827] text-xs">
                         {proj.donorsCount || 0}
                       </td>
 
-                      {/* STATUS */}
-                      <td className="px-3.5 py-2.5 align-middle text-center whitespace-nowrap">
+                      <td className="px-4 py-3 align-middle text-center whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9.5px] font-bold tracking-wide uppercase border ${
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase border ${
                             proj.status === 'active'
-                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200/60'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80'
                               : proj.status === 'completed'
-                              ? 'bg-blue-50 text-blue-700 border-blue-200/60'
-                              : 'bg-slate-100 text-slate-500 border-slate-200'
+                              ? 'bg-sky-50 text-sky-700 border-sky-200/80'
+                              : 'bg-slate-100 text-[#6B7280] border-[#E5E7EB]'
                           }`}
                         >
                           <span
@@ -433,19 +412,18 @@ export const AdminProjects = () => {
                         </span>
                       </td>
 
-                      {/* ACTIONS */}
-                      <td className="px-3.5 py-2.5 align-middle text-right whitespace-nowrap">
-                        <div className="inline-flex items-center justify-end gap-1">
+                      <td className="px-4 py-3 align-middle text-right whitespace-nowrap">
+                        <div className="inline-flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => handleOpenModal(proj)}
-                            className="p-1 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#6B7280] hover:text-[#14382C] hover:bg-[#EAF3EE] transition cursor-pointer"
                             title="Edit Campaign"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => handleDelete(proj._id)}
-                            className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                            className="p-1.5 rounded-sm text-[#9CA3AF] hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                             title="Delete Campaign"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -462,9 +440,9 @@ export const AdminProjects = () => {
 
         {/* Table Summary Footer */}
         {filtered.length > 0 && (
-          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between shrink-0">
-            <span className="text-[10.5px] text-slate-400">
-              Showing {filtered.length} of {projects.length} campaigns
+          <div className="px-4 py-3 border-t border-[#E5E7EB] bg-[#F9FAFB] flex items-center justify-between shrink-0">
+            <span className="text-xs text-[#6B7280]">
+              Showing <strong className="text-[#111827]">{filtered.length}</strong> of <strong className="text-[#111827]">{projects.length}</strong> campaigns
             </span>
             {(search || filterStatus !== 'all') && (
               <button
@@ -472,7 +450,7 @@ export const AdminProjects = () => {
                   setSearch('');
                   setFilterStatus('all');
                 }}
-                className="text-[10.5px] text-[#DC2626] hover:underline font-semibold cursor-pointer"
+                className="text-xs text-[#14382C] hover:underline font-semibold cursor-pointer"
               >
                 Clear filters
               </button>
@@ -483,48 +461,45 @@ export const AdminProjects = () => {
 
       {/* ── Add / Edit Modal Editor ── */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl max-h-[92vh] overflow-y-auto">
-            {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 bg-[#0E241C]/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-sm max-w-2xl w-full shadow-2xl max-h-[92vh] overflow-y-auto border border-[#E5E7EB] custom-admin-scrollbar">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-lg font-sans font-semibold text-[#111827]">
                   {editingProject ? 'Edit Campaign' : 'New Campaign'}
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   {editingProject ? `Editing: ${editingProject.title}` : 'Create a new public fundraising campaign'}
                 </p>
               </div>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+                className="p-1.5 rounded-sm bg-[#F9FAFB] text-[#6B7280] hover:text-[#111827] hover:bg-slate-200 transition cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 text-xs">
-              {/* Campaign Title */}
+            <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Campaign Title *</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Campaign Title *</label>
                 <input
                   type="text"
                   required
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   placeholder="e.g. Elderly Winter Relief & Nutritional Care Drive"
                 />
               </div>
 
-              {/* Category + Status */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Category</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Category</label>
                   <select
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="Slum Child Education">Slum Child Education</option>
                     <option value="Urgent Medical Relief">Urgent Medical Relief</option>
@@ -536,11 +511,11 @@ export const AdminProjects = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Status</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Status</label>
                   <select
                     value={form.status}
                     onChange={(e) => setForm({ ...form, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   >
                     <option value="active">Active</option>
                     <option value="completed">Completed</option>
@@ -549,84 +524,80 @@ export const AdminProjects = () => {
                 </div>
               </div>
 
-              {/* Goal Target + Raised So Far + Donors */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Target Amount (₹) *</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Target Amount (₹) *</label>
                   <input
                     type="number"
                     required
                     min="1000"
                     value={form.targetAmount}
                     onChange={(e) => setForm({ ...form, targetAmount: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Amount Raised (₹)</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Amount Raised (₹)</label>
                   <input
                     type="number"
                     min="0"
                     value={form.raisedAmount}
                     onChange={(e) => setForm({ ...form, raisedAmount: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Donors Count</label>
+                  <label className="block text-xs font-bold text-[#374151] mb-1.5">Donors Count</label>
                   <input
                     type="number"
                     min="0"
                     value={form.donorsCount}
                     onChange={(e) => setForm({ ...form, donorsCount: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   />
                 </div>
               </div>
 
-              {/* Tagline / Summary */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
-                  Tagline / Short Summary * <span className="text-slate-400 font-normal">(displayed in table & cards)</span>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">
+                  Tagline / Short Summary * <span className="text-[#9CA3AF] font-normal">(displayed in table & cards)</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={form.summary}
                   onChange={(e) => setForm({ ...form, summary: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition"
                   placeholder="e.g. Warm blankets, medical kits, and dry rations for 100 destitute seniors"
                 />
               </div>
 
-              {/* Detailed Story */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Detailed Story & Background *</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Detailed Story & Background *</label>
                 <textarea
                   rows={4}
                   required
                   value={form.story}
                   onChange={(e) => setForm({ ...form, story: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition resize-y"
+                  className="w-full px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition resize-y"
                   placeholder="Elaborate on why this fundraising campaign is needed..."
                 />
               </div>
 
-              {/* Cover Image Upload (Local File Upload + URL Input) */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Cover Image</label>
+                <label className="block text-xs font-bold text-[#374151] mb-1.5">Cover Image</label>
                 <div className="space-y-2">
                   {form.coverImage && (
-                    <div className="relative rounded-xl overflow-hidden border border-slate-200 aspect-video bg-slate-100 max-h-40">
+                    <div className="relative rounded-sm overflow-hidden border border-[#E5E7EB] aspect-video bg-[#F9FAFB] max-h-40">
                       <img src={form.coverImage} alt="Cover" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setForm({ ...form, coverImage: '' })}
-                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-red-600 transition cursor-pointer"
+                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#0E241C]/75 text-white flex items-center justify-center hover:bg-rose-600 transition cursor-pointer"
                       >
-                        <X className="w-3 h-3" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   )}
@@ -635,7 +606,7 @@ export const AdminProjects = () => {
                       type="text"
                       value={form.coverImage}
                       onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
-                      className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-red-400 transition"
+                      className="flex-1 px-3.5 py-2.5 rounded-sm bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#14382C]/15 focus:border-[#14382C] transition text-xs"
                       placeholder="https://... or choose image file"
                     />
                     <input
@@ -649,40 +620,38 @@ export const AdminProjects = () => {
                       type="button"
                       onClick={() => fileRef.current?.click()}
                       disabled={uploadingImg}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 transition cursor-pointer disabled:opacity-60 shrink-0"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-xs font-semibold text-white bg-[#14382C] hover:bg-[#1B4D3E] transition cursor-pointer disabled:opacity-60 shrink-0"
                     >
-                      {uploadingImg ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                      {uploadingImg ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#F2D869]" /> : <Upload className="w-3.5 h-3.5 text-[#F2D869]" />}
                       Upload
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Urgent Appeal Checkbox */}
               <div className="pt-1">
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={form.isUrgent}
                     onChange={(e) => setForm({ ...form, isUrgent: e.target.checked })}
-                    className="w-4 h-4 rounded text-[#DC2626] focus:ring-red-500"
+                    className="w-4 h-4 rounded accent-[#14382C]"
                   />
-                  <span className="font-semibold text-slate-700">Mark as Urgent Appeal (promoted on homepage)</span>
+                  <span className="text-xs font-semibold text-[#374151]">Mark as Urgent Appeal (promoted on homepage)</span>
                 </label>
               </div>
 
-              {/* Modal Buttons */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-[#F9FAFB] hover:bg-slate-200 text-[#374151] font-semibold text-xs transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-[#DC2626] text-white font-bold hover:bg-red-700 shadow-xs transition cursor-pointer"
+                  className="px-5 py-2 rounded-sm bg-[#14382C] hover:bg-[#1B4D3E] text-white font-bold text-xs shadow-sm transition cursor-pointer"
                 >
                   {editingProject ? 'Update Campaign' : 'Create Campaign'}
                 </button>

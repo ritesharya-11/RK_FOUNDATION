@@ -4,7 +4,7 @@ export const ensureSuperAdmin = async () => {
   try {
     const adminEmail = (process.env.INITIAL_ADMIN_EMAIL || 'admin@rkfoundation.org').toLowerCase().trim();
     const adminPassword = process.env.INITIAL_ADMIN_PASSWORD || 'Admin@RK2026!';
-    const adminName = process.env.INITIAL_ADMIN_NAME || 'RK Foundation Super Admin';
+    const adminName = process.env.INITIAL_ADMIN_NAME || 'Sahyora Super Admin';
 
     let user = await User.findOne({ email: adminEmail }).select('+password');
 
@@ -28,6 +28,10 @@ export const ensureSuperAdmin = async () => {
       }
       if (user.role !== 'superadmin' && user.role !== 'super_admin') {
         user.role = 'superadmin';
+        modified = true;
+      }
+      if ((!user.name || user.name === 'RK Foundation Super Admin') && adminName) {
+        user.name = adminName;
         modified = true;
       }
       const isMatch = await user.matchPassword(adminPassword);
